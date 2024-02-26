@@ -49,7 +49,7 @@ FOREIGN KEY (publisherID) REFERENCES Publishers(publisherID)
 
 -- create Books table
 DROP TABLE IF EXISTS Books;
-CREATE TABLE Books (
+CREATE TABLE `Books` (
 bookID INT(11) NOT NULL AUTO_INCREMENT,
 publisherID INT(11) NOT NULL, 
 authorID INT(11) NOT NULL, 

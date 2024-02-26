@@ -1,9 +1,9 @@
-    <table>
+<table>
     <thead>
     <tr>
         <!-- Iterate through each key in the first entry to get the
         column name -->
-        {% for key in bsg_people[0].keys() %}
+        {% for key in Books[0].keys() %}
 
         <!-- Create a <th> tag with the key inside of it, this will be
         our header row -->
@@ -14,14 +14,14 @@
     </tr>
     <tbody>
 
-    <!-- Now, iterate through every person in bsg_people -->
-    {% for person in bsg_people %}
+    <!-- Now, iterate through every book in Books -->
+    {% for book in Books %}
     <tr>
         <!-- Then iterate through every key in the current person dictionary -->
-        {% for key in person.keys() %}
+        {% for key in book.keys() %}
 
         <!-- Create a <td> element with the value of that key in it -->
-        <td>{{person[key]}}</td>
+        <td>{{book[key]}}</td>
         {% endfor %}
     </tr>
     {% endfor %}
