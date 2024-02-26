@@ -14,7 +14,7 @@ db_connection = db.connect_to_database()
 def root():
     return render_template("books.j2")
 
-@app.route('/books')
+@app.route('/books', methods=["POST", "GET"])
 def books():
     # Insert new book
     if request.method == "POST":
