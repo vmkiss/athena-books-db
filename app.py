@@ -27,6 +27,9 @@ def books():
             price = request.form["price"]
             quantity = request.form["quantity"]
 
+        # account for null genre
+        if genre == "":
+
             
     # Populate publisher dropdown form
     publisher_selection = "SELECT publisherID, publisherName FROM Publishers"

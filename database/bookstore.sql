@@ -54,9 +54,9 @@ bookID INT(11) NOT NULL AUTO_INCREMENT,
 publisherID INT(11) NOT NULL, 
 authorID INT(11) NOT NULL, 
 title VARCHAR(255) NOT NULL, 
-genre VARCHAR(255) NOT NULL, 
+genre VARCHAR(255), 
 price DECIMAL (19, 2) NOT NULL, 
-inventoryQty INT(3),
+inventoryQty INT(3) NOT NULL,
 PRIMARY KEY (bookID),
 FOREIGN KEY (publisherID) REFERENCES Publishers(publisherID)
 	ON UPDATE CASCADE
