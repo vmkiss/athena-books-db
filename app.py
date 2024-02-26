@@ -1,4 +1,4 @@
-from flask import Flask, render_template, json
+from flask import Flask, render_template, json, redirect
 import os
 import database.db_connector as db
 db_connection = db.connect_to_database()
