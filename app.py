@@ -45,8 +45,6 @@ def books():
 
         # redirect back to Books page
         return redirect("/people")
-        
-
             
     # Populate publisher dropdown form
     publisher_selection = "SELECT publisherID, publisherName FROM Publishers"
@@ -65,6 +63,16 @@ def books():
     results = cursor.fetchall()
     
     return render_template("books.j2", Books=results)
+
+@app.route("/delete_books/<int:bookID")
+def delete_books(bookID):
+    query = "DELETE FROM Books WHERE bookID = '%s';"
+    cursor = db_connection.cursor()
+    cursor.execute(query, (bookID))
+    db_connection.commit()
+
+    # redirect back to Books page
+    return redirect("/books")
     
 # Listener
 
