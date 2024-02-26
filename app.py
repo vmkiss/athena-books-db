@@ -29,6 +29,21 @@ def books():
 
         # account for null genre
         if genre == "":
+            query = "INSERT INTO Books (title, author, publisher, price, quantity) VALUES (%s, %s, %s, %s, %s)"
+            cursor = db_connection.cursor()
+            cursor.execute(query, (title, author, publisher, price, quantity))
+            db_connection.commit()
+        
+        # no null inputs
+        else:
+            query = "INSERT INTO Books (title, author, publisher, genre, price, quantity) VALUES (%s, %s, %s, %s, %s)"
+            cursor = db_connection.cursor()
+            cursor.execute(query, (title, author, publisher, genre, price, quantity))
+            db_connection.commit()
+
+        # redirect back to Books page
+        return redirect("/people")
+        
 
             
     # Populate publisher dropdown form
