@@ -1,4 +1,6 @@
 from flask import Flask, render_template, json, redirect
+from flask_mysqldb import MySQL
+from flask import request
 import os
 import database.db_connector as db
 db_connection = db.connect_to_database()
