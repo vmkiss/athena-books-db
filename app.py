@@ -66,16 +66,15 @@ def books():
         cursor.execute(author_selection)
         author_data = cursor.fetchall()
 
+        # render Books page passing query data, publisher data, and author data to template
         return render_template("books.j2", data=data, publishers=publisher_data, authors=author_data)
-
-        # render Books page passing query data, publisher data, and author data to books.j2 template
 
     # Commented out because I don't think we need this anymore
     # query = "SELECT * FROM Books;"
     # cursor = db.execute_query(db_connection=db_connection, query=query)
     # results = cursor.fetchall()
     
-    return render_template("books.j2", Books=results)
+    #return render_template("books.j2", Books=results)
 
 @app.route("/delete_books/<int:bookID")
 def delete_books(bookID):
