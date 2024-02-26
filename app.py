@@ -36,7 +36,7 @@ def books():
         
         # no null inputs
         else:
-            query = "INSERT INTO Books (title, author, publisher, genre, price, quantity) VALUES (%s, %s, %s, %s, %s)"
+            query = "INSERT INTO Books (title, author, publisher, genre, price, quantity) VALUES (%s, %s, %s, %s, %s, %s)"
             cursor = db_connection.cursor()
             cursor.execute(query, (title, author, publisher, genre, price, quantity))
             db_connection.commit()
