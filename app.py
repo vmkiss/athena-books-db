@@ -18,10 +18,10 @@ def root():
 def bsg_people():
     query = "SELECT * FROM bsg_people;"
     cursor = db.execute_query(db_connection=db_connection, query=query)
-    results = cursor.fetchall()
+    results = json.dumps(cursor.fetchall())
 
-    return render_template("bsg.j2", bsg_people=results)
-
+    return results
+    
 # Listener
 
 if __name__ == "__main__":
