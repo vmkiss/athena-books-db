@@ -45,22 +45,35 @@ def books():
 
         # redirect back to Books page
         return redirect("/people")
+    
+    # Grab books data so it can be sent to template
+    if request.method == "GET":
+        # Grab all books in Books - was getting error message when adding indents so I kept it all on one line
+        query = "SELECT Books.bookID, Publishers.publisherName as Publishers, Authors.authorName AS Author, Books.title, Books.genre, Books.price, Books.inventoryQty FROM Books INNER JOIN Authors ON Authors.authorID = Books.authorID INNER JOIN Publishers ON Publishers.publisherID = Books.publisherID;"
+        cursor = db_connection.cursor()
+        cursor.execute(query)
+        data = cursor.fetchall()
             
-    # Populate publisher dropdown form
-    publisher_selection = "SELECT publisherID, publisherName FROM Publishers"
-    cursor = db_connection.cursor()
-    cursor.execute(publisher_selection)
-    publisher_data = cursor.fetchall()
+        # Populate publisher dropdown form
+        publisher_selection = "SELECT publisherID, publisherName FROM Publishers"
+        cursor = db_connection.cursor()
+        cursor.execute(publisher_selection)
+        publisher_data = cursor.fetchall()
 
-    # Populate author dropdown form
-    author_selection = "SELECT authorID, authorName FROM Publishers"
-    cursor = db_connection.cursor()
-    cursor.execute(author_selection)
-    author_data = cursor.fetchall()
+        # Populate author dropdown form
+        author_selection = "SELECT authorID, authorName FROM Publishers"
+        cursor = db_connection.cursor()
+        cursor.execute(author_selection)
+        author_data = cursor.fetchall()
 
-    query = "SELECT * FROM Books;"
-    cursor = db.execute_query(db_connection=db_connection, query=query)
-    results = cursor.fetchall()
+        return render_template("books.j2", data=data, publishers=publisher_data, authors=author_data)
+
+        # render Books page passing query data, publisher data, and author data to books.j2 template
+
+    # Commented out because I don't think we need this anymore
+    # query = "SELECT * FROM Books;"
+    # cursor = db.execute_query(db_connection=db_connection, query=query)
+    # results = cursor.fetchall()
     
     return render_template("books.j2", Books=results)
 
@@ -71,7 +84,7 @@ def delete_books(bookID):
     cursor.execute(query, (bookID))
     db_connection.commit()
 
-    # redirect back to Books page
+    # redirect back to books page
     return redirect("/books")
     
 # Listener
