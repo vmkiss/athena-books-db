@@ -16,6 +16,30 @@ def root():
 
 @app.route('/books')
 def books():
+    # Insert new book
+    if request.method == "POST":
+        if request.form.get("Add_Person"):
+            # grab user form inputs
+            title = request.form["title"]
+            author = request.form["author"]
+            publisher = request.form["publisher"]
+            genre = request.form["genre"]
+            price = request.form["price"]
+            quantity = request.form["quantity"]
+
+            
+    # Populate publisher dropdown form
+    publisher_selection = "SELECT publisherID, publisherName FROM Publishers"
+    cursor = db_connection.cursor()
+    cursor.execute(publisher_selection)
+    publisher_data = cursor.fetchall()
+
+    # Populate author dropdown form
+    author_selection = "SELECT authorID, authorName FROM Publishers"
+    cursor = db_connection.cursor()
+    cursor.execute(author_selection)
+    author_data = cursor.fetchall()
+
     query = "SELECT * FROM Books;"
     cursor = db.execute_query(db_connection=db_connection, query=query)
     results = cursor.fetchall()
