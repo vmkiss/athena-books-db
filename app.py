@@ -12,15 +12,15 @@ db_connection = db.connect_to_database()
 
 @app.route('/')
 def root():
-    return render_template("main.j2")
+    return render_template("books.j2")
 
-@app.route('/bsg-people')
-def bsg_people():
-    query = "SELECT * FROM bsg_people;"
+@app.route('/books')
+def books():
+    query = "SELECT * FROM Books;"
     cursor = db.execute_query(db_connection=db_connection, query=query)
-    results = json.dumps(cursor.fetchall())
-
-    return results
+    results = cursor.fetchall()
+    
+    return render_template("books.j2", Books=results)
     
 # Listener
 
