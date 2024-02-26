@@ -60,10 +60,10 @@ inventoryQty INT(3),
 PRIMARY KEY (bookID),
 FOREIGN KEY (publisherID) REFERENCES Publishers(publisherID)
 	ON UPDATE CASCADE
-	ON CASCADE DELETE,
+	ON DELETE CASCADE,
 FOREIGN KEY (authorID) REFERENCES Authors(authorID)
 	ON UPDATE CASCADE
-	ON CASCADE DELETE
+	ON DELETE CASCADE
 );
 
 -- create Purchases table
