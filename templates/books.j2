@@ -1,28 +1,145 @@
-<table>
-    <thead>
-    <tr>
-        <!-- Iterate through each key in the first entry to get the
-        column name -->
-        {% for key in Books[0].keys() %}
+<html>
+<!-- Adapted from the people.html UI design -->
+<head>
+	<title>Books</title>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+	<script language="JavaScript">
+	function showform(dowhat) {
+		/*
+		 * four DIVS: browse, insert, update, delete
+		 * this function sets one visible the others not
+		 */
+		if(dowhat == 'insert') {
+			document.getElementById('browse').style.display = 'none';
+			document.getElementById('insert').style.display = 'block';
+			document.getElementById('edit').style.display = 'none';
+			document.getElementById('delete').style.display = 'none';
+		} else if(dowhat == 'update') {
+			document.getElementById('browse').style.display = 'none';
+			document.getElementById('insert').style.display = 'none';
+			document.getElementById('edit').style.display = 'block';
+			document.getElementById('delete').style.display = 'none';
+		} else if(dowhat == 'delete') {
+			document.getElementById('browse').style.display = 'none';
+			document.getElementById('insert').style.display = 'none';
+			document.getElementById('edit').style.display = 'none';
+			document.getElementById('delete').style.display = 'block';
+		} else if(dowhat == 'all') {
+			document.getElementById('browse').style.display = 'block';
+			document.getElementById('insert').style.display = 'block';
+			document.getElementById('edit').style.display = 'block';
+			document.getElementById('delete').style.display = 'block';
+		} else { //by default display browse
+			document.getElementById('browse').style.display = 'block';
+			document.getElementById('insert').style.display = 'none';
+			document.getElementById('edit').style.display = 'none';
+			document.getElementById('delete').style.display = 'none';
+		}
+	}
 
-        <!-- Create a <th> tag with the key inside of it, this will be
-        our header row -->
-        <th>{{ key }}</th>
+	function newBook() {
+		showform('insert');
+	}
 
-        <!-- End of this for loop -->
-        {% endfor %}
-    </tr>
-    <tbody>
+	function updateBook(pid) {
+		showform('update');
+	}
 
-    <!-- Now, iterate through every book in Books -->
-    {% for book in Books %}
-    <tr>
-        <!-- Then iterate through every key in the current person dictionary -->
-        {% for key in book.keys() %}
+	function deleteBook(pid) {
+		showform('delete');
+	}
 
-        <!-- Create a <td> element with the value of that key in it -->
-        <td>{{book[key]}}</td>
-        {% endfor %}
-    </tr>
-    {% endfor %}
-    </table>
+	function browseBook() {
+		showform('browse');
+	}
+
+	function showAll() {
+		showform('all');
+	}
+	</script>
+</head>
+
+<body onload="browseBooks()">
+	<h1>Books</h1> [ Home | Customers | Authors | <a href="books">Books</a> | Publishers | Purchases | BookPurchases ]
+	<div id="browse">
+		<p><a href="#" onClick="newBook()">Add New</a> </p>
+		<table border="1" cellpadding="5">
+            <!-- Access data tuple passed from app.py --> 
+            {% if data %}
+			    <thead>
+				    <tr>
+					    <!-- Iterate through each key in the first entry to get the column name -->
+                        {% for key in data[0].keys() %}
+					    
+                        <!-- Create a <th> tag with the key inside of it, this will be our header row -->
+					    <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+					
+                        <!-- End of this for loop -->
+                        {% endfor %} 
+                    </tr>
+
+				<tbody>
+					<!-- Now, iterate through every item in data -->{% for item in data %}
+					    <tr>
+						    <!-- Then iterate through every key in the current item dictionary -->
+                            {% for key in item.keys() %}
+
+						    <!-- Create a <td> element with the value of that key in it -->
+						    <td> {{item[key]}} </td> 
+                            {% endfor %}
+
+                            <!-- Create our edit/delete buttons -->
+						    <td><a href="edit_book/{{item.id}}" class="btn btn-default">Edit</a></td>
+						    <td><a href="delete_book/{{item.id}}" class="btn btn-default">Delete</a></td>
+
+					    </tr> 
+                        {% endfor %} 
+                {% endif %} 
+        </table>   
+	<p>&nbsp;</p>
+	</div>	<!-- browse -->
+
+	<div id="insert">
+		<!-- form to INSERT new data into bsg_people-->
+		<form id="insertBook" action="/books" method="post">
+			<legend><strong>Add Book</strong></legend>
+			<fieldset>
+                <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
+				<label for="title">Title:</label>
+				<input type="text" class="form-control" id="title" name="title" placeholder="" required><br>
+				<label for="publisher">Author:</label>
+				<select class="form-control" id="author" name="author" pattern="[1-4]{1}" placeholder="" required>
+                    <option value="1">Harper Lee</option>
+					<option value="2">P.G. Wodehouse</option>
+					<option value="3">Terry Pratchett</option>
+                    <option value="4">Louisa May Alcott</option>
+                </select><br>
+                <label for="publisher">Publisher:</label>
+				<select class="form-control" id="publisher" name="publisher" pattern="[1-3]{1}" placeholder="" required>
+                    <option value="1">Harper Collins</option>
+					<option value="2">Simon & Schuster</option>
+					<option value="3">Penguin Random House</option>
+                </select><br>
+                <label for="genre">Genre:</label>
+				<select class="form-control" id="genre" name="genre" pattern="[A-Za-z]{1,}" placeholder="">
+                    <option value="Fantasy">Fantasy/option>
+					<option value="Romance">Romance</option>
+					<option value="Sci-Fi">Sci-Fi</option>
+                    <option value="Thriller">Thriller</option>
+                    <option value="Literary">Literary</option>
+                    <option value="Humor">Humor</option>
+                </select><br>
+				<label for="price">Price:</label>
+				<input type="text" class="form-control" id="price" name="price" pattern="^\d*\.\d{2}$" placeholder=""><br>
+                <label for="title">Quantity:</label>
+				<input type="text" class="form-control" id="quantity" name="quantity" placeholder="" required><br>
+                
+            </fieldset>
+
+            <!-- Create 'Add Book' and 'Cancel' buttons -->
+			<input type="submit" value="Add Book" name="Add_Book" class="btn btn-primary" style="margin:.5rem;">
+			<input class="btn" type="button" value="Cancel" onClick="browseBooks()"> 
+        </form>
+	</div><!--insert-->
+</body>
+</html>
