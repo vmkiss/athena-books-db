@@ -58,7 +58,7 @@ def books():
     # Grab books data so it can be sent to template (READ)
     if request.method == "GET":
         # Grab all books in Books - was getting error message when adding indents so I kept it all on one line
-        query = "SELECT Books.bookID, Publishers.publisherName as Publishers, Authors.authorName AS Author, Books.title, Books.genre, Books.price, Books.inventoryQty FROM Books INNER JOIN Authors ON Authors.authorID = Books.authorID INNER JOIN Publishers ON Publishers.publisherID = Books.publisherID;"
+        query = "SELECT Books.bookID as BookID, Publishers.publisherName as Publishers, Authors.authorName AS Author, Books.title AS Title, Books.genre AS Genre, Books.price as Price, Books.inventoryQty as Quantity FROM Books INNER JOIN Authors ON Authors.authorID = Books.authorID INNER JOIN Publishers ON Publishers.publisherID = Books.publisherID;"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(query)
         data = cursor.fetchall()
