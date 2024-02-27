@@ -108,12 +108,19 @@
 				<label for="title">Title:</label>
 				<input type="text" class="form-control" id="title" name="title" placeholder="" required><br>
 				<label for="author">Author:</label>
-				<select class="form-control" id="author" name="author" pattern="[1-4]{1}" placeholder="" required>
-                    <option value="1">Harper Lee</option>
-					<option value="2">P.G. Wodehouse</option>
-					<option value="3">Terry Pratchett</option>
-                    <option value="4">Louisa May Alcott</option>
-                </select><br>
+				<select class="form-control" id="author" name="author" pattern="[0-4]{1}" placeholder="" required> 
+                        <!-- Access our author tuple passed from app.py-->
+                        <option value="0">&nbsp;</option>
+                        {% for author in authors %}
+                                <!-- If the value iterated author matches the value of the author of book currently Editing, pre-select that option -->
+                                {% if author['authorID'] == data[0].author %}
+                                    <option value="{{ author['authorID'] }}" selected> {{author['authorName']}}</option>
+                                {% else %}
+                                    <option value="{{ author['authorID'] }}"> {{author['authorName']}}</option> 
+                                {% endif %}
+                        <!-- End of this for loop -->
+                        {% endfor %} 
+                    </select>	
                 <label for="publisher">Publisher:</label>
 				<select class="form-control" id="publisher" name="publisher" pattern="[0-4]{1}" publisher="" required> 
                         <!-- Access our publisher tuple passed from app.py-->
