@@ -1,7 +1,7 @@
 <html>
 <!-- Adapted from the people.html UI design -->
 <head>
-	<title>People</title>
+	<title>Books</title>
 	<link href="style.css" rel="stylesheet" type="text/css" />
 	<script language="JavaScript">
 	function showform(dowhat) {
@@ -37,19 +37,19 @@
 		}
 	}
 
-	function newPerson() {
+	function newBook() {
 		showform('insert');
 	}
 
-	function updatePerson(pid) {
+	function updateBook(pid) {
 		showform('update');
 	}
 
-	function deletePerson(pid) {
+	function deleteBook(pid) {
 		showform('delete');
 	}
 
-	function browsePeople() {
+	function browseBook() {
 		showform('browse');
 	}
 
@@ -59,10 +59,10 @@
 	</script>
 </head>
 
-<body onload="browsePeople()">
-	<h1>People</h1> [ Planets | <a href="people">People</a> | Certifications | People Certified ]
+<body onload="browseBooks()">
+	<h1>Books</h1> [ Home | Customers | Authors | <a href="books">Books</a> | Publishers | Purchases | BookPurchases ]
 	<div id="browse">
-		<p><a href="#" onClick="newPerson()">Add New</a> </p>
+		<p><a href="#" onClick="newBook()">Add New</a> </p>
 		<table border="1" cellpadding="5">
             <!-- Access data tuple passed from app.py --> 
             {% if data %}
@@ -89,8 +89,8 @@
                             {% endfor %}
 
                             <!-- Create our edit/delete buttons -->
-						    <td><a href="edit_people/{{item.id}}" class="btn btn-default">Edit</a></td>
-						    <td><a href="delete_people/{{item.id}}" class="btn btn-default">Delete</a></td>
+						    <td><a href="edit_book/{{item.id}}" class="btn btn-default">Edit</a></td>
+						    <td><a href="delete_book/{{item.id}}" class="btn btn-default">Delete</a></td>
 
 					    </tr> 
                         {% endfor %} 
@@ -101,32 +101,44 @@
 
 	<div id="insert">
 		<!-- form to INSERT new data into bsg_people-->
-		<form id="insertPerson" action="/people" method="post">
-			<legend><strong>Add Person</strong></legend>
+		<form id="insertBook" action="/books" method="post">
+			<legend><strong>Add Book</strong></legend>
 			<fieldset>
                 <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
-				<label for="make">first name:</label>
-				<input type="text" class="form-control" id="fname" name="fname" pattern="[A-Za-z]{1,}" placeholder="" required>
-
-				<label for="model">last name:</label>
-				<input type="text" class="form-control" id="lname" name="lname" pattern="[A-Za-z0-9]{1,}" placeholder="" required>
-
-				<label for="year">homeworld:</label>
-				<select class="form-control" id="homeworld" name="homeworld" pattern="[0-4]{1}" placeholder="" required>
-				<!-- these are hard coded, but you can add code to make this dynamic -->
-					<option value="0">&nbsp;</option>
-					<option value="1">Gemenon</option>
-					<option value="2">Leonis</option>
-					<option value="3">Caprica</option>
-				</select>
-
-				<label for="color">age:</label>
-				<input type="text" class="form-control" id="age" name="age" pattern="[A-Za-z0-9]{1,}" placeholder=""> 
+				<label for="title">Title:</label>
+				<input type="text" class="form-control" id="title" name="title" placeholder="" required><br>
+				<label for="publisher">Author:</label>
+				<select class="form-control" id="author" name="author" pattern="[1-4]{1}" placeholder="" required>
+                    <option value="1">Harper Lee</option>
+					<option value="2">P.G. Wodehouse</option>
+					<option value="3">Terry Pratchett</option>
+                    <option value="4">Louisa May Alcott</option>
+                </select><br>
+                <label for="publisher">Publisher:</label>
+				<select class="form-control" id="publisher" name="publisher" pattern="[1-3]{1}" placeholder="" required>
+                    <option value="1">Harper Collins</option>
+					<option value="2">Simon & Schuster</option>
+					<option value="3">Penguin Random House</option>
+                </select><br>
+                <label for="genre">Genre:</label>
+				<select class="form-control" id="genre" name="genre" pattern="[A-Za-z]{1,}" placeholder="">
+                    <option value="Fantasy">Fantasy/option>
+					<option value="Romance">Romance</option>
+					<option value="Sci-Fi">Sci-Fi</option>
+                    <option value="Thriller">Thriller</option>
+                    <option value="Literary">Literary</option>
+                    <option value="Humor">Humor</option>
+                </select><br>
+				<label for="price">Price:</label>
+				<input type="text" class="form-control" id="price" name="price" pattern="^\d*\.\d{2}$" placeholder=""><br>
+                <label for="title">Quantity:</label>
+				<input type="text" class="form-control" id="quantity" name="quantity" placeholder="" required><br>
+                
             </fieldset>
 
-            <!-- Create 'Add Person' and 'Cancel' buttons -->
-			<input type="submit" value="Add Person" name="Add_Person" class="btn btn-primary" style="margin:.5rem;">
-			<input class="btn" type="button" value="Cancel" onClick="browsePeople()"> 
+            <!-- Create 'Add Book' and 'Cancel' buttons -->
+			<input type="submit" value="Add Book" name="Add_Book" class="btn btn-primary" style="margin:.5rem;">
+			<input class="btn" type="button" value="Cancel" onClick="browseBooks()"> 
         </form>
 	</div><!--insert-->
 </body>

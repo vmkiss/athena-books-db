@@ -20,31 +20,31 @@ def root():
 def books():
     # Insert new book
     if request.method == "POST":
-        if request.form.get("Add_Person"):
+        if request.form.get("Add_Book"):
             # grab user form inputs
             title = request.form["title"]
-            author = request.form["author"]
-            publisher = request.form["publisher"]
+            authorID = request.form["author"]
+            publisherID = request.form["publisher"]
             genre = request.form["genre"]
             price = request.form["price"]
             quantity = request.form["quantity"]
 
         # account for null genre
-        if genre == "":
-            query = "INSERT INTO Books (title, author, publisher, price, quantity) VALUES (%s, %s, %s, %s, %s)"
-            cursor = db_connection.cursor()
-            cursor.execute(query, (title, author, publisher, price, quantity))
-            db_connection.commit()
+        # if genre == "":
+            #query = "INSERT INTO Books (title, author, publisher, price, quantity) VALUES (%s, %s, %s, %s, %s)"
+            #cursor = db_connection.cursor()
+            #cursor.execute(query, (title, author, publisher, price, quantity))
+            #db_connection.commit()
         
         # no null inputs
-        else:
-            query = "INSERT INTO Books (title, author, publisher, genre, price, quantity) VALUES (%s, %s, %s, %s, %s, %s)"
-            cursor = db_connection.cursor()
-            cursor.execute(query, (title, author, publisher, genre, price, quantity))
-            db_connection.commit()
+        #else:
+        query = "INSERT INTO Books (title, authorID, publisherID, genre, price, inventoryQty) VALUES (%s, %s, %s, %s, %s, %s)"
+        cursor = db_connection.cursor()
+        cursor.execute(query, (title, authorID, publisherID, genre, price, quantity))
+        db_connection.commit()
 
         # redirect back to Books page
-        return redirect("/people")
+        return redirect("/books")
     
     # Grab books data so it can be sent to template
     if request.method == "GET":
