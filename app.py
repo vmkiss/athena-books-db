@@ -76,15 +76,15 @@ def books():
     
     #return render_template("books.j2", Books=results)
 
-@app.route("/delete_books/<int:bookID")
-def delete_books(bookID):
-    query = "DELETE FROM Books WHERE bookID = '%s';"
-    cursor = db_connection.cursor()
-    cursor.execute(query, (bookID))
-    db_connection.commit()
+# @app.route("/delete_books/<int:bookID")
+# def delete_books(bookID):
+    # query = "DELETE FROM Books WHERE bookID = '%s';"
+    # cursor = db_connection.cursor()
+    # cursor.execute(query, (bookID))
+    # db_connection.commit()
 
     # redirect back to books page
-    return redirect("/books")
+    # return redirect("/books")
     
 # Listener
 
