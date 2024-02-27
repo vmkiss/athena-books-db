@@ -115,11 +115,19 @@
                     <option value="4">Louisa May Alcott</option>
                 </select><br>
                 <label for="publisher">Publisher:</label>
-				<select class="form-control" id="publisher" name="publisher" pattern="[1-3]{1}" placeholder="" required>
-                    <option value="1">Harper Collins</option>
-					<option value="2">Simon & Schuster</option>
-					<option value="3">Penguin Random House</option>
-                </select><br>
+				<select class="form-control" id="publisher" name="publisher" pattern="[0-4]{1}" publisher="" required> 
+                        <!-- Access our publisher tuple passed from app.py-->
+                        <option value="0">&nbsp;</option>
+                        {% for publisher in publishers %}
+                                <!-- If the value iterated publisher matches the value of the publisher of book currently Editing, pre-select that option -->
+                                {% if publisher['publisherID'] == data[0].publisher %}
+                                    <option value="{{ publisher['publisherID'] }}" selected> {{publisher['publisherName']}}</option>
+                                {% else %}
+                                    <option value="{{ publisher['publisherID'] }}"> {{publisher['publisherName']}}</option> 
+                                {% endif %}
+                        <!-- End of this for loop -->
+                        {% endfor %} 
+                    </select>	
                 <label for="genre">Genre:</label>
 				<select class="form-control" id="genre" name="genre" pattern="[A-Za-z]{1,}" placeholder="">
                     <option value="Fantasy">Fantasy</option>
