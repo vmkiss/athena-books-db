@@ -128,18 +128,18 @@ def edit_book(bookID):
             quantity = request.form["quantity"]
 
         # account for null genre
-        # if genre == "":
-        #     query = "UPDATE Books SET Books.title = %s, Books.author = %s, Books.publisher = %s, Books.price = %s = NULL, Books.quantity = %s"
-        #     cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-        #     cursor.execute(query, (title, author, publisher, price, quantity))
-        #     db_connection.commit()
+        if genre == "":
+            query = "UPDATE Books SET Books.title = %s, Books.author = %s, Books.publisher = %s, Books.price = %s = NULL, Books.quantity = %s"
+            cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute(query, (title, author, publisher, price, quantity))
+            db_connection.commit()
         
         # no null inputs
-        # else:
-        query = "UPDATE Books SET Books.title = %s, Books.author = %s, Books.publisher = %s, Books.genre = %s, Books.price = %s, Books.quantity = %s)"
-        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute(query, (title, author, publisher, genre, price, quantity))
-        db_connection.commit()
+        else:
+            query = "UPDATE Books SET Books.title = %s, Books.author = %s, Books.publisher = %s, Books.genre = %s, Books.price = %s, Books.quantity = %s)"
+            cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute(query, (title, author, publisher, genre, price, quantity))
+            db_connection.commit()
 
         # redirect back to Books page
         return redirect("/books")
