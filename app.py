@@ -3,6 +3,7 @@ from flask_mysqldb import MySQL
 from flask import request
 import os
 import database.db_connector as db
+import MySQLdb
 db_connection = db.connect_to_database()
 
 # Configuration
@@ -39,7 +40,7 @@ def books():
         # no null inputs
         #else:
         query = "INSERT INTO Books (title, authorID, publisherID, genre, price, inventoryQty) VALUES (%s, %s, %s, %s, %s, %s)"
-        cursor = db_connection.cursor()
+        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(query, (title, authorID, publisherID, genre, price, quantity))
         db_connection.commit()
 
@@ -50,19 +51,19 @@ def books():
     if request.method == "GET":
         # Grab all books in Books - was getting error message when adding indents so I kept it all on one line
         query = "SELECT Books.bookID, Publishers.publisherName as Publishers, Authors.authorName AS Author, Books.title, Books.genre, Books.price, Books.inventoryQty FROM Books INNER JOIN Authors ON Authors.authorID = Books.authorID INNER JOIN Publishers ON Publishers.publisherID = Books.publisherID;"
-        cursor = db_connection.cursor()
+        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(query)
         data = cursor.fetchall()
             
         # Populate publisher dropdown form
         publisher_selection = "SELECT publisherID, publisherName FROM Publishers"
-        cursor = db_connection.cursor()
+        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(publisher_selection)
         publisher_data = cursor.fetchall()
 
         # Populate author dropdown form
-        author_selection = "SELECT authorID, authorName FROM Publishers"
-        cursor = db_connection.cursor()
+        author_selection = "SELECT authorID, authorName FROM Authors"
+        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(author_selection)
         author_data = cursor.fetchall()
 
