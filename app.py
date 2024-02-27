@@ -11,9 +11,9 @@ db_connection = db.connect_to_database()
 app = Flask(__name__)
 
 app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
-app.config['MYSQL_USER'] = 'cs340_Vkiss'
+app.config['MYSQL_USER'] = 'cs340_kissv'
 app.config['MYSQL_PASSWORD'] = '2679' #last 4 of onid
-app.config['MYSQL_DB'] = 'cs340_Vkiss'
+app.config['MYSQL_DB'] = 'cs340_kissv'
 app.config['MYSQL_CURSORCLASS'] = "DictCursor"
 
 
@@ -85,6 +85,7 @@ def books():
     
     #return render_template("books.j2", Books=results)
 
+# DELETE FUNCTIONALITY - commented out for debugging purposes
 # @app.route("/delete_books/<int:bookID")
 # def delete_books(bookID):
     # query = "DELETE FROM Books WHERE bookID = '%s';"
