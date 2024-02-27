@@ -9,7 +9,15 @@ db_connection = db.connect_to_database()
 # Configuration
 
 app = Flask(__name__)
-db_connection = db.connect_to_database()
+
+app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
+app.config['MYSQL_USER'] = 'cs340_Vkiss'
+app.config['MYSQL_PASSWORD'] = '2679' #last 4 of onid
+app.config['MYSQL_DB'] = 'cs340_Vkiss'
+app.config['MYSQL_CURSORCLASS'] = "DictCursor"
+
+
+mysql = MySQL(app)
 
 # Routes 
 
@@ -19,7 +27,7 @@ def root():
 
 @app.route('/books', methods=["POST", "GET"])
 def books():
-    # Insert new book
+    # Insert new book (CREATE)
     if request.method == "POST":
         if request.form.get("Add_Book"):
             # grab user form inputs
@@ -47,7 +55,7 @@ def books():
         # redirect back to Books page
         return redirect("/books")
     
-    # Grab books data so it can be sent to template
+    # Grab books data so it can be sent to template (READ)
     if request.method == "GET":
         # Grab all books in Books - was getting error message when adding indents so I kept it all on one line
         query = "SELECT Books.bookID, Publishers.publisherName as Publishers, Authors.authorName AS Author, Books.title, Books.genre, Books.price, Books.inventoryQty FROM Books INNER JOIN Authors ON Authors.authorID = Books.authorID INNER JOIN Publishers ON Publishers.publisherID = Books.publisherID;"
@@ -86,6 +94,66 @@ def books():
 
     # redirect back to books page
     # return redirect("/books")
+
+# UPDATE
+@app.route("/edit_book/<int:bookID>", methods=["POST", "GET"])
+def edit_book(bookID):
+    if request.method == "GET":
+        query = "SELECT * FROM Books WHERE bookID = %s" % (bookID)
+        cur = db_connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+
+        #from Create operation- user needs access to same dropdowns
+        # Grab all books in Books
+        query = "SELECT Books.bookID, Publishers.publisherName as Publishers, Authors.authorName AS Author, Books.title, Books.genre, Books.price, Books.inventoryQty FROM Books INNER JOIN Authors ON Authors.authorID = Books.authorID INNER JOIN Publishers ON Publishers.publisherID = Books.publisherID;"
+        cursor = db_connection.cursor()
+        cursor.execute(query)
+        data = cursor.fetchall()
+            
+        # Populate publisher dropdown form
+        publisher_selection = "SELECT publisherID, publisherName FROM Publishers"
+        cursor = db_connection.cursor()
+        cursor.execute(publisher_selection)
+        publisher_data = cursor.fetchall()
+
+        # Populate author dropdown form
+        author_selection = "SELECT authorID, authorName FROM Publishers"
+        cursor = db_connection.cursor()
+        cursor.execute(author_selection)
+        author_data = cursor.fetchall()
+
+        # render Books page passing query data, publisher data, and author data to template
+        return render_template("books.j2", data=data, publishers=publisher_data, authors=author_data)
+
+
+    if request.method == "POST":
+        if request.form.get("Edit_book"):
+            #grab user form inputs
+            title = request.form["title"]
+            author = request.form["author"]
+            publisher = request.form["publisher"]
+            genre = request.form["genre"]
+            price = request.form["price"]
+            quantity = request.form["quantity"]
+
+        # account for null genre
+        if genre == "":
+            query = "UPDATE Books SET Books.title = %s, Books.author = %s, Books.publisher = %s, Books.price = %s = NULL, Books.quantity = %s"
+            cursor = db_connection.cursor()
+            cursor.execute(query, (title, author, publisher, price, quantity))
+            db_connection.commit()
+        
+        # no null inputs
+        else:
+            query = "UPDATE Books SET Books.title = %s, Books.author = %s, Books.publisher = %s, Books.genre = %s, Books.price = %s, Books.quantity = %s)"
+            cursor = db_connection.cursor()
+            cursor.execute(query, (title, author, publisher, genre, price, quantity))
+            db_connection.commit()
+
+        # redirect back to Books page
+        return redirect("/books")
+
     
 # Listener
 
