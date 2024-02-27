@@ -23,7 +23,7 @@ mysql = MySQL(app)
 
 @app.route('/')
 def root():
-    return render_template("books.j2")
+    return render_template("main.j2")
 
 @app.route('/books', methods=["POST", "GET"])
 def books():

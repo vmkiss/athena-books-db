@@ -59,8 +59,8 @@
 	</script>
 </head>
 
-<body onload="browseBooks()">
-	<h1>Books</h1> [ Home | Customers | Authors | <a href="books">Books</a> | Publishers | Purchases | BookPurchases ]
+<bodyonload="browseBook()">
+	<h1>Books</h1> [ <a href="/">Home</a> | Customers | Authors | <a href="books">Books</a> | Publishers | Purchases | BookPurchases ]
 	<div id="browse">
 		<p><a href="#" onClick="newBook()">Add New</a> </p>
 		<table border="1" cellpadding="5">
@@ -100,7 +100,7 @@
 	</div>	<!-- browse -->
 
 	<div id="insert">
-		<!-- form to INSERT new data into bsg_people-->
+		<!-- form to INSERT new data into Books-->
 		<form id="insertBook" action="/books" method="post">
 			<legend><strong>Add Book</strong></legend>
 			<fieldset>
@@ -133,7 +133,6 @@
 				<input type="text" class="form-control" id="price" name="price" pattern="^\d*\.\d{2}$" placeholder=""><br>
                 <label for="title">Quantity:</label>
 				<input type="text" class="form-control" id="quantity" name="quantity" placeholder="" required><br>
-                
             </fieldset>
 
             <!-- Create 'Add Book' and 'Cancel' buttons -->
