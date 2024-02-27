@@ -23,7 +23,7 @@ mysql = MySQL(app)
 
 @app.route('/')
 def root():
-    return render_template("books.j2")
+    return render_template("main.j2")
 
 @app.route('/books', methods=["POST", "GET"])
 def books():
@@ -107,7 +107,7 @@ def edit_book(bookID):
 
         #from Create operation- user needs access to same dropdowns
         # Grab all books in Books
-        query = "SELECT Books.bookID, Publishers.publisherName as Publishers, Authors.authorName AS Author, Books.title, Books.genre, Books.price, Books.inventoryQty FROM Books INNER JOIN Authors ON Authors.authorID = Books.authorID INNER JOIN Publishers ON Publishers.publisherID = Books.publisherID;"
+        query = "SELECT Books.bookID, Publishers.publisherName AS Publisher, Authors.authorName AS Author, Books.title, Books.genre, Books.price, Books.inventoryQty FROM Books INNER JOIN Authors ON Authors.authorID = Books.authorID INNER JOIN Publishers ON Publishers.publisherID = Books.publisherID;"
         cursor = db_connection.cursor()
         cursor.execute(query)
         data = cursor.fetchall()
