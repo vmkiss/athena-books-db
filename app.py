@@ -123,6 +123,7 @@ def edit_book(BookID):
         #fire off if user clicks the 'submit' button on Edit Book
         if request.form.get("EditBook"):
             #grab user form inputs
+            id = request.form["BookID"]
             title = request.form["title"]
             author = request.form["author"]
             publisher = request.form["publisher"]
@@ -139,9 +140,9 @@ def edit_book(BookID):
         
         # # no null inputs
         # else:
-        query = "UPDATE Books SET Books.title = %s, Books.authorID = %s, Books.publisherID = %s, Books.genre = %s, Books.price = %s, Books.inventoryQty = %s"
+        query = "UPDATE Books SET Books.title = %s, Books.authorID = %s, Books.publisherID = %s, Books.genre = %s, Books.price = %s, Books.inventoryQty = %s WHERE BookID = %s"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute(query, (title, author, publisher, genre, price, quantity))
+        cursor.execute(query, (title, author, publisher, genre, price, quantity, id))
         db_connection.commit()
 
         # redirect back to Books page
@@ -151,7 +152,7 @@ def edit_book(BookID):
 # Listener
 
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 4926)) 
+    port = int(os.environ.get('PORT', 4923)) 
     #                                 ^^^^
     
     app.run(port=port, debug=True) 
