@@ -96,7 +96,8 @@ def delete_books(BookID):
 def edit_book(BookID):
     if request.method == "GET":
         #mySQL query to grab info of book with our passed ID
-        query = "SELECT * FROM Books WHERE BookID = %s" % (BookID)
+        #query = "SELECT * FROM Books WHERE BookID = %s" % (BookID)
+        query = "SELECT Books.bookID as BookID, Publishers.publisherName as Publisher, Authors.authorName AS Author, Books.title AS Title, Books.genre AS Genre, Books.price as Price, Books.inventoryQty as Quantity FROM Books INNER JOIN Authors ON Authors.authorID = Books.authorID INNER JOIN Publishers ON Publishers.publisherID = Books.publisherID WHERE BookID = %s" % (BookID)
         cur = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cur.execute(query)
         data = cur.fetchall()
@@ -129,19 +130,19 @@ def edit_book(BookID):
             price = request.form["price"]
             quantity = request.form["quantity"]
 
-        # account for null genre
-        if genre == "":
-            query = "UPDATE Books SET Books.title = %s, Books.author = %s, Books.publisher = %s, Books.price = %s = NULL, Books.quantity = %s"
-            cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-            cursor.execute(query, (title, author, publisher, price, quantity))
-            db_connection.commit()
+        # # account for null genre
+        # if genre == "":
+        #     query = "UPDATE Books SET Books.title = %s, Books.author = %s, Books.publisher = %s, Books.price = %s = NULL, Books.quantity = %s"
+        #     cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+        #     cursor.execute(query, (title, author, publisher, price, quantity))
+        #     db_connection.commit()
         
-        # no null inputs
-        else:
-            query = "UPDATE Books SET Books.title = %s, Books.author = %s, Books.publisher = %s, Books.genre = %s, Books.price = %s, Books.quantity = %s)"
-            cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-            cursor.execute(query, (title, author, publisher, genre, price, quantity))
-            db_connection.commit()
+        # # no null inputs
+        # else:
+        query = "UPDATE Books SET Books.title = %s, Books.author = %s, Books.publisher = %s, Books.genre = %s, Books.price = %s, Books.quantity = %s"
+        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(query, (title, author, publisher, genre, price, quantity))
+        db_connection.commit()
 
         # redirect back to Books page
         return redirect("/books")

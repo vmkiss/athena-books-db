@@ -10,7 +10,7 @@
 <body>
     <div>
         <table border="1" cellpadding="5"> 
-            <caption> Editing Book: </caption>
+            <caption> Edit Book: </caption>
             <!-- Access data tuple passed from app.py -->
             {% if data %}
                 <thead>
@@ -41,15 +41,15 @@
 
         <div id="edit">
             <!-- form to edit data in Books-->
-            <form id="editBook" action="/edit_book/{{data[0].bookID}}" method="POST">
+            <form id="editBook" action="/edit_book/{{data[0].BookID}}" method="POST">
                 <legend><strong>Edit Book</strong></legend>
                 <fieldset>
                     <!-- We can preset form inputs to match attributes currently stored for 'id' of person to be updated via value= and accessing our passed data tuple -->
                     <!-- Create hidden form input to store the passed 'id' of the book we are editing so we can access it easily in our 'POST' method in our app.py -->
-                    <input type="hidden" value="{{data[0].id}}" class="form-control" id="bookID" name="bookID" required>
+                    <input type="hidden" value="{{data[0].BookID}}" class="form-control" id="BookID" name="BookID" required>
 
                     <label for="title">Title:</label>
-                    <input type="text" value="{{data[0].title}}" class="form-control" id="title" name="title" pattern="{1,}" required>
+                    <input type="text" value="{{data[0].Title}}" class="form-control" id="title" name="title" pattern="{1,}" required>
 
                     <label for= "author">Author:</label>
                     <select class="form-control" id="author" name="author" pattern="[0-4]{1}" placeholder="" required> 
@@ -67,12 +67,12 @@
                     </select>	
 
                     <label for= "publisher">Publisher:</label>
-                    <select class="form-control" id="publisher" name="publisher" pattern="[0-4]{1}" publisher="" required> 
+                    <select class="form-control" id="publisher" name="publisher" pattern="[0-4]{1}" placeholder="" required> 
                         <!-- Access our publisher tuple passed from app.py-->
                         <option value="0">&nbsp;</option>
                         {% for publisher in publishers %}
                                 <!-- If the value iterated publisher matches the value of the publisher of book currently Editing, pre-select that option -->
-                                {% if publisher['publisherID'] == data[0].publisher %}
+                                {% if publisher['publisherID'] == data[0].Publisher %}
                                     <option value="{{ publisher['publisherID'] }}" selected> {{publisher['publisherName']}}</option>
                                 {% else %}
                                     <option value="{{ publisher['publisherID'] }}"> {{publisher['publisherName']}}</option> 
@@ -81,13 +81,13 @@
                         {% endfor %} 
                     </select>	
                     <label for="genre">Genre:</label>
-                    <input type="text" value="{{data[0].genre}}" class="form-control" id="genre" name="genre" pattern="{1,}"> 
+                    <input type="text" value="{{data[0].Genre}}" class="form-control" id="genre" name="genre" pattern="{1,}"> 
  
                     <label for="price">Price:</label>
-                    <input type="text" value="{{data[0].price}}" class="form-control" id="price" name="price" pattern="[0-9]*[.]?[0-9]+"> 
+                    <input type="text" value="{{data[0].Price}}" class="form-control" id="price" name="price" pattern="[0-9]*[.]?[0-9]+"> 
 
                     <label for="quantity">Inventory Quantity:</label>
-                    <input type="text" value="{{data[0].quantity}}" class="form-control" id="quantity" name="quantity" pattern="[0-9]+"> 
+                    <input type="text" value="{{data[0].Quantity}}" class="form-control" id="quantity" name="quantity" pattern="[0-9]+"> 
                 
                 </fieldset>
                 <input type="submit" value="Edit Book" name="EditBook" class="btn btn-primary" style="margin:.5rem;">
