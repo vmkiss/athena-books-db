@@ -14,6 +14,6 @@ db = 'cs340_kissv'
 # For OSU Flip Servers
 
 # host = 'classmysql.engr.oregonstate.edu'      # MUST BE THIS
-# user = '<your-cs-340-db-username-here>'       # don't forget the cs340_ prefix
-# passwd = '<your-password-here>'               # should only be 4 digits if default
-# db = '<name-of-database-on-osu-server>'                                  
+# user = 'cs340_kissv'       # don't forget the cs340_ prefix
+# passwd = '2679'               # should only be 4 digits if default
+# db = 'cs340_kissv'                                  
