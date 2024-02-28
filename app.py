@@ -139,7 +139,7 @@ def edit_book(BookID):
         
         # # no null inputs
         # else:
-        query = "UPDATE Books SET Books.title = %s, Books.author = %s, Books.publisher = %s, Books.genre = %s, Books.price = %s, Books.quantity = %s"
+        query = "UPDATE Books SET Books.title = %s, Books.authorID = %s, Books.publisherID = %s, Books.genre = %s, Books.price = %s, Books.inventoryQty = %s"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(query, (title, author, publisher, genre, price, quantity))
         db_connection.commit()
