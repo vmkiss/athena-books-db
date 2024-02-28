@@ -78,23 +78,25 @@ def books():
         # render Books page passing query data, publisher data, and author data to template
         return render_template("books.j2", data=data, publishers=publisher_data, authors=author_data)
 
-#DELETE FUNCTIONALITY - commented out for debugging purposes
-@app.route("/delete_books/<int:bookID>")
-def delete_books(bookID):
-    query = "DELETE FROM Books WHERE id = '%s';"
+
+#DELETE
+@app.route("/delete_book/<int:BookID>")
+def delete_books(BookID):
+    query = "DELETE FROM Books WHERE BookID = '%s';" 
     cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute(query, (bookID,))
+    cursor.execute(query, (BookID,))
     db_connection.commit()
 
     #redirect back to books page
     return redirect("/books")
 
+
 # UPDATE
-@app.route("/edit_book/<int:bookID>", methods=["POST", "GET"])
-def edit_book(bookID):
+@app.route("/edit_book/<int:BookID>", methods=["POST", "GET"])
+def edit_book(BookID):
     if request.method == "GET":
         #mySQL query to grab info of book with our passed ID
-        query = "SELECT * FROM Books WHERE bookID = %s" % (bookID)
+        query = "SELECT * FROM Books WHERE BookID = %s" % (BookID)
         cur = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cur.execute(query)
         data = cur.fetchall()
@@ -148,7 +150,7 @@ def edit_book(bookID):
 # Listener
 
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 4925)) 
+    port = int(os.environ.get('PORT', 4926)) 
     #                                 ^^^^
     
     app.run(port=port, debug=True) 
