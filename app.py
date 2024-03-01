@@ -1,3 +1,6 @@
+# Code adapted from OSU 340 flask-starter-app
+# https://github.com/osu-cs340-ecampus/flask-starter-app
+
 from flask import Flask, render_template, json, redirect
 from flask_mysqldb import MySQL
 from flask import request
