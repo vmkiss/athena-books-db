@@ -4,7 +4,7 @@ from flask import request
 import os
 import database.db_connector as db
 import MySQLdb
-db_connection = db.connect_to_database()
+#db_connection = db.connect_to_database()
 
 # Configuration
 
@@ -47,10 +47,12 @@ def books():
         
         # no null inputs
         #else:
+        db_connection = db.connect_to_database()
         query = "INSERT INTO Books (title, authorID, publisherID, genre, price, inventoryQty) VALUES (%s, %s, %s, %s, %s, %s)"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(query, (title, authorID, publisherID, genre, price, quantity))
         db_connection.commit()
+        db_connection.close()
 
         # redirect back to Books page
         return redirect("/books")
@@ -58,6 +60,7 @@ def books():
     # Grab books data so it can be sent to template (READ)
     if request.method == "GET":
         # Grab all books in Books - was getting error message when adding indents so I kept it all on one line
+        db_connection = db.connect_to_database()
         query = "SELECT Books.bookID as BookID, Publishers.publisherName as Publishers, Authors.authorName AS Author, Books.title AS Title, Books.genre AS Genre, Books.price as Price, Books.inventoryQty as Quantity FROM Books INNER JOIN Authors ON Authors.authorID = Books.authorID INNER JOIN Publishers ON Publishers.publisherID = Books.publisherID;"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(query)
@@ -75,6 +78,8 @@ def books():
         cursor.execute(author_selection)
         author_data = cursor.fetchall()
 
+        db_connection.close()
+
         # render Books page passing query data, publisher data, and author data to template
         return render_template("books.j2", data=data, publishers=publisher_data, authors=author_data)
 
@@ -82,10 +87,12 @@ def books():
 #DELETE
 @app.route("/delete_book/<int:BookID>")
 def delete_books(BookID):
+    db_connection = db.connect_to_database()
     query = "DELETE FROM Books WHERE BookID = '%s';" 
     cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute(query, (BookID,))
     db_connection.commit()
+    db_connection.close()
 
     #redirect back to books page
     return redirect("/books")
@@ -97,6 +104,7 @@ def edit_book(BookID):
     if request.method == "GET":
         #mySQL query to grab info of book with our passed ID
         #query = "SELECT * FROM Books WHERE BookID = %s" % (BookID)
+        db_connection = db.connect_to_database()
         query = "SELECT Books.bookID as BookID, Publishers.publisherName as Publisher, Authors.authorName AS Author, Books.title AS Title, Books.genre AS Genre, Books.price as Price, Books.inventoryQty as Quantity FROM Books INNER JOIN Authors ON Authors.authorID = Books.authorID INNER JOIN Publishers ON Publishers.publisherID = Books.publisherID WHERE BookID = %s" % (BookID)
         cur = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cur.execute(query)
@@ -114,6 +122,7 @@ def edit_book(BookID):
         cursor.execute(author_selection)
         author_data = cursor.fetchall()
 
+        db_connection.close()
 
         # render Books page passing query data, publisher data, and author data to template
         return render_template("edit_books.j2", data=data, publishers=publisher_data, authors=author_data)
@@ -140,10 +149,12 @@ def edit_book(BookID):
         
         # # no null inputs
         # else:
+        db_connection = db.connect_to_database()
         query = "UPDATE Books SET Books.title = %s, Books.authorID = %s, Books.publisherID = %s, Books.genre = %s, Books.price = %s, Books.inventoryQty = %s WHERE BookID = %s"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(query, (title, author, publisher, genre, price, quantity, id))
         db_connection.commit()
+        db_connection.close()
 
         # redirect back to Books page
         return redirect("/books")
