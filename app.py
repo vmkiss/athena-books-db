@@ -350,7 +350,6 @@ def edit_book(BookID):
             #datePlaced = request.form["date"]
             #purchaseStatus = request.form["status"]
 
-
         #db_connection = db.connect_to_database()
         #query = "INSERT INTO Purchases (customerID FROM Customers WHERE customerName = %s, datePlaced = %s, purchaseStatus = %s)"
         #cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
@@ -364,8 +363,8 @@ def edit_book(BookID):
 # Listener
 
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 4923)) 
-    #                                 ^^^^
-    
+
+    port = int(os.environ.get('PORT', 4925)) 
+     
     app.run(port=port, debug=True) 
 
