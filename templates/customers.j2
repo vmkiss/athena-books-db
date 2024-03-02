@@ -1,0 +1,124 @@
+<html>
+<!-- Adapted from the people.html UI design -->
+<head>
+	<title>Customers</title>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+	<h1>Customers</h1> [ <a href="/">Home</a> | <a href="customers">Customers</a> | Authors | <a href="books">Books</a> | <a href="publishers">Publishers</a> | Purchases | BookPurchases ]
+	<div id="browse">
+		<table border="1" cellpadding="5">
+            <!-- Access data tuple passed from app.py --> 
+            {% if data %}
+			    <thead>
+				    <tr>
+					    <!-- Iterate through each key in the first entry to get the column name -->
+                        {% for key in data[0].keys() %}
+					    
+                        <!-- Create a <th> tag with the key inside of it, this will be our header row -->
+					    <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+					
+                        <!-- End of this for loop -->
+                        {% endfor %} 
+                    </tr>
+
+				<tbody>
+					<!-- Now, iterate through every item in data -->{% for item in data %}
+					    <tr>
+						    <!-- Then iterate through every key in the current item dictionary -->
+                            {% for key in item.keys() %}
+
+						    <!-- Create a <td> element with the value of that key in it -->
+						    <td> {{item[key]}} </td> 
+                            {% endfor %}
+
+                            <!-- Create our edit button -->
+							<!--<td><a href="edit_customer/{{item.customerID}}" class="btn btn-default">Edit</a></td> -->
+
+					    </tr> 
+                        {% endfor %} 
+                {% endif %} 
+        </table>   
+	<p>&nbsp;</p>
+	</div>	<!-- browse -->
+
+	<div id="insert">
+		<!-- form to INSERT new data into Customers-->
+		<form id="insertCustomer" action="/customers" method="post">
+			<legend><strong>Add Customer</strong></legend>
+			<fieldset>
+                <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
+				<label for="name">Name:</label>
+				<input type="text" class="form-control" id="name" name="name" placeholder="" required><br>
+                <label for="phone">Phone:</label>
+				<input type="text" class="form-control" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder=""><br>
+                <label for="email">E-mail:</label>
+				<input type="email" class="form-control" id="email" name="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" placeholder="" required><br>                
+                <label for="address">Address:</label>
+				<input type="text" class="form-control" id="address" name="address" placeholder="" required><br>
+                <label for="city">City:</label>
+				<input type="text" class="form-control" id="city" name="city" placeholder="" required><br>
+                <label for="state">State:</label><br>
+                <select class="form-control" id="state" name="state" required>
+                            <option value="AK">AK</option>
+                            <option value="AL">AL</option>
+                            <option value="AR">AR</option>
+                            <option value="AZ">AZ</option>
+                            <option value="CA">CA</option>
+                            <option value="CO">CO</option>
+                            <option value="CT">CT</option>
+                            <option value="DE">DE</option>
+                            <option value="FL">FL</option>
+                            <option value="GA">GA</option>
+                            <option value="HI">HI</option>
+                            <option value="IA">IA</option>
+                            <option value="ID">ID</option>
+                            <option value="IL">IL</option>
+                            <option value="IN">IN</option>
+                            <option value="KS">KS</option>
+                            <option value="KY">KY</option>
+                            <option value="LA">LA</option>
+                            <option value="MA">MA</option>
+                            <option value="MD">MD</option>
+                            <option value="ME">ME</option>
+                            <option value="MI">MI</option>
+                            <option value="MN">MN</option>
+                            <option value="MO">MO</option>
+                            <option value="MT">MT</option>
+                            <option value="NC">NC</option>
+                            <option value="ND">ND</option>
+                            <option value="NE">NE</option>
+                            <option value="NH">NH</option>
+                            <option value="NJ">NJ</option>
+                            <option value="NM">NM</option>
+                            <option value="NV">NV</option>
+                            <option value="NY">NY</option>
+                            <option value="OH">OH</option>
+                            <option value="OK">OK</option>
+                            <option value="OR">OR</option>
+                            <option value="PA">PA</option>
+                            <option value="RI">RI</option>
+                            <option value="SC">SC</option>
+                            <option value="SD">SD</option>
+                            <option value="TN">TN</option>
+                            <option value="TX">TX</option>
+                            <option value="UT">UT</option>
+                            <option value="VA">VA</option>
+                            <option value="VT">VT</option>
+                            <option value="WA">WA</option>
+                            <option value="WI">WI</option>
+                            <option value="WV">WV</option>
+                            <option value="WY">WY</option>
+                </select><br>
+                <label for="zip">Zip Code:</label>
+				<input type="text" class="form-control" id="zip" name="zip" placeholder="" required><br>
+            </fieldset>
+
+            <!-- Create 'Add Customer' and 'Cancel' buttons -->
+			<input type="submit" value="Add Customer" name="Add_Customer" class="btn btn-primary" style="margin:.5rem;">
+			<input class="btn" type="button" value="Cancel" onClick="browseCustomers()"> 
+        </form>
+	</div><!--insert-->
+</body>
+</html>
