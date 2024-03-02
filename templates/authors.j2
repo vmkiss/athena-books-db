@@ -48,26 +48,12 @@
 
 	<div id="insert">
 		<!-- form to INSERT new data into Books-->
-		<form id="insertBook" action="/books" method="post">
-			<legend><strong>Add Book</strong></legend>
+		<form id="insertAuthor" action="/authors" method="post">
+			<legend><strong>Add Author</strong></legend>
 			<fieldset>
                 <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
-				<label for="title">Title:</label>
-				<input type="text" class="form-control" id="title" name="title" placeholder="" required><br>
-				<label for="author">Author:</label>
-				<select class="form-control" id="author" name="author" pattern="[0-4]{1}" placeholder="" required> 
-                        <!-- Access our author tuple passed from app.py-->
-                        <option value="0">&nbsp;</option>
-                        {% for author in authors %}
-                                <!-- If the value iterated author matches the value of the author of book currently Editing, pre-select that option -->
-                                {% if author['authorID'] == data[0].author %}
-                                    <option value="{{ author['authorID'] }}" selected> {{author['authorName']}}</option>
-                                {% else %}
-                                    <option value="{{ author['authorID'] }}"> {{author['authorName']}}</option> 
-                                {% endif %}
-                        <!-- End of this for loop -->
-                        {% endfor %} 
-                    </select>	
+				<label for="name">Name:</label>
+				<input type="text" class="form-control" id="name" name="name" placeholder="" required><br>			
                 <label for="publisher">Publisher:</label>
 				<select class="form-control" id="publisher" name="publisher" pattern="[0-4]{1}" publisher="" required> 
                         <!-- Access our publisher tuple passed from app.py-->
@@ -82,25 +68,11 @@
                         <!-- End of this for loop -->
                         {% endfor %} 
                     </select>	
-                <label for="genre">Genre:</label>
-				<select class="form-control" id="genre" name="genre" pattern="[A-Za-z]{1,}" placeholder="">
-					<option value=""></option>
-                    <option value="Fantasy">Fantasy</option>
-					<option value="Romance">Romance</option>
-					<option value="Sci-Fi">Sci-Fi</option>
-                    <option value="Thriller">Thriller</option>
-                    <option value="Literary">Literary</option>
-                    <option value="Humor">Humor</option>
-                </select><br>
-				<label for="price">Price:</label>
-				<input type="text" class="form-control" id="price" name="price" pattern="^\d*\.\d{2}$" placeholder=""><br>
-                <label for="title">Quantity:</label>
-				<input type="text" class="form-control" id="quantity" name="quantity" placeholder="" required><br>
             </fieldset>
 
-            <!-- Create 'Add Book' and 'Cancel' buttons -->
-			<input type="submit" value="Add Book" name="Add_Book" class="btn btn-primary" style="margin:.5rem;">
-			<input class="btn" type="button" value="Cancel" onClick="browseBooks()"> 
+            <!-- Create 'Add Author' and 'Cancel' buttons -->
+			<input type="submit" value="Add Author" name="Add_Author" class="btn btn-primary" style="margin:.5rem;">
+			<input class="btn" type="button" value="Cancel" onClick="browseAuthors()"> 
         </form>
 	</div><!--insert-->
 </body>

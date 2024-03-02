@@ -92,7 +92,6 @@ def authors():
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(query)
         data = cursor.fetchall()
-        db_connection.close()
 
         # Populate publisher dropdown form
         publisher_selection = "SELECT publisherID, publisherName FROM Publishers"
@@ -102,7 +101,7 @@ def authors():
         db_connection.close()
 
         # render Authors page passing query data and publisher data to template
-        return render_template("customers.j2", data=data, publishers=publisher_data)
+        return render_template("authors.j2", data=data, publishers=publisher_data)
     
 # CRUD operations for Customers entity
 @app.route('/customers', methods=["POST", "GET"])
