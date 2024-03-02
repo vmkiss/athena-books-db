@@ -84,11 +84,11 @@ def authors():
         # redirect back to Authors page
         return redirect("/authors")
     
-    # Grab customers data so it can be sent to template (READ)
+    # Grab authors data so it can be sent to template (READ)
     if request.method == "GET":
-        # Grab all books in Books - was getting error message when adding indents so I kept it all on one line
+        # Grab all authors in Authors
         db_connection = db.connect_to_database()
-        query = "SELECT customerID AS CustomerID, customerName AS Name, customerPhone as Phone, customerEmail as Email, customerAddress AS Address, customerCity AS City, customerState AS State, customerZip AS ZipCode FROM Customers;"
+        query = "SELECT Authors.authorID AS AuthorID, Authors.authorName AS Name, Publishers.publisherName AS Publisher FROM Authors INNER JOIN Publishers ON Publishers.publisherID = Authors.publisherID;"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(query)
         data = cursor.fetchall()
