@@ -63,6 +63,45 @@ def publishers():
 
         # render Books page passing query data, publisher data, and author data to template
         return render_template("publishers.j2", data=data)
+
+# CRUD operations for Authors entity
+@app.route('/authors', methods=["POST", "GET"])
+def authors():
+    # Insert new author (CREATE)
+    if request.method == "POST":
+        if request.form.get("Add_Author"):
+            # grab user form inputs
+            name = request.form["name"]
+            publisherID = request.form["publisher"]
+
+        db_connection = db.connect_to_database()
+        query = "INSERT INTO Authors (authorName, publisherID) VALUES (%s, %s)"
+        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(query, (name, publisherID))
+        db_connection.commit()
+        db_connection.close()
+
+        # redirect back to Authors page
+        return redirect("/authors")
+    
+    # Grab authors data so it can be sent to template (READ)
+    if request.method == "GET":
+        # Grab all authors in Authors
+        db_connection = db.connect_to_database()
+        query = "SELECT Authors.authorID AS AuthorID, Authors.authorName AS Name, Publishers.publisherName AS Publisher FROM Authors INNER JOIN Publishers ON Publishers.publisherID = Authors.publisherID;"
+        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(query)
+        data = cursor.fetchall()
+
+        # Populate publisher dropdown form
+        publisher_selection = "SELECT publisherID, publisherName FROM Publishers"
+        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(publisher_selection)
+        publisher_data = cursor.fetchall()
+        db_connection.close()
+
+        # render Authors page passing query data and publisher data to template
+        return render_template("authors.j2", data=data, publishers=publisher_data)
     
 # CRUD operations for Customers entity
 @app.route('/customers', methods=["POST", "GET"])
@@ -311,8 +350,7 @@ def edit_book(BookID):
             #datePlaced = request.form["date"]
             #purchaseStatus = request.form["status"]
 
-
-       #db_connection = db.connect_to_database()
+        #db_connection = db.connect_to_database()
         #query = "INSERT INTO Purchases (customerID FROM Customers WHERE customerName = %s, datePlaced = %s, purchaseStatus = %s)"
         #cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         #cursor.execute(query, (customerID, datePlaced, purchaseStatus))
@@ -325,8 +363,8 @@ def edit_book(BookID):
 # Listener
 
 if __name__ == "__main__":
+
     port = int(os.environ.get('PORT', 4925)) 
-    #                                 ^^^^
-    
+     
     app.run(port=port, debug=True) 
 
