@@ -1,0 +1,107 @@
+<html>
+<!-- Code adapted from Flask Starter App people.j2
+# https://github.com/osu-cs340-ecampus/flask-starter-app -->
+<head>
+	<title>Authors</title>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+	<h1>Authors</h1> [ <a href="/">Home</a> | <a href="customers">Customers</a> | <a href="authors">Authors</a> | <a href="books">Books</a> | <a href="publishers">Publishers</a> | Purchases | BookPurchases ]
+	<div id="browse">
+		<p><a href="#" onClick="newBook()">Add New</a> </p>
+		<table border="1" cellpadding="5">
+            <!-- Access data tuple passed from app.py --> 
+            {% if data %}
+			    <thead>
+				    <tr>
+					    <!-- Iterate through each key in the first entry to get the column name -->
+                        {% for key in data[0].keys() %}
+					    
+                        <!-- Create a <th> tag with the key inside of it, this will be our header row -->
+					    <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+					
+                        <!-- End of this for loop -->
+                        {% endfor %} 
+                    </tr>
+
+				<tbody>
+					<!-- Now, iterate through every item in data -->{% for item in data %}
+					    <tr>
+						    <!-- Then iterate through every key in the current item dictionary -->
+                            {% for key in item.keys() %}
+
+						    <!-- Create a <td> element with the value of that key in it -->
+						    <td> {{item[key]}} </td> 
+                            {% endfor %}
+
+                            <!-- Create our edit/delete buttons -->
+							<td><a href="edit_book/{{item.BookID}}" class="btn btn-default">Edit</a></td>
+						    <td><a href="delete_book/{{item.BookID}}" class="btn btn-default">Delete</a></td>
+
+					    </tr> 
+                        {% endfor %} 
+                {% endif %} 
+        </table>   
+	<p>&nbsp;</p>
+	</div>	<!-- browse -->
+
+	<div id="insert">
+		<!-- form to INSERT new data into Books-->
+		<form id="insertBook" action="/books" method="post">
+			<legend><strong>Add Book</strong></legend>
+			<fieldset>
+                <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
+				<label for="title">Title:</label>
+				<input type="text" class="form-control" id="title" name="title" placeholder="" required><br>
+				<label for="author">Author:</label>
+				<select class="form-control" id="author" name="author" pattern="[0-4]{1}" placeholder="" required> 
+                        <!-- Access our author tuple passed from app.py-->
+                        <option value="0">&nbsp;</option>
+                        {% for author in authors %}
+                                <!-- If the value iterated author matches the value of the author of book currently Editing, pre-select that option -->
+                                {% if author['authorID'] == data[0].author %}
+                                    <option value="{{ author['authorID'] }}" selected> {{author['authorName']}}</option>
+                                {% else %}
+                                    <option value="{{ author['authorID'] }}"> {{author['authorName']}}</option> 
+                                {% endif %}
+                        <!-- End of this for loop -->
+                        {% endfor %} 
+                    </select>	
+                <label for="publisher">Publisher:</label>
+				<select class="form-control" id="publisher" name="publisher" pattern="[0-4]{1}" publisher="" required> 
+                        <!-- Access our publisher tuple passed from app.py-->
+                        <option value="0">&nbsp;</option>
+                        {% for publisher in publishers %}
+                                <!-- If the value iterated publisher matches the value of the publisher of book currently Editing, pre-select that option -->
+                                {% if publisher['publisherID'] == data[0].publisher %}
+                                    <option value="{{ publisher['publisherID'] }}" selected> {{publisher['publisherName']}}</option>
+                                {% else %}
+                                    <option value="{{ publisher['publisherID'] }}"> {{publisher['publisherName']}}</option> 
+                                {% endif %}
+                        <!-- End of this for loop -->
+                        {% endfor %} 
+                    </select>	
+                <label for="genre">Genre:</label>
+				<select class="form-control" id="genre" name="genre" pattern="[A-Za-z]{1,}" placeholder="">
+					<option value=""></option>
+                    <option value="Fantasy">Fantasy</option>
+					<option value="Romance">Romance</option>
+					<option value="Sci-Fi">Sci-Fi</option>
+                    <option value="Thriller">Thriller</option>
+                    <option value="Literary">Literary</option>
+                    <option value="Humor">Humor</option>
+                </select><br>
+				<label for="price">Price:</label>
+				<input type="text" class="form-control" id="price" name="price" pattern="^\d*\.\d{2}$" placeholder=""><br>
+                <label for="title">Quantity:</label>
+				<input type="text" class="form-control" id="quantity" name="quantity" placeholder="" required><br>
+            </fieldset>
+
+            <!-- Create 'Add Book' and 'Cancel' buttons -->
+			<input type="submit" value="Add Book" name="Add_Book" class="btn btn-primary" style="margin:.5rem;">
+			<input class="btn" type="button" value="Cancel" onClick="browseBooks()"> 
+        </form>
+	</div><!--insert-->
+</body>
+</html>
