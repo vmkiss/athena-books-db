@@ -39,27 +39,65 @@ def publishers():
             zip = request.form["zip"]
 
         db_connection = db.connect_to_database()
-        query = "INSERT INTO Publishers (publisherName, publisherAddress, publisherCity, publisherState, publisherZip) VALUES (%s, %s, %s, %s, %s, %s)"
+        query = "INSERT INTO Publishers (publisherName, publisherAddress, publisherCity, publisherState, publisherZip) VALUES (%s, %s, %s, %s, %s)"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(query, (name, address, city, state, zip))
         db_connection.commit()
         db_connection.close()
 
-        # redirect back to Books page
+        # redirect back to Publishers page
         return redirect("/publishers")
     
-        # Grab books data so it can be sent to template (READ)
+    # Grab publishers data so it can be sent to template (READ)
     if request.method == "GET":
         # Grab all books in Books - was getting error message when adding indents so I kept it all on one line
         db_connection = db.connect_to_database()
-        query = "SELECT publisherID AS PublisherID, publisherName AS Name, publisherAddress AS Address, publisherState AS State, publisherZip AS ZipCode;"
+        query = "SELECT publisherID AS PublisherID, publisherName AS Name, publisherAddress AS Address, publisherCity AS City, publisherState AS State, publisherZip AS ZipCode FROM Publishers;"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(query)
         data = cursor.fetchall()
         db_connection.close()
 
         # render Books page passing query data, publisher data, and author data to template
-        return render_template("books.j2", data=data)
+        return render_template("publishers.j2", data=data)
+    
+# CRUD operations for Customers entity
+@app.route('/publishers', methods=["POST", "GET"])
+def publishers():
+    # Insert new publisher (CREATE)
+    if request.method == "POST":
+        if request.form.get("Add_Publisher"):
+            # grab user form inputs
+            name = request.form["name"]
+            address = request.form["address"]
+            city = request.form["city"]
+            state = request.form["state"]
+            zip = request.form["zip"]
+
+        db_connection = db.connect_to_database()
+        query = "INSERT INTO Publishers (publisherName, publisherAddress, publisherCity, publisherState, publisherZip) VALUES (%s, %s, %s, %s, %s)"
+        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(query, (name, address, city, state, zip))
+        db_connection.commit()
+        db_connection.close()
+
+        # redirect back to Publishers page
+        return redirect("/publishers")
+    
+    # Grab publishers data so it can be sent to template (READ)
+    if request.method == "GET":
+        # Grab all books in Books - was getting error message when adding indents so I kept it all on one line
+        db_connection = db.connect_to_database()
+        query = "SELECT publisherID AS PublisherID, publisherName AS Name, publisherAddress AS Address, publisherCity AS City, publisherState AS State, publisherZip AS ZipCode FROM Publishers;"
+        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(query)
+        data = cursor.fetchall()
+        db_connection.close()
+
+        # render Books page passing query data, publisher data, and author data to template
+        return render_template("publishers.j2", data=data)
+    
+
 
 # CRUD operations for Books entity
 @app.route('/books', methods=["POST", "GET"])
@@ -202,7 +240,7 @@ def edit_book(BookID):
 # Listener
 
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 4925)) 
+    port = int(os.environ.get('PORT', 4978)) 
     #                                 ^^^^
     
     app.run(port=port, debug=True) 

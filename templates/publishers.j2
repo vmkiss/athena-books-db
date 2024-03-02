@@ -1,68 +1,13 @@
 <html>
 <!-- Adapted from the people.html UI design -->
 <head>
-	<title>Books</title>
+	<title>Publishers</title>
 	<link href="style.css" rel="stylesheet" type="text/css" />
-	<script language="JavaScript">
-	function showform(dowhat) {
-		/*
-		 * four DIVS: browse, insert, update, delete
-		 * this function sets one visible the others not
-		 */
-		if(dowhat == 'insert') {
-			document.getElementById('browse').style.display = 'none';
-			document.getElementById('insert').style.display = 'block';
-			document.getElementById('edit').style.display = 'none';
-			document.getElementById('delete').style.display = 'none';
-		} else if(dowhat == 'update') {
-			document.getElementById('browse').style.display = 'none';
-			document.getElementById('insert').style.display = 'none';
-			document.getElementById('edit').style.display = 'block';
-			document.getElementById('delete').style.display = 'none';
-		} else if(dowhat == 'delete') {
-			document.getElementById('browse').style.display = 'none';
-			document.getElementById('insert').style.display = 'none';
-			document.getElementById('edit').style.display = 'none';
-			document.getElementById('delete').style.display = 'block';
-		} else if(dowhat == 'all') {
-			document.getElementById('browse').style.display = 'block';
-			document.getElementById('insert').style.display = 'block';
-			document.getElementById('edit').style.display = 'block';
-			document.getElementById('delete').style.display = 'block';
-		} else { //by default display browse
-			document.getElementById('browse').style.display = 'block';
-			document.getElementById('insert').style.display = 'none';
-			document.getElementById('edit').style.display = 'none';
-			document.getElementById('delete').style.display = 'none';
-		}
-	}
-
-	function newBook() {
-		showform('insert');
-	}
-
-	function updateBook(pid) {
-		showform('update');
-	}
-
-	function deleteBook(pid) {
-		showform('delete');
-	}
-
-	function browseBook() {
-		showform('browse');
-	}
-
-	function showAll() {
-		showform('all');
-	}
-	</script>
 </head>
 
-<bodyonload="browseBook()">
-	<h1>Books</h1> [ <a href="/">Home</a> | Customers | Authors | <a href="books">Books</a> | Publishers | Purchases | BookPurchases ]
+<body>
+	<h1>Publishers</h1> [ <a href="/">Home</a> | Customers | Authors | <a href="books">Books</a> | <a href="publishers">Publishers</a> | Purchases | BookPurchases ]
 	<div id="browse">
-		<p><a href="#" onClick="newBook()">Add New</a> </p>
 		<table border="1" cellpadding="5">
             <!-- Access data tuple passed from app.py --> 
             {% if data %}
@@ -88,10 +33,6 @@
 						    <td> {{item[key]}} </td> 
                             {% endfor %}
 
-                            <!-- Create our edit/delete buttons -->
-							<td><a href="edit_book/{{item.BookID}}" class="btn btn-default">Edit</a></td>
-						    <td><a href="delete_book/{{item.BookID}}" class="btn btn-default">Delete</a></td>
-
 					    </tr> 
                         {% endfor %} 
                 {% endif %} 
@@ -100,60 +41,76 @@
 	</div>	<!-- browse -->
 
 	<div id="insert">
-		<!-- form to INSERT new data into Books-->
-		<form id="insertBook" action="/books" method="post">
-			<legend><strong>Add Book</strong></legend>
+		<!-- form to INSERT new data into Publishers-->
+		<form id="insertPublisher" action="/publishers" method="post">
+			<legend><strong>Add Publisher</strong></legend>
 			<fieldset>
                 <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
-				<label for="title">Title:</label>
-				<input type="text" class="form-control" id="title" name="title" placeholder="" required><br>
-				<label for="author">Author:</label>
-				<select class="form-control" id="author" name="author" pattern="[0-4]{1}" placeholder="" required> 
-                        <!-- Access our author tuple passed from app.py-->
-                        <option value="0">&nbsp;</option>
-                        {% for author in authors %}
-                                <!-- If the value iterated author matches the value of the author of book currently Editing, pre-select that option -->
-                                {% if author['authorID'] == data[0].author %}
-                                    <option value="{{ author['authorID'] }}" selected> {{author['authorName']}}</option>
-                                {% else %}
-                                    <option value="{{ author['authorID'] }}"> {{author['authorName']}}</option> 
-                                {% endif %}
-                        <!-- End of this for loop -->
-                        {% endfor %} 
-                    </select>	
-                <label for="publisher">Publisher:</label>
-				<select class="form-control" id="publisher" name="publisher" pattern="[0-4]{1}" publisher="" required> 
-                        <!-- Access our publisher tuple passed from app.py-->
-                        <option value="0">&nbsp;</option>
-                        {% for publisher in publishers %}
-                                <!-- If the value iterated publisher matches the value of the publisher of book currently Editing, pre-select that option -->
-                                {% if publisher['publisherID'] == data[0].publisher %}
-                                    <option value="{{ publisher['publisherID'] }}" selected> {{publisher['publisherName']}}</option>
-                                {% else %}
-                                    <option value="{{ publisher['publisherID'] }}"> {{publisher['publisherName']}}</option> 
-                                {% endif %}
-                        <!-- End of this for loop -->
-                        {% endfor %} 
-                    </select>	
-                <label for="genre">Genre:</label>
-				<select class="form-control" id="genre" name="genre" pattern="[A-Za-z]{1,}" placeholder="">
-					<option value=""></option>
-                    <option value="Fantasy">Fantasy</option>
-					<option value="Romance">Romance</option>
-					<option value="Sci-Fi">Sci-Fi</option>
-                    <option value="Thriller">Thriller</option>
-                    <option value="Literary">Literary</option>
-                    <option value="Humor">Humor</option>
+				<label for="name">Name:</label>
+				<input type="text" class="form-control" id="name" name="name" placeholder="" required><br>
+                <label for="address">Address:</label>
+				<input type="text" class="form-control" id="address" name="address" placeholder="" required><br>
+                <label for="city">City:</label>
+				<input type="text" class="form-control" id="city" name="city" placeholder="" required><br>
+                <label for="state">State:</label><br>
+                <select class="form-control" id="state" name="state" required>
+                            <option value="AK">AK</option>
+                            <option value="AL">AL</option>
+                            <option value="AR">AR</option>
+                            <option value="AZ">AZ</option>
+                            <option value="CA">CA</option>
+                            <option value="CO">CO</option>
+                            <option value="CT">CT</option>
+                            <option value="DE">DE</option>
+                            <option value="FL">FL</option>
+                            <option value="GA">GA</option>
+                            <option value="HI">HI</option>
+                            <option value="IA">IA</option>
+                            <option value="ID">ID</option>
+                            <option value="IL">IL</option>
+                            <option value="IN">IN</option>
+                            <option value="KS">KS</option>
+                            <option value="KY">KY</option>
+                            <option value="LA">LA</option>
+                            <option value="MA">MA</option>
+                            <option value="MD">MD</option>
+                            <option value="ME">ME</option>
+                            <option value="MI">MI</option>
+                            <option value="MN">MN</option>
+                            <option value="MO">MO</option>
+                            <option value="MT">MT</option>
+                            <option value="NC">NC</option>
+                            <option value="ND">ND</option>
+                            <option value="NE">NE</option>
+                            <option value="NH">NH</option>
+                            <option value="NJ">NJ</option>
+                            <option value="NM">NM</option>
+                            <option value="NV">NV</option>
+                            <option value="NY">NY</option>
+                            <option value="OH">OH</option>
+                            <option value="OK">OK</option>
+                            <option value="OR">OR</option>
+                            <option value="PA">PA</option>
+                            <option value="RI">RI</option>
+                            <option value="SC">SC</option>
+                            <option value="SD">SD</option>
+                            <option value="TN">TN</option>
+                            <option value="TX">TX</option>
+                            <option value="UT">UT</option>
+                            <option value="VA">VA</option>
+                            <option value="VT">VT</option>
+                            <option value="WA">WA</option>
+                            <option value="WI">WI</option>
+                            <option value="WV">WV</option>
+                            <option value="WY">WY</option>
                 </select><br>
-				<label for="price">Price:</label>
-				<input type="text" class="form-control" id="price" name="price" pattern="^\d*\.\d{2}$" placeholder=""><br>
-                <label for="title">Quantity:</label>
-				<input type="text" class="form-control" id="quantity" name="quantity" placeholder="" required><br>
+                <label for="zip">Zip Code:</label>
+				<input type="text" class="form-control" id="zip" name="zip" placeholder="" required><br>
             </fieldset>
 
             <!-- Create 'Add Book' and 'Cancel' buttons -->
-			<input type="submit" value="Add Book" name="Add_Book" class="btn btn-primary" style="margin:.5rem;">
-			<input class="btn" type="button" value="Cancel" onClick="browseBooks()"> 
+			<input type="submit" value="Add Publisher" name="Add_Publisher" class="btn btn-primary" style="margin:.5rem;">
+			<input class="btn" type="button" value="Cancel" onClick="browsePublishers()"> 
         </form>
 	</div><!--insert-->
 </body>
