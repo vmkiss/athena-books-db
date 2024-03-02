@@ -62,22 +62,24 @@ def publishers():
         return render_template("publishers.j2", data=data)
     
 # CRUD operations for Customers entity
-@app.route('/publishers', methods=["POST", "GET"])
-def publishers():
-    # Insert new publisher (CREATE)
+@app.route('/customers', methods=["POST", "GET"])
+def customers():
+    # Insert new customer (CREATE)
     if request.method == "POST":
-        if request.form.get("Add_Publisher"):
+        if request.form.get("Add_Customer"):
             # grab user form inputs
             name = request.form["name"]
+            phone = request.form["phone"]
+            email = request.form["email"]
             address = request.form["address"]
             city = request.form["city"]
             state = request.form["state"]
             zip = request.form["zip"]
 
         db_connection = db.connect_to_database()
-        query = "INSERT INTO Publishers (publisherName, publisherAddress, publisherCity, publisherState, publisherZip) VALUES (%s, %s, %s, %s, %s)"
+        query = "INSERT INTO Customers (customerName, customerPhone, customerEmail, customerAddress, customerCity, customerState, customerZip) VALUES (%s, %s, %s, %s, %s, %s, %s)"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute(query, (name, address, city, state, zip))
+        cursor.execute(query, (name, phone, email, address, city, state, zip))
         db_connection.commit()
         db_connection.close()
 
@@ -88,14 +90,14 @@ def publishers():
     if request.method == "GET":
         # Grab all books in Books - was getting error message when adding indents so I kept it all on one line
         db_connection = db.connect_to_database()
-        query = "SELECT publisherID AS PublisherID, publisherName AS Name, publisherAddress AS Address, publisherCity AS City, publisherState AS State, publisherZip AS ZipCode FROM Publishers;"
+        query = "SELECT customerID AS CustomerID, customerName AS Name, customerAddress AS Address, customerCity AS City, customerState AS State, customerZip AS ZipCode FROM Customers;"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(query)
         data = cursor.fetchall()
         db_connection.close()
 
         # render Books page passing query data, publisher data, and author data to template
-        return render_template("publishers.j2", data=data)
+        return render_template("customers.j2", data=data)
     
 
 
