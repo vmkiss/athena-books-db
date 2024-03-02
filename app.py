@@ -1,3 +1,6 @@
+# Code adapted from OSU 340 flask-starter-app
+# https://github.com/osu-cs340-ecampus/flask-starter-app
+
 from flask import Flask, render_template, json, redirect
 from flask_mysqldb import MySQL
 from flask import request
@@ -86,7 +89,7 @@ def customers():
         # redirect back to Publishers page
         return redirect("/customers")
     
-    # Grab publishers data so it can be sent to template (READ)
+    # Grab customers data so it can be sent to template (READ)
     if request.method == "GET":
         # Grab all books in Books - was getting error message when adding indents so I kept it all on one line
         db_connection = db.connect_to_database()
@@ -100,8 +103,8 @@ def customers():
         return render_template("customers.j2", data=data)
     
 
-
 # CRUD operations for Books entity
+-------------------------------------------------------BOOKS---------------------------------------------------------------
 @app.route('/books', methods=["POST", "GET"])
 def books():
     # Insert new book (CREATE)
@@ -238,11 +241,91 @@ def edit_book(BookID):
     
 
 
-    
+#--------------------------------------------------------------PURCHASES-------------------------------------------------
+@app.route('/purchases', methods=["POST", "GET"])
+def books():
+    # Insert new purchase (CREATE)
+    if request.method == "POST":
+        if request.form.get("Add_Purchase"):
+            # grab user form inputs
+            customerID = request.form["customer"]
+            datePlaced = request.form["date"]
+            purchaseStatus = request.form["status"]
+
+            db_connection = db.connect_to_database()
+            query = "INSERT INTO Purchases (customerID FROM Customers WHERE customerName = %s, datePlaced = %s, purchaseStatus = %s)"
+            cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute(query, (customerID, datePlaced, purchaseStatus))
+            db_connection.commit()
+            db_connection.close()
+
+            # redirect back to Purchases page
+            return redirect("/purchases")
+
+    # Grab purchases data so it can be sent to template (READ)
+    if request.method == "GET":
+        # Grab all purchases in Purchases - was getting error message when adding indents so I kept it all on one line
+        db_connection = db.connect_to_database()
+        query = "SELECT Purchases.purchaseID as PurchaseID, Customer.customerID as Customers, Purchases.purchaseDate as Date, Purchases.purchaseStatus as Status;"
+        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(query)
+        data = cursor.fetchall()
+
+        db_connection.close()
+        # render Books page passing query data, publisher data, and author data to template
+        return render_template("purchases.j2", data=data)
+
+#DELETE
+@app.route("/delete_purchase/<int:PurchaseID>")
+def delete_purchases(PurchaseID):
+    db_connection = db.connect_to_database()
+    query = "DELETE FROM Purchases WHERE PurchaseID = '%s';" 
+    cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute(query, (PurchaseID,))
+    db_connection.commit()
+    db_connection.close()
+    #redirect back to books page
+    return redirect("/purchases")
+
+# UPDATE
+@app.route("/edit_purchase/<int:purchaseID>", methods=["POST", "GET"])
+def edit_purchase(PurchaseID):
+    if request.method == "GET":
+        #mySQL query to grab info of book with our passed ID
+        db_connection = db.connect_to_database()
+        query = "SELECT Purchases.purchaseID as PurchaseID, Customer.customerID as Customers, Purchases.purchaseDate as Date, Purchases.purchaseStatus as Status;"
+        cur = db_connection.cursor(MySQLdb.cursors.DictCursor)
+        cur.execute(query)
+        data = cur.fetchall()
+
+        db_connection.close()
+        # render Purchase page passing query data to template
+        return render_template("edit_purchases.j2", data=data)
+
+
+    if request.method == "POST":
+        #fire off if user clicks the 'submit' button on Edit Book
+        if request.form.get("EditPurchase"):
+            #grab user form inputs
+            customerID = request.form["customer"]
+            datePlaced = request.form["date"]
+            purchaseStatus = request.form["status"]
+
+
+        db_connection = db.connect_to_database()
+        query = "INSERT INTO Purchases (customerID FROM Customers WHERE customerName = %s, datePlaced = %s, purchaseStatus = %s)"
+        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(query, (customerID, datePlaced, purchaseStatus))
+        db_connection.commit()
+        db_connection.close()
+
+        # redirect back to Purchases page
+        return redirect("/purchases")
+
 # Listener
 
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 4925)) 
+    port = int(os.environ.get('PORT', 4922)) 
     #                                 ^^^^
     
     app.run(port=port, debug=True) 

@@ -1,10 +1,7 @@
-# To actually have your app use this file, you need to RENAME the file to db_credentials.py
-# You will find details about your CS340 database credentials on Canvas.
+# # Code adapted from Flask Starter App db_credentials.py
+# https://github.com/osu-cs340-ecampus/flask-starter-app
 
-# the following will be used by the webapp.py to interact with the database
-# You can also use environment variables
-
-# For Local Devlelopment
+# For Local Development
 host = 'classmysql.engr.oregonstate.edu'
 user = 'cs340_kissv'                                   # can be different if you set up another username in your MySQL installation
 passwd = '2679'                        # set accordingly
