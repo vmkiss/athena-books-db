@@ -1,12 +1,12 @@
 <html>
 <!-- Adapted from the people.html UI design -->
 <head>
-	<title>Publishers</title>
+	<title>Customers</title>
 	<link href="style.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-	<h1>Publishers</h1> [ <a href="/">Home</a> | <a href="customers">Customers</a> | Authors | <a href="books">Books</a> | <a href="publishers">Publishers</a> | Purchases | BookPurchases ]
+	<h1>Customers</h1> [ <a href="/">Home</a> | <a href="customers">Customers</a> | Authors | <a href="books">Books</a> | <a href="publishers">Publishers</a> | Purchases | BookPurchases ]
 	<div id="browse">
 		<table border="1" cellpadding="5">
             <!-- Access data tuple passed from app.py --> 
@@ -33,6 +33,9 @@
 						    <td> {{item[key]}} </td> 
                             {% endfor %}
 
+                            <!-- Create our edit button -->
+							<td><a href="edit_customer/{{item.customerID}}" class="btn btn-default">Edit</a></td>
+
 					    </tr> 
                         {% endfor %} 
                 {% endif %} 
@@ -41,13 +44,17 @@
 	</div>	<!-- browse -->
 
 	<div id="insert">
-		<!-- form to INSERT new data into Publishers-->
-		<form id="insertPublisher" action="/publishers" method="post">
-			<legend><strong>Add Publisher</strong></legend>
+		<!-- form to INSERT new data into Customers-->
+		<form id="insertCustomer" action="/customers" method="post">
+			<legend><strong>Add Customer</strong></legend>
 			<fieldset>
                 <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
 				<label for="name">Name:</label>
 				<input type="text" class="form-control" id="name" name="name" placeholder="" required><br>
+                <label for="phone">Phone:</label>
+				<input type="text" class="form-control" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder=""><br>
+                <label for="email">E-mail:</label>
+				<input type="email" class="form-control" id="email" name="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" placeholder="" required><br>                
                 <label for="address">Address:</label>
 				<input type="text" class="form-control" id="address" name="address" placeholder="" required><br>
                 <label for="city">City:</label>
@@ -108,9 +115,9 @@
 				<input type="text" class="form-control" id="zip" name="zip" placeholder="" required><br>
             </fieldset>
 
-            <!-- Create 'Add Book' and 'Cancel' buttons -->
-			<input type="submit" value="Add Publisher" name="Add_Publisher" class="btn btn-primary" style="margin:.5rem;">
-			<input class="btn" type="button" value="Cancel" onClick="browsePublishers()"> 
+            <!-- Create 'Add Customer' and 'Cancel' buttons -->
+			<input type="submit" value="Add Customer" name="Add_Customer" class="btn btn-primary" style="margin:.5rem;">
+			<input class="btn" type="button" value="Cancel" onClick="browseCustomers()"> 
         </form>
 	</div><!--insert-->
 </body>
