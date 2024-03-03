@@ -144,6 +144,46 @@ def customers():
         # render Books page passing query data, publisher data, and author data to template
         return render_template("customers.j2", data=data)
     
+    # UPDATE Customers
+@app.route("/edit_customer/<int:CustomerID>", methods=["POST", "GET"])
+def edit_customer(CustomerID):
+    if request.method == "GET":
+        db_connection = db.connect_to_database()
+        query = "SELECT customerID AS CustomerID, customerName AS Name, customerPhone as Phone, customerEmail as Email, customerAddress AS Address, customerCity AS City, customerState AS State, customerZip AS ZipCode FROM Customers WHERE CustomerID = %s" % (CustomerID)
+        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(query)
+        data = cursor.fetchall()
+        db_connection.close()
+
+        # render Books page passing query data, publisher data, and author data to template
+        return render_template("edit_customers.j2", data=data)
+
+    if request.method == "POST":
+        #fire off if user clicks the 'submit' button on Edit Book
+        if request.form.get("EditCustomer"):
+            #grab user form inputs
+            id = request.form["CustomerID"]
+            name = request.form["name"]
+            phone = request.form["phone"]
+            email = request.form["email"]
+            address = request.form["address"]
+            city = request.form["city"]
+            state = request.form["state"]
+            zip = request.form["zip"]
+
+        db_connection = db.connect_to_database()
+        query = "UPDATE Customers SET customerName = %s, customerPhone = %s, customerEmail = %s, customerAddress = %s, customerCity = %s, customerState = %s, customerZip = %s WHERE customerID = %s"
+        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(query, (name, phone, email, address, city, state, zip, id))
+        db_connection.commit()
+        db_connection.close()
+
+        # redirect back to Customers page
+        return redirect("/customers")
+
+      
+
+    
 
 # CRUD operations for Books entity
 #-------------------------------------------------------BOOKS---------------------------------------------------------------
