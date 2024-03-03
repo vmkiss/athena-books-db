@@ -144,6 +144,21 @@ def customers():
         # render Books page passing query data, publisher data, and author data to template
         return render_template("customers.j2", data=data)
     
+    # UPDATE Customers
+@app.route("/edit_customer/<int:CustomerID>", methods=["POST", "GET"])
+def edit_customer(CustomerID):
+    if request.method == "GET":
+        db_connection = db.connect_to_database()
+        query = "SELECT customerID AS CustomerID, customerName AS Name, customerPhone as Phone, customerEmail as Email, customerAddress AS Address, customerCity AS City, customerState AS State, customerZip AS ZipCode FROM Customers WHERE CustomerID = %s" % (CustomerID)
+        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(query)
+        data = cursor.fetchall()
+        db_connection.close()
+
+        # render Books page passing query data, publisher data, and author data to template
+        return render_template("edit_customers.j2", data=data)
+
+    
 
 # CRUD operations for Books entity
 #-------------------------------------------------------BOOKS---------------------------------------------------------------
@@ -366,7 +381,7 @@ def purchases():
 
 if __name__ == "__main__":
 
-    port = int(os.environ.get('PORT', 4925)) 
+    port = int(os.environ.get('PORT', 4922)) 
      
     app.run(port=port, debug=True) 
 
