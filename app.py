@@ -28,6 +28,7 @@ mysql = MySQL(app)
 def root():
     return render_template("main.j2")
 
+#------------------------------------------PUBLISHERS-----------------------------------------------------
 # CRUD operations for Publishers entity
 @app.route('/publishers', methods=["POST", "GET"])
 def publishers():
@@ -64,6 +65,7 @@ def publishers():
         # render Books page passing query data, publisher data, and author data to template
         return render_template("publishers.j2", data=data)
 
+#---------------------------------------------AUTHORS------------------------------------------------------
 # CRUD operations for Authors entity
 @app.route('/authors', methods=["POST", "GET"])
 def authors():
@@ -103,6 +105,7 @@ def authors():
         # render Authors page passing query data and publisher data to template
         return render_template("authors.j2", data=data, publishers=publisher_data)
     
+#----------------------------------------------CUSTOMERS------------------------------------------------
 # CRUD operations for Customers entity
 @app.route('/customers', methods=["POST", "GET"])
 def customers():
@@ -279,40 +282,39 @@ def edit_book(BookID):
         return redirect("/books")
     
 
-
 #--------------------------------------------------------------PURCHASES-------------------------------------------------
-#@app.route('/purchases', methods=["POST", "GET"])
-#def books():
-    # Insert new purchase (CREATE)
-    #if request.method == "POST":
-        #if request.form.get("Add_Purchase"):
-            # grab user form inputs
-            #customerID = request.form["customer"]
-            #datePlaced = request.form["date"]
-            #purchaseStatus = request.form["status"]
+@app.route('/purchases', methods=["POST", "GET"])
+def purchases():
+    #Insert new purchase (CREATE)
+    if request.method == "POST":
+        if request.form.get("Add_Purchase"):
+            #grab user form inputs
+            customer = request.form["customer"]
+            date = request.form["date"]
+            status = request.form["status"]
 
-            #db_connection = db.connect_to_database()
-            #query = "INSERT INTO Purchases (customerID FROM Customers WHERE customerName = %s, datePlaced = %s, purchaseStatus = %s)"
-            #cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-            #cursor.execute(query, (customerID, datePlaced, purchaseStatus))
-            #db_connection.commit()
-            #db_connection.close()
+            db_connection = db.connect_to_database()
+            query = "INSERT INTO Purchases (Customer.customerName WHERE customerID = %, datePlaced=%s, purchaseStatus=%s);"
+            cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute(query, (customer, date, status))
+            db_connection.commit()
+            db_connection.close()
 
-            # redirect back to Purchases page
-            #return redirect("/purchases")
+            #redirect back to Purchases page
+            return redirect("/purchases")
 
     # Grab purchases data so it can be sent to template (READ)
-    #if request.method == "GET":
-        # Grab all purchases in Purchases - was getting error message when adding indents so I kept it all on one line
-        #db_connection = db.connect_to_database()
-        #query = "SELECT Purchases.purchaseID as PurchaseID, Customer.customerID as Customers, Purchases.purchaseDate as Date, Purchases.purchaseStatus as Status;"
-        #cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-        #cursor.execute(query)
-        #data = cursor.fetchall()
+    if request.method == "GET":
+        #Grab all purchases in Purchases - was getting error message when adding indents so I kept it all on one line,
+        db_connection = db.connect_to_database()
+        query = "SELECT purchaseID as PurchaseID, customerID, datePlaced as Date, purchaseStatus as Status FROM Purchases;"
+        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(query)
+        data = cursor.fetchall()
 
-        #db_connection.close()
-        # render Books page passing query data, publisher data, and author data to template
-        #return render_template("purchases.j2", data=data)
+        db_connection.close()
+        #render Purchases page passing query data
+        return render_template("purchases.j2", data=data)
 
 #DELETE
 #@app.route("/delete_purchase/<int:PurchaseID>")
