@@ -414,6 +414,7 @@ def edit_purchase(PurchaseID):
             #redirect back to Purchases page
             return redirect("/purchases")
 
+
 #---------------------------------------------BOOKPURCHASES------------------------------------------------------------------------\
 @app.route('/bookpurchases', methods=["POST", "GET"])
 def bookpurchases():
