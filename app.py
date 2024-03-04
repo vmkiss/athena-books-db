@@ -375,43 +375,44 @@ def delete_purchases(PurchaseID):
     return redirect("/purchases")
 
 # UPDATE
-# @app.route("/edit_purchase/<int:purchaseID>", methods=["POST", "GET"])
-# def edit_purchase(PurchaseID):
-#     if request.method == "GET":
-#         #mySQL query to grab info of book with our passed ID
-#         db_connection = db.connect_to_database()
-#         query = "SELECT Purchases.purchaseID as PurchaseID, Customers.customerName as Customer, Purchases.datePlaced as Date, Purchases.purchaseStatus as Status FROM Purchases INNER JOIN Customers ON Customers.customerID = Purchases.customerID;"
-#         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-#         cursor.execute(query)
-#         data = cursor.fetchall()
+@app.route("/edit_purchase/<int:PurchaseID>", methods=["POST", "GET"])
+def edit_purchase(PurchaseID):
+    if request.method == "GET":
+        #mySQL query to grab info of book with our passed ID
+        db_connection = db.connect_to_database()
+        query = "SELECT Purchases.purchaseID as PurchaseID, Customers.customerName as Customer, Purchases.datePlaced as Date, Purchases.purchaseStatus as Status FROM Purchases INNER JOIN Customers ON Customers.customerID = Purchases.customerID WHERE PurchaseID = %s" % (PurchaseID)
+        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(query)
+        data = cursor.fetchall()
 
-#         # Populate customer dropdown form
-#         customer_selection = "SELECT customerID, customerName FROM Customers"
-#         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-#         cursor.execute(customer_selection)
-#         customer_data = cursor.fetchall()
+        # Populate customer dropdown form
+        customer_selection = "SELECT customerID, customerName FROM Customers"
+        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(customer_selection)
+        customer_data = cursor.fetchall()
 
-#         db_connection.close()
-#         #render Purchases page passing query data
-#         return render_template("purchases.j2", data=data, customers=customer_data)
+        db_connection.close()
+        #render Purchases page passing query data
+        return render_template("edit_purchases.j2", data=data, customers=customer_data)
 
 
-    # if request.method == "POST":
-    #     if request.form.get("editPurchase"):
-    #         #grab user form inputs
-    #         customer = request.form["customer"]
-    #         date = request.form["date"]
-    #         status = request.form["status"]
+    if request.method == "POST":
+        if request.form.get("editPurchase"):
+            #grab user form inputs
+            id = request.form["PurchaseID"]
+            customer = request.form["customer"]
+            date = request.form["date"]
+            status = request.form["status"]
 
-    #         db_connection = db.connect_to_database()
-    #         query = "INSERT INTO Purchases (customerID, datePlaced, purchaseStatus) VALUES (%s, %s, %s)"
-    #         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-    #         cursor.execute(query, (customer, date, status))
-    #         db_connection.commit()
-    #         db_connection.close()
+            db_connection = db.connect_to_database()
+            query = "UPDATE Purchases SET Purchases.customerID=%s, Purchases.datePlaced=%s, Purchases.purchaseStatus=%s WHERE PurchaseID=%s" 
+            cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute(query, (customer, date, status, id))
+            db_connection.commit()
+            db_connection.close()
 
-    #         #redirect back to Purchases page
-    #         return redirect("/purchases")
+            #redirect back to Purchases page
+            return redirect("/purchases")
 
 # Listener
 
