@@ -46,11 +46,22 @@
                 <fieldset>
                     <!-- We can preset form inputs to match attributes currently stored for 'id' of person to be updated via value= and accessing our passed data tuple -->
                     <!-- Create hidden form input to store the passed 'id' of the book we are editing so we can access it easily in our 'POST' method in our app.py -->
-                    <input type="hidden" value="{{data[0].BookID}}" class="form-control" id="PurchaseID" name="PurchaseID" required>
+                    <input type="hidden" value="{{data[0].PurchaseID}}" class="form-control" id="PurchaseID" name="PurchaseID" required>
 
-                    <label for= "customer">customer:</label>
-                    <input type="text" value="{{data[0].Customer}}" class="form-control" id="customer" name="customer" pattern="{1,}">
-
+                    <label for="customer">Customer:</label>
+				    <select class="form-control" id="customer" name="customer" pattern="[0-4]{1}" placeholder="" required> 
+                        <!-- Access our customer tuple passed from app.py-->
+                        <option value="0">&nbsp;</option>
+                        {% for customer in customers %}
+                                <!-- If the value iterated customer matches the value of the purchase currently Editing, pre-select that option -->
+                                {% if customer['customerID'] == data[0].customer %}
+                                    <option value="{{ customer['customerID'] }}" selected> {{customer['customerName']}}</option>
+                                {% else %}
+                                    <option value="{{ customer['customerID'] }}"> {{customer['customerName']}}</option> 
+                                {% endif %}
+                        <!-- End of this for loop -->
+                        {% endfor %} 
+                	</select>
                     <label for="date">Date Placed:</label>
                     <input type="date" value="{{data[0].Date}}" class="form-control" id="date" name="date" required><br>
 
@@ -63,7 +74,7 @@
                     </select><br>
                 </fieldset>
                 
-                <input type="submit" value="Edit Purchase" name="EditPurchase" class="btn btn-primary" style="margin:.5rem;">
+                <input type="submit" value="Edit Purchase" name="editPurchase" class="btn btn-primary" style="margin:.5rem;">
                 <a href='/purchases'><input class="btn" type="button" value="cancel"></a>
             </form>
 
