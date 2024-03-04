@@ -34,8 +34,8 @@
                             {% endfor %}
 
 							<!-- Create our edit/delete buttons -->
-							<td><a href="edit_purchase/{{item.purchaseID}}" class="btn btn-default">Edit</a></td>
-						    <td><a href="delete_purchase/{{item.purchaseID}}" class="btn btn-default">Delete</a></td>
+							<td><a href="edit_purchase/{{item.PurchaseID}}" class="btn btn-default">Edit</a></td>
+						    <td><a href="delete_purchase/{{item.PurchaseID}}" class="btn btn-default">Delete</a></td>
 
 
 					    </tr> 
@@ -52,7 +52,19 @@
 			<fieldset>
                 <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
 				<label for="customer">Customer:</label>
-				<input type="text" class="form-control" id="customer" name="customer" placeholder="" required><br>
+				<select class="form-control" id="customer" name="customer" pattern="[0-4]{1}" placeholder="" required> 
+                        <!-- Access our customer tuple passed from app.py-->
+                        <option value="0">&nbsp;</option>
+                        {% for customer in customers %}
+                                <!-- If the value iterated customer matches the value of the purchase currently Editing, pre-select that option -->
+                                {% if customer['customerID'] == data[0].customer %}
+                                    <option value="{{ customer['customerID'] }}" selected> {{customer['customerName']}}</option>
+                                {% else %}
+                                    <option value="{{ customer['customerID'] }}"> {{customer['customerName']}}</option> 
+                                {% endif %}
+                        <!-- End of this for loop -->
+                        {% endfor %} 
+                	</select>
 				<label for="date">Date Placed:</label>
 				<input type="date" class="form-control" id="date" name="date" placeholder="" required><br>
                 <label for="status">Status:</label>
