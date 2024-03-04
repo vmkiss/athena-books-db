@@ -414,6 +414,48 @@ def edit_purchase(PurchaseID):
             #redirect back to Purchases page
             return redirect("/purchases")
 
+
+#---------------------------------------------BOOKPURCHASES------------------------------------------------------------------------\
+@app.route('/bookpurchases', methods=["POST", "GET"])
+def bookpurchases():
+    # #Insert new book purchase (CREATE)
+    # if request.method == "POST":
+    #     if request.form.get("Add_Purchase"):
+    #         #grab user form inputs
+    #         customer = request.form["customer"]
+    #         date = request.form["date"]
+    #         status = request.form["status"]
+
+    #         db_connection = db.connect_to_database()
+    #         query = "INSERT INTO Purchases (customerID, datePlaced, purchaseStatus) VALUES (%s, %s, %s)"
+    #         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+    #         cursor.execute(query, (customer, date, status))
+    #         db_connection.commit()
+    #         db_connection.close()
+
+    #         #redirect back to Purchases page
+    #         return redirect("/bookpurchases")
+
+    # Grab purchases data so it can be sent to template (READ)
+    if request.method == "GET":
+        #Grab all items in BookPurchases
+        db_connection = db.connect_to_database()
+        query = "SELECT Book_purchases.BookPurchasesID, Books.bookID as BookID, Purchases.purchaseID as PurchaseID, Book_purchases.invoiceDate as Date, Book_purchases.orderQty as Quantity, Book_purchases.unitPrice as Price, Book_purchases.lineTotal as Total FROM Book_purchases INNER JOIN Books ON Books.bookID = Book_purchases.bookID INNER JOIN Purchases ON Book_purchases.purchaseID = Purchases.purchaseID;"
+        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(query)
+        data = cursor.fetchall()
+
+        # # Populate customer dropdown form
+        # customer_selection = "SELECT customerID, customerName FROM Customers"
+        # cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+        # cursor.execute(customer_selection)
+        # customer_data = cursor.fetchall()
+
+        db_connection.close()
+        #render Purchases page passing query data
+        return render_template("bookpurchases.j2", data=data)
+
+
 # Listener
 
 if __name__ == "__main__":
