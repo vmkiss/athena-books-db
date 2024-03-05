@@ -54,10 +54,9 @@
                     <label for= "author">Author:</label>
                     <select class="form-control" id="author" name="author" pattern="[0-4]{1}" placeholder="" required> 
                         <!-- Access our author tuple passed from app.py-->
-                        <option value="0">&nbsp;</option>
                         {% for author in authors %}
                                 <!-- If the value iterated author matches the value of the author of book currently Editing, pre-select that option -->
-                                {% if author['authorID'] == data[0].author %}
+                                {% if author['authorID'] == data[0].authorID %}
                                     <option value="{{ author['authorID'] }}" selected> {{author['authorName']}}</option>
                                 {% else %}
                                     <option value="{{ author['authorID'] }}"> {{author['authorName']}}</option> 
@@ -69,10 +68,9 @@
                     <label for= "publisher">Publisher:</label>
                     <select class="form-control" id="publisher" name="publisher" pattern="[0-4]{1}" placeholder="" required> 
                         <!-- Access our publisher tuple passed from app.py-->
-                        <option value="0">&nbsp;</option>
                         {% for publisher in publishers %}
                                 <!-- If the value iterated publisher matches the value of the publisher of book currently Editing, pre-select that option -->
-                                {% if publisher['publisherID'] == data[0].Publisher %}
+                                {% if publisher['publisherID'] == data[0].publisherID %}
                                     <option value="{{ publisher['publisherID'] }}" selected> {{publisher['publisherName']}}</option>
                                 {% else %}
                                     <option value="{{ publisher['publisherID'] }}"> {{publisher['publisherName']}}</option> 
