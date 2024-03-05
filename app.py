@@ -65,7 +65,7 @@ def publishers():
         # render Books page passing query data, publisher data, and author data to template
         return render_template("publishers.j2", data=data)
 
-#---------------------------------------------AUTHORS------------------------------------------------------
+#---------------------------------------------AUTHORS---------------------------------------------------------------------------------------
 # CRUD operations for Authors entity
 @app.route('/authors', methods=["POST", "GET"])
 def authors():
@@ -105,7 +105,7 @@ def authors():
         # render Authors page passing query data and publisher data to template
         return render_template("authors.j2", data=data, publishers=publisher_data)
     
-#----------------------------------------------CUSTOMERS------------------------------------------------
+#----------------------------------------------CUSTOMERS---------------------------------------------------------------------------------
 # CRUD operations for Customers entity
 @app.route('/customers', methods=["POST", "GET"])
 def customers():
@@ -182,8 +182,6 @@ def edit_customer(CustomerID):
         return redirect("/customers")
 
       
-
-    
 
 # CRUD operations for Books entity
 #-------------------------------------------------------BOOKS---------------------------------------------------------------
@@ -330,15 +328,27 @@ def purchases():
         if request.form.get("Add_Purchase"):
             #grab user form inputs
             customer = request.form["customer"]
+            book = request.form["book"]
+            quantity = request.form["quantity"]
             date = request.form["date"]
             status = request.form["status"]
 
+
+            #add to Purchases table
             db_connection = db.connect_to_database()
             query = "INSERT INTO Purchases (customerID, datePlaced, purchaseStatus) VALUES (%s, %s, %s)"
             cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
             cursor.execute(query, (customer, date, status))
             db_connection.commit()
             db_connection.close()
+
+            # #also add to BookPurchases table
+            # db_connection = db.connect_to_database()
+            # query = "INSERT INTO BookPurchases (bookID, purchaseID, datePlaced=%s, quantity=%s, price FROM Books WHERE , quantity=%s, price*quantity"
+            # cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+            # cursor.execute(query, (book, date, quantity))
+            # db_connection.commit()
+            # db_connection.close()
 
             #redirect back to Purchases page
             return redirect("/purchases")
@@ -352,6 +362,12 @@ def purchases():
         cursor.execute(query)
         data = cursor.fetchall()
 
+        # Populate book dropdown form
+        book_selection = "SELECT bookID, title FROM Books"
+        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(book_selection)
+        book_data = cursor.fetchall()
+
         # Populate customer dropdown form
         customer_selection = "SELECT customerID, customerName FROM Customers"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
@@ -360,7 +376,7 @@ def purchases():
 
         db_connection.close()
         #render Purchases page passing query data
-        return render_template("purchases.j2", data=data, customers=customer_data)
+        return render_template("purchases.j2", data=data, customers=customer_data, books=book_data)
 
 #DELETE
 @app.route("/delete_purchase/<int:PurchaseID>")
@@ -418,25 +434,7 @@ def edit_purchase(PurchaseID):
 #---------------------------------------------BOOKPURCHASES------------------------------------------------------------------------\
 @app.route('/bookpurchases', methods=["POST", "GET"])
 def bookpurchases():
-    # #Insert new book purchase (CREATE)
-    # if request.method == "POST":
-    #     if request.form.get("Add_Purchase"):
-    #         #grab user form inputs
-    #         customer = request.form["customer"]
-    #         date = request.form["date"]
-    #         status = request.form["status"]
-
-    #         db_connection = db.connect_to_database()
-    #         query = "INSERT INTO Purchases (customerID, datePlaced, purchaseStatus) VALUES (%s, %s, %s)"
-    #         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-    #         cursor.execute(query, (customer, date, status))
-    #         db_connection.commit()
-    #         db_connection.close()
-
-    #         #redirect back to Purchases page
-    #         return redirect("/bookpurchases")
-
-    # Grab purchases data so it can be sent to template (READ)
+    # (READ)
     if request.method == "GET":
         #Grab all items in BookPurchases
         db_connection = db.connect_to_database()
