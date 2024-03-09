@@ -300,15 +300,6 @@ def edit_book(BookID):
             price = request.form["price"]
             quantity = request.form["quantity"]
 
-        # # account for null genre
-        # if genre == "":
-        #     query = "UPDATE Books SET Books.title = %s, Books.author = %s, Books.publisher = %s, Books.price = %s = NULL, Books.quantity = %s"
-        #     cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-        #     cursor.execute(query, (title, author, publisher, price, quantity))
-        #     db_connection.commit()
-        
-        # # no null inputs
-        # else:
         db_connection = db.connect_to_database()
         query = "UPDATE Books SET Books.title = %s, Books.authorID = %s, Books.publisherID = %s, Books.genre = %s, Books.price = %s, Books.inventoryQty = %s WHERE BookID = %s"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
@@ -378,7 +369,7 @@ def purchases():
         #render Purchases page passing query data
         return render_template("purchases.j2", data=data, customers=customer_data, books=book_data)
 
-#DELETE
+#DELETE from Purchases
 @app.route("/delete_purchase/<int:PurchaseID>")
 def delete_purchases(PurchaseID):
     db_connection = db.connect_to_database()
@@ -387,7 +378,14 @@ def delete_purchases(PurchaseID):
     cursor.execute(query, (PurchaseID,))
     db_connection.commit()
     db_connection.close()
-    #redirect back to books page
+
+#also DELETE from BookPurchases 
+    query2 = "DELETE FROM BookPurchases WHERE PurchaseID = '%s';" 
+    cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute(query2, (PurchaseID,))
+    db_connection.commit()
+    db_connection.close()
+    #redirect back to purchases page
     return redirect("/purchases")
 
 # UPDATE
@@ -458,7 +456,7 @@ def bookpurchases():
 
 if __name__ == "__main__":
 
-    port = int(os.environ.get('PORT', 4927)) 
+    port = int(os.environ.get('PORT', 4922)) 
      
     app.run(port=port, debug=True) 
 
