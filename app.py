@@ -342,19 +342,11 @@ def purchases():
             db_connection.commit()
             db_connection.close()
 
-            # Grab purchaseID of most recently inserted Purchase
-            db_connection = db.connect_to_database()
-            cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-            pid = cursor.execute("SELECT LAST_INSERT_ID();")
-            print(pid)
-            db_connection.commit()
-            db_connection.close()
-
             # also add to BookPurchases table
             db_connection = db.connect_to_database()
-            query = "INSERT INTO Book_purchases (bookID, purchaseID, invoiceDate, orderQty, unitPrice, lineTotal) VALUES (%s, %s, %s, %s, (SELECT price FROM Books WHERE bookID = %s), (orderQty*unitPrice))"
+            query = "INSERT INTO Book_purchases (bookID, purchaseID, invoiceDate, orderQty, unitPrice, lineTotal) VALUES (%s, (SELECT MAX(purchaseID) FROM Purchases), %s, %s, (SELECT price FROM Books WHERE bookID = %s), (orderQty*unitPrice))"
             cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-            cursor.execute(query, (book, pid, date, quantity, book))
+            cursor.execute(query, (book, date, quantity, book))
             db_connection.commit()
             db_connection.close()
 
