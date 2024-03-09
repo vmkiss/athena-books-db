@@ -91,9 +91,11 @@ unitPrice DECIMAL(19, 2) NOT NULL,
 lineTotal DECIMAL (19, 2) NOT NULL,
 PRIMARY KEY (bookPurchasesID),
 FOREIGN KEY (bookID) REFERENCES Books(bookID)
-	ON UPDATE CASCADE, 
+	ON UPDATE CASCADE
+	ON DELETE CASCADE, 
 FOREIGN KEY (purchaseID) REFERENCES Purchases(purchaseID)
 	ON UPDATE CASCADE
+	ON DELETE CASCADE
 );
 
 -- inserts sample data into Customers table
