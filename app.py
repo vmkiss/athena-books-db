@@ -342,13 +342,16 @@ def purchases():
             db_connection.commit()
             db_connection.close()
 
-            # Grab purchaseID of most recently inserted Purchase
-            db_connection = db.connect_to_database()
-            cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-            pid = cursor.execute("SELECT LAST_INSERT_ID();")
-            print(pid)
-            db_connection.commit()
-            db_connection.close()
+            pid = "SELECT IDENT_CURRENT('Purchases')"
+
+            # # Grab purchaseID of most recently inserted Purchase
+            # db_connection = db.connect_to_database()
+            # cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+            # #pid = cursor.execute("SELECT LAST_INSERT_ID();")
+            # pid = cursor.execute("SELECT SCOPE_IDENTITY()")
+            # print(pid)
+            # db_connection.commit()
+            # db_connection.close()
 
             # also add to BookPurchases table
             db_connection = db.connect_to_database()
@@ -386,13 +389,20 @@ def purchases():
         #render Purchases page passing query data
         return render_template("purchases.j2", data=data, customers=customer_data, books=book_data)
 
-#DELETE
+#DELETE from Purchases
 @app.route("/delete_purchase/<int:PurchaseID>")
 def delete_purchases(PurchaseID):
     db_connection = db.connect_to_database()
     query = "DELETE FROM Purchases WHERE PurchaseID = '%s';" 
     cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute(query, (PurchaseID,))
+    db_connection.commit()
+    db_connection.close()
+
+#also DELETE from BookPurchases 
+    query2 = "DELETE FROM BookPurchases WHERE PurchaseID = '%s';" 
+    cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute(query2, (PurchaseID,))
     db_connection.commit()
     db_connection.close()
     #redirect back to books page
