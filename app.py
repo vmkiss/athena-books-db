@@ -300,15 +300,6 @@ def edit_book(BookID):
             price = request.form["price"]
             quantity = request.form["quantity"]
 
-        # # account for null genre
-        # if genre == "":
-        #     query = "UPDATE Books SET Books.title = %s, Books.author = %s, Books.publisher = %s, Books.price = %s = NULL, Books.quantity = %s"
-        #     cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-        #     cursor.execute(query, (title, author, publisher, price, quantity))
-        #     db_connection.commit()
-        
-        # # no null inputs
-        # else:
         db_connection = db.connect_to_database()
         query = "UPDATE Books SET Books.title = %s, Books.authorID = %s, Books.publisherID = %s, Books.genre = %s, Books.price = %s, Books.inventoryQty = %s WHERE BookID = %s"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
@@ -342,22 +333,11 @@ def purchases():
             db_connection.commit()
             db_connection.close()
 
-            pid = "SELECT IDENT_CURRENT('Purchases')"
-
-            # # Grab purchaseID of most recently inserted Purchase
-            # db_connection = db.connect_to_database()
-            # cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-            # #pid = cursor.execute("SELECT LAST_INSERT_ID();")
-            # pid = cursor.execute("SELECT SCOPE_IDENTITY()")
-            # print(pid)
-            # db_connection.commit()
-            # db_connection.close()
-
             # also add to BookPurchases table
             db_connection = db.connect_to_database()
-            query = "INSERT INTO Book_purchases (bookID, purchaseID, invoiceDate, orderQty, unitPrice, lineTotal) VALUES (%s, %s, %s, %s, (SELECT price FROM Books WHERE bookID = %s), (orderQty*unitPrice))"
+            query = "INSERT INTO Book_purchases (bookID, purchaseID, invoiceDate, orderQty, unitPrice, lineTotal) VALUES (%s, (SELECT MAX(purchaseID) FROM Purchases), %s, %s, (SELECT price FROM Books WHERE bookID = %s), (orderQty*unitPrice))"
             cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-            cursor.execute(query, (book, pid, date, quantity, book))
+            cursor.execute(query, (book, date, quantity, book))
             db_connection.commit()
             db_connection.close()
 
@@ -405,7 +385,7 @@ def delete_purchases(PurchaseID):
     cursor.execute(query2, (PurchaseID,))
     db_connection.commit()
     db_connection.close()
-    #redirect back to books page
+    #redirect back to purchases page
     return redirect("/purchases")
 
 # UPDATE
@@ -476,7 +456,7 @@ def bookpurchases():
 
 if __name__ == "__main__":
 
-    port = int(os.environ.get('PORT', 4927)) 
+    port = int(os.environ.get('PORT', 4922)) 
      
     app.run(port=port, debug=True) 
 

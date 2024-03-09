@@ -68,7 +68,6 @@
 				<label for="book">Book:</label>
 				<select class="form-control" id="book" name="book" pattern="[0-4]{1}" placeholder="" required> 
                         <!-- Access our book tuple passed from app.py-->
-                        <option value="0">&nbsp;</option>
                         {% for book in books %}
                                 <!-- If the value iterated book matches the value of the purchase currently Editing, pre-select that option -->
                                 {% if book['bookID'] == data[0].book %}

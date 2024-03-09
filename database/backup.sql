@@ -87,9 +87,9 @@ CREATE TABLE `Books` (
   `publisherID` int(11) NOT NULL,
   `authorID` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
-  `genre` varchar(255) DEFAULT NULL,
-  `price` decimal(19,2) DEFAULT NULL,
-  `inventoryQty` int(3) DEFAULT NULL,
+  `genre` varchar(255) NOT NULL,
+  `price` decimal(19,2) NOT NULL,
+  `inventoryQty` int(3) NOT NULL,
   PRIMARY KEY (`bookID`),
   KEY `publisherID` (`publisherID`),
   KEY `authorID` (`authorID`),
@@ -118,7 +118,7 @@ DROP TABLE IF EXISTS `Customers`;
 CREATE TABLE `Customers` (
   `customerID` int(11) NOT NULL AUTO_INCREMENT,
   `customerName` varchar(255) NOT NULL,
-  `customerPhone` varchar(10) DEFAULT NULL,
+  `customerPhone` varchar(10) NOT NULL,
   `customerEmail` varchar(255) NOT NULL,
   `customerAddress` varchar(255) NOT NULL,
   `customerCity` varchar(255) NOT NULL,
@@ -134,7 +134,7 @@ CREATE TABLE `Customers` (
 
 LOCK TABLES `Customers` WRITE;
 /*!40000 ALTER TABLE `Customers` DISABLE KEYS */;
-INSERT INTO `Customers` VALUES (1,'Daisy Jones',NULL,'djones@gmail.com','12345 SE 12th Ave','Portland','OR','97221'),(2,'Madeline Smith','6501239876','maddie123@gmail.com','1972 Iliff Ave','Denver','CO','80110'),(3,'Archibald Eggleton','5033104395','asmith@gmail.com','473 Seneca Drive','Portland','OR','97205'),(4,'Ophelia Bloom','3609702377','bloomo@hotmail.com','2376 Pratt Avenue','Olympia','WA','98501');
+INSERT INTO `Customers` VALUES (1,'Daisy Jones', '1234567890','djones@gmail.com','12345 SE 12th Ave','Portland','OR','97221'),(2,'Madeline Smith','6501239876','maddie123@gmail.com','1972 Iliff Ave','Denver','CO','80110'),(3,'Archibald Eggleton','5033104395','asmith@gmail.com','473 Seneca Drive','Portland','OR','97205'),(4,'Ophelia Bloom','3609702377','bloomo@hotmail.com','2376 Pratt Avenue','Olympia','WA','98501');
 /*!40000 ALTER TABLE `Customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -177,8 +177,8 @@ CREATE TABLE `Purchases` (
   `purchaseID` int(11) NOT NULL AUTO_INCREMENT,
   `customerID` int(11) NOT NULL,
   `datePlaced` date NOT NULL,
-  `totalPrice` decimal(19,2) DEFAULT NULL,
-  `purchaseStatus` varchar(255) DEFAULT NULL,
+  `totalPrice` decimal(19,2) NOT NULL,
+  `purchaseStatus` varchar(255) NOT NULL,
   PRIMARY KEY (`purchaseID`),
   KEY `customerID` (`customerID`),
   CONSTRAINT `Purchases_ibfk_1` FOREIGN KEY (`customerID`) REFERENCES `Customers` (`customerID`) ON UPDATE CASCADE

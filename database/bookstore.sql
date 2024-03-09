@@ -14,7 +14,7 @@ DROP TABLE IF EXISTS Customers;
 CREATE TABLE Customers (
 customerID INT(11) NOT NULL AUTO_INCREMENT, 
 customerName VARCHAR(255) NOT NULL,
-customerPhone VARCHAR(12), 
+customerPhone VARCHAR(12) NOT NULL, 
 customerEmail VARCHAR(255) NOT NULL,
 customerAddress VARCHAR (255) NOT NULL, 
 customerCity VARCHAR(255) NOT NULL,
@@ -54,7 +54,7 @@ bookID INT(11) NOT NULL AUTO_INCREMENT,
 publisherID INT(11) NOT NULL, 
 authorID INT(11) NOT NULL, 
 title VARCHAR(255) NOT NULL, 
-genre VARCHAR(255), 
+genre VARCHAR(255) NOT NULL,
 price DECIMAL (19, 2) NOT NULL, 
 inventoryQty INT(3) NOT NULL,
 PRIMARY KEY (bookID),
@@ -72,7 +72,7 @@ CREATE TABLE Purchases (
 purchaseID INT(11) NOT NULL AUTO_INCREMENT, 
 customerID INT(11) NOT NULL, 
 datePlaced DATE NOT NULL, 
-purchaseStatus VARCHAR(255),
+purchaseStatus VARCHAR(255) NOT NULL,
 PRIMARY KEY (purchaseID),
 FOREIGN KEY (customerID) REFERENCES Customers(customerID)
 	ON UPDATE CASCADE
@@ -91,14 +91,16 @@ unitPrice DECIMAL(19, 2) NOT NULL,
 lineTotal DECIMAL (19, 2) NOT NULL,
 PRIMARY KEY (bookPurchasesID),
 FOREIGN KEY (bookID) REFERENCES Books(bookID)
-	ON UPDATE CASCADE, 
+	ON UPDATE CASCADE
+	ON DELETE CASCADE, 
 FOREIGN KEY (purchaseID) REFERENCES Purchases(purchaseID)
 	ON UPDATE CASCADE
+	ON DELETE CASCADE
 );
 
 -- inserts sample data into Customers table
 INSERT INTO Customers (customerName, customerPhone, customerEmail, customerAddress, customerCity, customerState, customerZip)
-VALUES ('Daisy Jones', NULL, 'djones@gmail.com', '12345 SE 12th Ave', 'Portland', 'OR', '97221'), 
+VALUES ('Daisy Jones', '1234567890', 'djones@gmail.com', '12345 SE 12th Ave', 'Portland', 'OR', '97221'), 
 ('Madeline Smith', '6501239876', 'maddie123@gmail.com', '1972 Iliff Ave', 'Denver', 'CO', '80110'),
 ('Archibald Eggleton', '5033104395', 'asmith@gmail.com', '473 Seneca Drive', 'Portland', 'OR', '97205'),
 ('Ophelia Bloom', '3609702377', 'bloomo@hotmail.com', '2376 Pratt Avenue', 'Olympia', 'WA', '98501')
