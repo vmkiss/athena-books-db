@@ -324,14 +324,21 @@ def purchases():
             date = request.form["date"]
             status = request.form["status"]
 
+            if customer = "" or customer = "None":
+                db_connection = db.connect_to_database()
+                query = "INSERT INTO Purchases (datePlaced, purchaseStatus) VALUES (%s, %s)" 
+                cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+                cursor.execute(query, (customer, date, status, id))
+                db_connection.commit()
+                db_connection.close()
 
-            #add to Purchases table
-            db_connection = db.connect_to_database()
-            query = "INSERT INTO Purchases (customerID, datePlaced, purchaseStatus) VALUES (%s, %s, %s)"
-            cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-            cursor.execute(query, (customer, date, status))
-            db_connection.commit()
-            db_connection.close()
+            else:
+                db_connection = db.connect_to_database()
+                query = "INSERT INTO Purchases (customerID, datePlaced, purchaseStatus) VALUES (%s, %s, %s)"
+                cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+                cursor.execute(query, (customer, date, status))
+                db_connection.commit()
+                db_connection.close()
 
             # also add to BookPurchases table
             db_connection = db.connect_to_database()
@@ -417,13 +424,22 @@ def edit_purchase(PurchaseID):
             customer = request.form["customer"]
             date = request.form["date"]
             status = request.form["status"]
+        
+            if customer = "" or customer = "None":
+                db_connection = db.connect_to_database()
+                query = "UPDATE Purchases SET Purchases.datePlaced=%s, Purchases.purchaseStatus=%s WHERE PurchaseID=%s" 
+                cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+                cursor.execute(query, (customer, date, status, id))
+                db_connection.commit()
+                db_connection.close()
 
-            db_connection = db.connect_to_database()
-            query = "UPDATE Purchases SET Purchases.customerID=%s, Purchases.datePlaced=%s, Purchases.purchaseStatus=%s WHERE PurchaseID=%s" 
-            cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-            cursor.execute(query, (customer, date, status, id))
-            db_connection.commit()
-            db_connection.close()
+            else:
+                db_connection = db.connect_to_database()
+                query = "UPDATE Purchases SET Purchases.customerID=%s, Purchases.datePlaced=%s, Purchases.purchaseStatus=%s WHERE PurchaseID=%s" 
+                cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+                cursor.execute(query, (customer, date, status, id))
+                db_connection.commit()
+                db_connection.close()
 
             #redirect back to Purchases page
             return redirect("/purchases")
