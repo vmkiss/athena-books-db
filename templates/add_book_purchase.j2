@@ -12,7 +12,14 @@
 			<legend><strong>Add Book to Purchase</strong></legend>
 			<fieldset>
 				<label for="book">Book:</label>
-                <input type="text" class=form-control" id="book" name="book" placeholder="" required><br>
+				<select class="form-control" id="book" name="book" pattern="[0-4]{1}" placeholder="" required> 
+                        <!-- Access our book tuple passed from app.py-->
+                        {% for book in books %}
+                                <!-- If the value iterated book matches the value of the purchase currently Editing, pre-select that option -->
+                                <option value="{{ book['bookID'] }}"> {{book['title']}}</option> 
+                        <!-- End of this for loop -->
+                        {% endfor %} 
+                </select></br>
 				<label for="quantity">Quantity:</label>
 				<input type="text" class="form-control" id="quantity" name="quantity" placeholder="" required><br>
             </fieldset>

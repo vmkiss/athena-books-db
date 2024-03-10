@@ -465,15 +465,15 @@ def add_book_purchase():
             db_connection = db.connect_to_database()
 
             # Populate book dropdown form
-            #book_selection = "SELECT bookID, title FROM Books"
-            #cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-            #cursor.execute(book_selection)
-            #book_data = cursor.fetchall()
+            book_selection = "SELECT bookID, title FROM Books"
+            cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute(book_selection)
+            book_data = cursor.fetchall()
             
             db_connection.close()
 
             #render Purchases page passing query data
-            return render_template("add_book_purchase.j2")
+            return render_template("add_book_purchase.j2", books=book_data)
 
         
 
