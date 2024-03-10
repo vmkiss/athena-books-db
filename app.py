@@ -324,13 +324,13 @@ def purchases():
             date = request.form["date"]
             status = request.form["status"]
 
-            if customer = "" or customer = "None":
+            if customer == "" or customer == "None":
                 db_connection = db.connect_to_database()
                 query = "INSERT INTO Purchases (datePlaced, purchaseStatus) VALUES (%s, %s)" 
                 cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
                 cursor.execute(query, (customer, date, status, id))
                 db_connection.commit()
-                db_connection.close()
+                db_connection.close() 
 
             else:
                 db_connection = db.connect_to_database()
@@ -425,7 +425,7 @@ def edit_purchase(PurchaseID):
             date = request.form["date"]
             status = request.form["status"]
         
-            if customer = "" or customer = "None":
+            if customer == "" or customer == "None":
                 db_connection = db.connect_to_database()
                 query = "UPDATE Purchases SET Purchases.datePlaced=%s, Purchases.purchaseStatus=%s WHERE PurchaseID=%s" 
                 cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
