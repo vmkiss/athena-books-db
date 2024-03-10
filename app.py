@@ -458,15 +458,11 @@ def bookpurchases():
         cursor.execute(query)
         data = cursor.fetchall()
 
-        # # Populate customer dropdown form
-        # customer_selection = "SELECT customerID, customerName FROM Customers"
-        # cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-        # cursor.execute(customer_selection)
-        # customer_data = cursor.fetchall()
+@app.route('/add_book_purchase')
+def add_book_purchase():
+        return render_template("add_book_purchase.j2")
 
-        db_connection.close()
-        #render Purchases page passing query data
-        return render_template("bookpurchases.j2", data=data)
+  
 
 
 # Listener
