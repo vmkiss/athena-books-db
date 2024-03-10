@@ -74,14 +74,13 @@ CREATE TABLE Purchases (
 `datePlaced` DATE NOT NULL, 
 `purchaseStatus` VARCHAR(255) NOT NULL,
 PRIMARY KEY (`purchaseID`),
-KEY `customerID` (`customerID`),
-CONSTRAINT `customerID_ibfk_1` FOREIGN KEY (`customerID`) REFERENCES `Customers` (`customerID`) ON DELETE SET NULL ON UPDATE CASCADE
+FOREIGN KEY (`customerID`) REFERENCES Customers(`customerID`) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
--- create Book_purchases table
+-- create BookPurchases table
 -- intersection table between Books and Purchases
-DROP TABLE IF EXISTS Book_purchases;
-CREATE TABLE Book_purchases (
+DROP TABLE IF EXISTS BookPurchases;
+CREATE TABLE BookPurchases (
 bookPurchasesID INT(11) NOT NULL AUTO_INCREMENT, 
 bookID INT(11) NOT NULL, 
 purchaseID INT(11) NOT NULL, 
@@ -139,8 +138,8 @@ VALUES ((SELECT customerID FROM Customers WHERE customerName = "Daisy Jones"), '
 ((SELECT customerID FROM Customers WHERE customerName = "Ophelia Bloom"), '2024-02-06', 'Processing')
 ;
 
--- inserts sample data into Book_purchases table
-INSERT INTO Book_purchases (bookID, purchaseID, invoiceDate, orderQty, unitPrice, lineTotal)
+-- inserts sample data into BookPurchases table
+INSERT INTO BookPurchases (bookID, purchaseID, invoiceDate, orderQty, unitPrice, lineTotal)
 VALUES ((SELECT bookID FROM Books WHERE title = 'Monstrous Regiment'), (SELECT purchaseID FROM Purchases WHERE customerID = (SELECT customerID from Customers WHERE customerName = 'Daisy Jones') AND datePlaced = '2024-01-05'),
 '2024-01-05', 1, (SELECT price FROM Books WHERE title = 'Monstrous Regiment' AND authorID = (SELECT authorID FROM Authors WHERE authorName = 'Terry Pratchett')), (orderQty * unitPrice)),
 ((SELECT bookID FROM Books WHERE title = 'To Kill a Mockingbird'), (SELECT purchaseID FROM Purchases WHERE customerID = (SELECT customerID from Customers WHERE customerName = 'Madeline Smith') AND datePlaced = '2024-02-01'),

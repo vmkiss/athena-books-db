@@ -54,7 +54,7 @@
 				<label for="customer">Customer:</label>
 				<select class="form-control" id="customer" name="customer" pattern="[0-4]{1}" placeholder="" required> 
                         <!-- Access our customer tuple passed from app.py-->
-                        <option value="0">&nbsp;</option>
+                        <option value="0">N/A</option>
                         {% for customer in customers %}
                                 <!-- If the value iterated customer matches the value of the purchase currently Editing, pre-select that option -->
                                 {% if customer['customerID'] == data[0].customer %}
