@@ -69,13 +69,13 @@ FOREIGN KEY (authorID) REFERENCES Authors(authorID)
 -- create Purchases table
 DROP TABLE IF EXISTS Purchases;
 CREATE TABLE Purchases (
-purchaseID INT(11) NOT NULL AUTO_INCREMENT, 
-customerID INT(11) DEFAULT NULL, 
-datePlaced DATE NOT NULL, 
-purchaseStatus VARCHAR(255) NOT NULL,
-PRIMARY KEY (purchaseID),
-FOREIGN KEY (customerID) REFERENCES Customers(customerID)
-	ON DELETE SET NULL ON UPDATE CASCADE
+`purchaseID` INT(11) NOT NULL AUTO_INCREMENT, 
+`customerID` INT(11) DEFAULT NULL, 
+`datePlaced` DATE NOT NULL, 
+`purchaseStatus` VARCHAR(255) NOT NULL,
+PRIMARY KEY (`purchaseID`),
+KEY `customerID` (`customerID`),
+CONSTRAINT `customerID_ibfk_1` FOREIGN KEY (`customerID`) REFERENCES `Customers` (`customerID`) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- create Book_purchases table
