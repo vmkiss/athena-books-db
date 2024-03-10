@@ -458,9 +458,27 @@ def bookpurchases():
         cursor.execute(query)
         data = cursor.fetchall()
 
-@app.route('/add_book_purchase')
+@app.route('/add_book_purchase', methods =["POST", "GET"])
 def add_book_purchase():
-        return render_template("add_book_purchase.j2")
+        if request.method == "GET":
+            # Populate book dropdown form
+            db_connection = db.connect_to_database()
+
+            # Populate book dropdown form
+            #book_selection = "SELECT bookID, title FROM Books"
+            #cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+            #cursor.execute(book_selection)
+            #book_data = cursor.fetchall()
+            
+            db_connection.close()
+
+            #render Purchases page passing query data
+            return render_template("add_book_purchase.j2")
+
+        
+
+
+        
 
   
 

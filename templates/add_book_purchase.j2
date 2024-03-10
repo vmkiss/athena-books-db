@@ -1,11 +1,27 @@
 <html>
-<!-- Code adapted from Flask Starter App main.j2
-# https://github.com/osu-cs340-ecampus/flask-starter-app -->
+<!-- Adapted from the people.html UI design -->
 <head>
-    <title>Athena Books</title>
-    <h1>Athena Books</h1> [ <a href="/">Home</a> | <a href="customers">Customers</a> | <a href="authors">Authors</a> | <a href="books">Books</a> | <a href="publishers">Publishers</a> | <a href="purchases">Purchases</a> | <a href="bookpurchases">BookPurchases</a> ]
-</head></br>
+	<title>Add Book to Purchase</title>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
 <body>
-    <p>This is the database backend for Athena Books.</p>
+	<div id="insert">
+		<!-- form to INSERT new data into BookPurchases-->
+		<form id="insertBookPurchase" action="/add_book_purchase" method="post">
+			<legend><strong>Add Book to Purchase</strong></legend>
+			<fieldset>
+				<label for="book">Book:</label>
+                <input type="text" class=form-control" id="book" name="book" placeholder="" required><br>
+				<label for="quantity">Quantity:</label>
+				<input type="text" class="form-control" id="quantity" name="quantity" placeholder="" required><br>
+            </fieldset>
+
+            <!-- Create 'Add Book to Purchase' and 'Cancel' buttons -->
+			<input type="submit" value="Add Book to Purchase" name="Add_Book_Purchase" class="btn btn-primary" style="margin:.5rem;">
+			<input class="btn" type="button" value="Cancel" onClick="browsePurchases()"> 
+
+        </form>
+	</div><!--insert-->
 </body>
 </html>
