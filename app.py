@@ -14,9 +14,9 @@ import MySQLdb
 app = Flask(__name__)
 
 app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
-app.config['MYSQL_USER'] = 'cs340_kissv'
-app.config['MYSQL_PASSWORD'] = '2679' #last 4 of onid
-app.config['MYSQL_DB'] = 'cs340_kissv'
+app.config['MYSQL_USER'] = 'cs340_itochr'
+app.config['MYSQL_PASSWORD'] = '7106' #last 4 of onid
+app.config['MYSQL_DB'] = 'cs340_itochr'
 app.config['MYSQL_CURSORCLASS'] = "DictCursor"
 
 
@@ -324,11 +324,11 @@ def purchases():
             date = request.form["date"]
             status = request.form["status"]
 
-            if customer == "" or customer == "None":
+            if customer == "N/A" or customer == "0":
                 db_connection = db.connect_to_database()
-                query = "INSERT INTO Purchases (datePlaced, purchaseStatus) VALUES (%s, %s)" 
+                query = "INSERT INTO Purchases (customerID, datePlaced, purchaseStatus) VALUES (NULL, %s, %s)" 
                 cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-                cursor.execute(query, (customer, date, status, id))
+                cursor.execute(query, (date, status))
                 db_connection.commit()
                 db_connection.close() 
 
@@ -342,7 +342,7 @@ def purchases():
 
             # also add to BookPurchases table
             db_connection = db.connect_to_database()
-            query = "INSERT INTO Book_purchases (bookID, purchaseID, invoiceDate, orderQty, unitPrice, lineTotal) VALUES (%s, (SELECT MAX(purchaseID) FROM Purchases), %s, %s, (SELECT price FROM Books WHERE bookID = %s), (orderQty*unitPrice))"
+            query = "INSERT INTO BookPurchases (bookID, purchaseID, invoiceDate, orderQty, unitPrice, lineTotal) VALUES (%s, (SELECT MAX(purchaseID) FROM Purchases), %s, %s, (SELECT price FROM Books WHERE bookID = %s), (orderQty*unitPrice))"
             cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
             cursor.execute(query, (book, date, quantity, book))
             db_connection.commit()
@@ -355,7 +355,7 @@ def purchases():
     if request.method == "GET":
         #Grab all purchases in Purchases - was getting error message when adding indents so I kept it all on one line,
         db_connection = db.connect_to_database()
-        query = "SELECT Purchases.purchaseID as PurchaseID, Customers.customerName as Customer, Purchases.datePlaced as Date, Purchases.purchaseStatus as Status FROM Purchases INNER JOIN Customers ON Customers.customerID = Purchases.customerID;"
+        query = "SELECT Purchases.purchaseID as PurchaseID, Purchases.customerID as Customer, Purchases.datePlaced as Date, Purchases.purchaseStatus as Status FROM Purchases LEFT JOIN Customers ON Customers.customerID = Purchases.customerID;"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(query)
         data = cursor.fetchall()
@@ -384,7 +384,7 @@ def delete_purchases(PurchaseID):
     cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute(query, (PurchaseID,))
     db_connection.commit()
-    db_connection.close()
+   # db_connection.close()
 
 #also DELETE from BookPurchases 
     query2 = "DELETE FROM BookPurchases WHERE PurchaseID = '%s';" 
@@ -400,8 +400,9 @@ def delete_purchases(PurchaseID):
 def edit_purchase(PurchaseID):
     if request.method == "GET":
         #mySQL query to grab info of book with our passed ID
+        
         db_connection = db.connect_to_database()
-        query = "SELECT Purchases.purchaseID as PurchaseID, Customers.customerName as Customer, Purchases.datePlaced as Date, Purchases.purchaseStatus as Status FROM Purchases INNER JOIN Customers ON Customers.customerID = Purchases.customerID WHERE PurchaseID = %s" % (PurchaseID)
+        query = "SELECT Purchases.purchaseID as PurchaseID, Customers.customerName as Customer, Purchases.datePlaced as Date, Purchases.purchaseStatus as Status FROM Purchases LEFT JOIN Customers ON Customers.customerID = Purchases.customerID WHERE PurchaseID = %s" % (PurchaseID)
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(query)
         data = cursor.fetchall()
@@ -425,14 +426,14 @@ def edit_purchase(PurchaseID):
             date = request.form["date"]
             status = request.form["status"]
         
-            if customer == "" or customer == "None":
+            if customer == "N/A" or customer == "0":
                 db_connection = db.connect_to_database()
-                query = "UPDATE Purchases SET Purchases.datePlaced=%s, Purchases.purchaseStatus=%s WHERE PurchaseID=%s" 
+                query = "UPDATE Purchases SET customerID=NULL, Purchases.datePlaced=%s, Purchases.purchaseStatus=%s WHERE PurchaseID=%s" 
                 cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-                cursor.execute(query, (customer, date, status, id))
+                cursor.execute(query, (date, status, id))
                 db_connection.commit()
                 db_connection.close()
-
+                
             else:
                 db_connection = db.connect_to_database()
                 query = "UPDATE Purchases SET Purchases.customerID=%s, Purchases.datePlaced=%s, Purchases.purchaseStatus=%s WHERE PurchaseID=%s" 
@@ -452,7 +453,7 @@ def bookpurchases():
     if request.method == "GET":
         #Grab all items in BookPurchases
         db_connection = db.connect_to_database()
-        query = "SELECT Book_purchases.BookPurchasesID, Books.bookID as BookID, Purchases.purchaseID as PurchaseID, Book_purchases.invoiceDate as Date, Book_purchases.orderQty as Quantity, Book_purchases.unitPrice as Price, Book_purchases.lineTotal as Total FROM Book_purchases INNER JOIN Books ON Books.bookID = Book_purchases.bookID INNER JOIN Purchases ON Book_purchases.purchaseID = Purchases.purchaseID;"
+        query = "SELECT BookPurchases.BookPurchasesID, Books.bookID as BookID, Purchases.purchaseID as PurchaseID, BookPurchases.invoiceDate as Date, BookPurchases.orderQty as Quantity, BookPurchases.unitPrice as Price, BookPurchases.lineTotal as Total FROM BookPurchases INNER JOIN Books ON Books.bookID = BookPurchases.bookID INNER JOIN Purchases ON BookPurchases.purchaseID = Purchases.purchaseID;"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(query)
         data = cursor.fetchall()
@@ -472,7 +473,7 @@ def bookpurchases():
 
 if __name__ == "__main__":
 
-    port = int(os.environ.get('PORT', 4922)) 
+    port = int(os.environ.get('PORT', 4926)) 
      
     app.run(port=port, debug=True) 
 
