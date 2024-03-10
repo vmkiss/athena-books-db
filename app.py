@@ -457,23 +457,46 @@ def bookpurchases():
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(query)
         data = cursor.fetchall()
+        db_connection.close()
+
+        return render_template("bookpurchases.j2", data=data)
 
 @app.route('/add_book_purchase', methods =["POST", "GET"])
 def add_book_purchase():
-        if request.method == "GET":
-            # Populate book dropdown form
-            db_connection = db.connect_to_database()
+    if request.method == "POST":
+        if request.form.get("Add_Book_Purchase"):
+            #grab user form inputs
+            book = request.form["book"]
+            quantity = request.form["quantity"]
 
-            # Populate book dropdown form
-            book_selection = "SELECT bookID, title FROM Books"
-            cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-            cursor.execute(book_selection)
-            book_data = cursor.fetchall()
+        db_connection = db.connect_to_database()
+        query = "INSERT INTO BookPurchases (bookID, purchaseID, invoiceDate, orderQty, unitPrice, lineTotal) VALUES (%s, (SELECT MAX(purchaseID) FROM Purchases), '2024-03-10', %s, (SELECT price FROM Books WHERE bookID = %s), (orderQty*unitPrice))"
+        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(query, (book, quantity, book))
+        db_connection.commit()
+        db_connection.close()
+
+        # redirect back to Purchases page
+        return redirect("/add_book_purchase")
+        
+    if request.method == "GET":
+        # Populate book dropdown form
+        db_connection = db.connect_to_database()
+
+        # Populate book dropdown form
+        book_selection = "SELECT bookID, title FROM Books"
+        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(book_selection)
+        book_data = cursor.fetchall()
             
-            db_connection.close()
+        db_connection.close()
 
-            #render Purchases page passing query data
-            return render_template("add_book_purchase.j2", books=book_data)
+        #render Purchases page passing query data
+        return render_template("add_book_purchase.j2", books=book_data)
+        
+    
+            
+
 
         
 
