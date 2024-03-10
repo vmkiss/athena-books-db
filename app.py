@@ -330,7 +330,7 @@ def purchases():
                 cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
                 cursor.execute(query, (customer, date, status, id))
                 db_connection.commit()
-                db_connection.close()
+                db_connection.close() 
 
             else:
                 db_connection = db.connect_to_database()
