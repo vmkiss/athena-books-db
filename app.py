@@ -312,8 +312,6 @@ def purchases():
         if request.form.get("Add_Purchase"):
             #grab user form inputs
             customer = request.form["customer"]
-            book = request.form["book"]
-            quantity = request.form["quantity"]
             date = request.form["date"]
             status = request.form["status"]
 
@@ -332,14 +330,6 @@ def purchases():
                 cursor.execute(query, (customer, date, status))
                 db_connection.commit()
                 db_connection.close()
-
-            # also add to BookPurchases table
-            db_connection = db.connect_to_database()
-            query = "INSERT INTO BookPurchases (bookID, purchaseID, invoiceDate, orderQty, unitPrice, lineTotal) VALUES (%s, (SELECT MAX(purchaseID) FROM Purchases), %s, %s, (SELECT price FROM Books WHERE bookID = %s), (orderQty*unitPrice))"
-            cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-            cursor.execute(query, (book, date, quantity, book))
-            db_connection.commit()
-            db_connection.close()
 
             #redirect back to Purchases page
             return redirect("/add_book_purchase")
