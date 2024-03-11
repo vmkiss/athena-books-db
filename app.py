@@ -1,5 +1,6 @@
 # Code adapted from OSU 340 flask-starter-app
 # https://github.com/osu-cs340-ecampus/flask-starter-app
+# Date retrieved: 02/27/2024
 
 from flask import Flask, render_template, json, redirect
 from flask_mysqldb import MySQL
@@ -30,6 +31,9 @@ def root():
 
 #------------------------------------------PUBLISHERS-----------------------------------------------------
 # CRUD operations for Publishers entity
+# Code adapted from OSU 340 flask-starter-app
+# https://github.com/osu-cs340-ecampus/flask-starter-app
+# Date retrieved: 03/04/2024
 @app.route('/publishers', methods=["POST", "GET"])
 def publishers():
     # Insert new publisher (CREATE)
@@ -67,6 +71,9 @@ def publishers():
 
 #---------------------------------------------AUTHORS---------------------------------------------------------------------------------------
 # CRUD operations for Authors entity
+# Code adapted from OSU 340 flask-starter-app
+# https://github.com/osu-cs340-ecampus/flask-starter-app
+# Date retrieved: 03/04/2024
 @app.route('/authors', methods=["POST", "GET"])
 def authors():
     # Insert new author (CREATE)
@@ -107,6 +114,9 @@ def authors():
     
 #----------------------------------------------CUSTOMERS---------------------------------------------------------------------------------
 # CRUD operations for Customers entity
+# Code adapted from OSU 340 flask-starter-app
+# https://github.com/osu-cs340-ecampus/flask-starter-app
+# Date retrieved: 03/04/2024
 @app.route('/customers', methods=["POST", "GET"])
 def customers():
     # Insert new customer (CREATE)
@@ -144,7 +154,10 @@ def customers():
         # render Books page passing query data, publisher data, and author data to template
         return render_template("customers.j2", data=data)
     
-    # UPDATE Customers
+# UPDATE Customers
+# Code adapted from OSU 340 flask-starter-app
+# https://github.com/osu-cs340-ecampus/flask-starter-app
+# Date retrieved: 03/04/2024
 @app.route("/edit_customer/<int:CustomerID>", methods=["POST", "GET"])
 def edit_customer(CustomerID):
     if request.method == "GET":
@@ -181,10 +194,12 @@ def edit_customer(CustomerID):
         # redirect back to Customers page
         return redirect("/customers")
 
-      
 
-# CRUD operations for Books entity
 #-------------------------------------------------------BOOKS---------------------------------------------------------------
+# CRUD operations for Books entity
+# Code adapted from OSU 340 flask-starter-app
+# https://github.com/osu-cs340-ecampus/flask-starter-app
+# Date retrieved: 02/27/2024
 @app.route('/books', methods=["POST", "GET"])
 def books():
     # Insert new book (CREATE)
@@ -238,6 +253,9 @@ def books():
 
 
 #DELETE
+# Code adapted from OSU 340 flask-starter-app
+# https://github.com/osu-cs340-ecampus/flask-starter-app
+# Date retrieved: 03/04/2024
 @app.route("/delete_book/<int:BookID>")
 def delete_books(BookID):
     db_connection = db.connect_to_database()
@@ -252,6 +270,9 @@ def delete_books(BookID):
 
 
 # UPDATE
+# Code adapted from OSU 340 flask-starter-app
+# https://github.com/osu-cs340-ecampus/flask-starter-app
+# Date retrieved: 02/27/2024
 @app.route("/edit_book/<int:BookID>", methods=["POST", "GET"])
 def edit_book(BookID):
     if request.method == "GET":
@@ -299,6 +320,9 @@ def edit_book(BookID):
     
 
 #--------------------------------------------------------------PURCHASES-------------------------------------------------
+# Code adapted from OSU 340 flask-starter-app
+# https://github.com/osu-cs340-ecampus/flask-starter-app
+# Date retrieved: 03/01/2024
 @app.route('/purchases', methods=["POST", "GET"])
 def purchases():
     #Insert new purchase (CREATE)
@@ -354,6 +378,9 @@ def purchases():
         return render_template("purchases.j2", data=data, customers=customer_data, books=book_data)
 
 #DELETE from Purchases
+# Code adapted from OSU 340 flask-starter-app
+# https://github.com/osu-cs340-ecampus/flask-starter-app
+# Date retrieved: 03/01/2024
 @app.route("/delete_purchase/<int:PurchaseID>")
 def delete_purchases(PurchaseID):
     db_connection = db.connect_to_database()
@@ -373,6 +400,9 @@ def delete_purchases(PurchaseID):
     return redirect("/purchases")
 
 # UPDATE
+# Code adapted from OSU 340 flask-starter-app
+# https://github.com/osu-cs340-ecampus/flask-starter-app
+# Date retrieved: 03/01/2024
 @app.route("/edit_purchase/<int:PurchaseID>", methods=["POST", "GET"])
 def edit_purchase(PurchaseID):
     if request.method == "GET":
@@ -423,7 +453,10 @@ def edit_purchase(PurchaseID):
             return redirect("/purchases")
 
 
-#---------------------------------------------BOOKPURCHASES------------------------------------------------------------------------\
+#---------------------------------------------BOOKPURCHASES------------------------------------------------------------------------
+# Code adapted from OSU 340 flask-starter-app
+# https://github.com/osu-cs340-ecampus/flask-starter-app
+# Date retrieved: 03/04/2024
 @app.route('/bookpurchases', methods=["POST", "GET"])
 def bookpurchases():
     # (READ)
@@ -438,8 +471,11 @@ def bookpurchases():
 
         return render_template("bookpurchases.j2", data=data)
 
+# ADD
+# Code adapted from OSU 340 flask-starter-app
+# https://github.com/osu-cs340-ecampus/flask-starter-app
+# Date retrieved: 03/04/2024
 @app.route('/add_book_purchase', methods =["POST", "GET"])
-#ADD
 def add_book_purchase():
     if request.method == "POST":
         if request.form.get("Add_Book_Purchase"):
@@ -473,6 +509,9 @@ def add_book_purchase():
         return render_template("add_book_purchase.j2", books=book_data)
 
 # UPDATE
+# Code adapted from OSU 340 flask-starter-app
+# https://github.com/osu-cs340-ecampus/flask-starter-app
+# Date retrieved: 03/11/2024
 @app.route("/edit_bookpurchases/<int:BookPurchasesID>", methods=["POST", "GET"])
 def edit_bookpurchases(BookPurchasesID):
     if request.method == "GET":
