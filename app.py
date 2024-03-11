@@ -96,7 +96,7 @@ def authors():
         data = cursor.fetchall()
 
         # Populate publisher dropdown form
-        publisher_selection = "SELECT publisherID, publisherName FROM Publishers"
+        publisher_selection = "SELECT publisherID, publisherName FROM Publishers ORDER BY publisherName"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(publisher_selection)
         publisher_data = cursor.fetchall()
@@ -214,7 +214,7 @@ def books():
     if request.method == "GET":
         # Grab all books in Books - was getting error message when adding indents so I kept it all on one line
         db_connection = db.connect_to_database()
-        query = "SELECT Books.bookID as BookID, Publishers.publisherName as Publisher, Authors.authorName AS Author, Books.title AS Title, Books.genre AS Genre, Books.price as Price, Books.inventoryQty as Quantity FROM Books INNER JOIN Authors ON Authors.authorID = Books.authorID INNER JOIN Publishers ON Publishers.publisherID = Books.publisherID;"
+        query = "SELECT Books.bookID as BookID, Books.title AS Title, Authors.authorName AS Author, Publishers.publisherName as Publisher, Books.genre AS Genre, Books.price as Price, Books.inventoryQty as Quantity FROM Books INNER JOIN Authors ON Authors.authorID = Books.authorID INNER JOIN Publishers ON Publishers.publisherID = Books.publisherID ORDER BY Books.title;"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(query)
         data = cursor.fetchall()
