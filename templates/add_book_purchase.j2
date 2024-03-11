@@ -1,0 +1,33 @@
+<html>
+<!-- Adapted from the people.html UI design -->
+<head>
+	<title>Add Book to Purchase</title>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+	<div id="insert">
+		<!-- form to INSERT new data into BookPurchases-->
+		<form id="insertBookPurchase" action="/add_book_purchase" method="post">
+			<legend><strong>Add Book to Purchase</strong></legend>
+			<fieldset>
+				<label for="book">Book:</label>
+				<select class="form-control" id="book" name="book" pattern="[0-4]{1}" placeholder="" required> 
+                        <!-- Access our book tuple passed from app.py-->
+                        {% for book in books %}
+                                <!-- If the value iterated book matches the value of the purchase currently Editing, pre-select that option -->
+                                <option value="{{ book['bookID'] }}"> {{book['title']}}</option> 
+                        <!-- End of this for loop -->
+                        {% endfor %} 
+                </select></br>
+				<label for="quantity">Quantity:</label>
+				<input type="text" class="form-control" id="quantity" name="quantity" placeholder="" required><br>
+            </fieldset>
+
+            <!-- Create 'Add Book to Purchase' and 'Cancel' buttons -->
+			<input type="submit" value="Add Book to Purchase" name="Add_Book_Purchase" class="btn btn-primary" style="margin:.5rem;">
+            <a href='/purchases'><input class="btn" type="button" value="Return to Purchases"></a>
+        </form>
+	</div><!--insert-->
+</body>
+</html>

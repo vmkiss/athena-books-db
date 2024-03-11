@@ -96,7 +96,7 @@ def authors():
         data = cursor.fetchall()
 
         # Populate publisher dropdown form
-        publisher_selection = "SELECT publisherID, publisherName FROM Publishers"
+        publisher_selection = "SELECT publisherID, publisherName FROM Publishers ORDER BY publisherName"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(publisher_selection)
         publisher_data = cursor.fetchall()
@@ -193,24 +193,17 @@ def books():
             # grab user form inputs
             title = request.form["title"]
             authorID = request.form["author"]
-            publisherID = request.form["publisher"]
+            #publisherID = request.form["publisher"]
             genre = request.form["genre"]
             price = request.form["price"]
             quantity = request.form["quantity"]
-
-        # account for null genre
-        # if genre == "":
-            #query = "INSERT INTO Books (title, author, publisher, price, quantity) VALUES (%s, %s, %s, %s, %s)"
-            #cursor = db_connection.cursor()
-            #cursor.execute(query, (title, author, publisher, price, quantity))
-            #db_connection.commit()
         
         # no null inputs
         #else:
         db_connection = db.connect_to_database()
-        query = "INSERT INTO Books (title, authorID, publisherID, genre, price, inventoryQty) VALUES (%s, %s, %s, %s, %s, %s)"
+        query = "INSERT INTO Books (title, authorID, publisherID, genre, price, inventoryQty) VALUES (%s, %s, (SELECT publisherID FROM Authors WHERE authorID=%s), %s, %s, %s)"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute(query, (title, authorID, publisherID, genre, price, quantity))
+        cursor.execute(query, (title, authorID, authorID, genre, price, quantity))
         db_connection.commit()
         db_connection.close()
 
@@ -221,16 +214,16 @@ def books():
     if request.method == "GET":
         # Grab all books in Books - was getting error message when adding indents so I kept it all on one line
         db_connection = db.connect_to_database()
-        query = "SELECT Books.bookID as BookID, Publishers.publisherName as Publisher, Authors.authorName AS Author, Books.title AS Title, Books.genre AS Genre, Books.price as Price, Books.inventoryQty as Quantity FROM Books INNER JOIN Authors ON Authors.authorID = Books.authorID INNER JOIN Publishers ON Publishers.publisherID = Books.publisherID;"
+        query = "SELECT Books.bookID as BookID, Books.title AS Title, Authors.authorName AS Author, Publishers.publisherName as Publisher, Books.genre AS Genre, Books.price as Price, Books.inventoryQty as Quantity FROM Books INNER JOIN Authors ON Authors.authorID = Books.authorID INNER JOIN Publishers ON Publishers.publisherID = Authors.publisherID ORDER BY Books.title;"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(query)
         data = cursor.fetchall()
             
         # Populate publisher dropdown form
-        publisher_selection = "SELECT publisherID, publisherName FROM Publishers"
-        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute(publisher_selection)
-        publisher_data = cursor.fetchall()
+        #publisher_selection = "SELECT publisherID, publisherName FROM Publishers"
+        #cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+        #cursor.execute(publisher_selection)
+        #publisher_data = cursor.fetchall()
 
         # Populate author dropdown form
         author_selection = "SELECT authorID, authorName FROM Authors"
@@ -241,7 +234,7 @@ def books():
         db_connection.close()
 
         # render Books page passing query data, publisher data, and author data to template
-        return render_template("books.j2", data=data, publishers=publisher_data, authors=author_data)
+        return render_template("books.j2", data=data, authors=author_data)
 
 
 #DELETE
@@ -270,12 +263,6 @@ def edit_book(BookID):
         cur.execute(query)
         data = cur.fetchall()
 
-        # Populate publisher dropdown form
-        publisher_selection = "SELECT publisherID, publisherName FROM Publishers"
-        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute(publisher_selection)
-        publisher_data = cursor.fetchall()
-
         # Populate author dropdown form
         author_selection = "SELECT authorID, authorName FROM Authors"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
@@ -285,7 +272,7 @@ def edit_book(BookID):
         db_connection.close()
 
         # render Books page passing query data, publisher data, and author data to template
-        return render_template("edit_books.j2", data=data, publishers=publisher_data, authors=author_data)
+        return render_template("edit_books.j2", data=data, authors=author_data)
 
 
     if request.method == "POST":
@@ -295,15 +282,15 @@ def edit_book(BookID):
             id = request.form["BookID"]
             title = request.form["title"]
             author = request.form["author"]
-            publisher = request.form["publisher"]
+            #publisher = request.form["publisher"]
             genre = request.form["genre"]
             price = request.form["price"]
             quantity = request.form["quantity"]
 
         db_connection = db.connect_to_database()
-        query = "UPDATE Books SET Books.title = %s, Books.authorID = %s, Books.publisherID = %s, Books.genre = %s, Books.price = %s, Books.inventoryQty = %s WHERE BookID = %s"
+        query = "UPDATE Books SET Books.title = %s, Books.authorID = %s, Books.genre = %s, Books.price = %s, Books.inventoryQty = %s WHERE BookID = %s"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute(query, (title, author, publisher, genre, price, quantity, id))
+        cursor.execute(query, (title, author, genre, price, quantity, id))
         db_connection.commit()
         db_connection.close()
 
@@ -319,8 +306,6 @@ def purchases():
         if request.form.get("Add_Purchase"):
             #grab user form inputs
             customer = request.form["customer"]
-            book = request.form["book"]
-            quantity = request.form["quantity"]
             date = request.form["date"]
             status = request.form["status"]
 
@@ -340,22 +325,14 @@ def purchases():
                 db_connection.commit()
                 db_connection.close()
 
-            # also add to BookPurchases table
-            db_connection = db.connect_to_database()
-            query = "INSERT INTO BookPurchases (bookID, purchaseID, invoiceDate, orderQty, unitPrice, lineTotal) VALUES (%s, (SELECT MAX(purchaseID) FROM Purchases), %s, %s, (SELECT price FROM Books WHERE bookID = %s), (orderQty*unitPrice))"
-            cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-            cursor.execute(query, (book, date, quantity, book))
-            db_connection.commit()
-            db_connection.close()
-
             #redirect back to Purchases page
-            return redirect("/purchases")
+            return redirect("/add_book_purchase")
 
     # Grab purchases data so it can be sent to template (READ)
     if request.method == "GET":
         #Grab all purchases in Purchases - was getting error message when adding indents so I kept it all on one line,
         db_connection = db.connect_to_database()
-        query = "SELECT Purchases.purchaseID as PurchaseID, Purchases.customerID as Customer, Purchases.datePlaced as Date, Purchases.purchaseStatus as Status FROM Purchases LEFT JOIN Customers ON Customers.customerID = Purchases.customerID;"
+        query = "SELECT Purchases.purchaseID as PurchaseID, Customers.customerName as Customer, Purchases.datePlaced as Date, Purchases.purchaseStatus as Status FROM Purchases LEFT JOIN Customers ON Customers.customerID = Purchases.customerID;"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(query)
         data = cursor.fetchall()
@@ -453,20 +430,46 @@ def bookpurchases():
     if request.method == "GET":
         #Grab all items in BookPurchases
         db_connection = db.connect_to_database()
-        query = "SELECT BookPurchases.BookPurchasesID, Books.bookID as BookID, Purchases.purchaseID as PurchaseID, BookPurchases.invoiceDate as Date, BookPurchases.orderQty as Quantity, BookPurchases.unitPrice as Price, BookPurchases.lineTotal as Total FROM BookPurchases INNER JOIN Books ON Books.bookID = BookPurchases.bookID INNER JOIN Purchases ON BookPurchases.purchaseID = Purchases.purchaseID;"
+        query = "SELECT BookPurchases.BookPurchasesID, Books.bookID as BookID, Books.title as Book, Purchases.purchaseID as PurchaseID, BookPurchases.orderQty as Quantity, BookPurchases.unitPrice as Price, BookPurchases.lineTotal as Total FROM BookPurchases INNER JOIN Books ON Books.bookID = BookPurchases.bookID INNER JOIN Purchases ON BookPurchases.purchaseID = Purchases.purchaseID ORDER BY BookPurchasesID DESC;"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(query)
         data = cursor.fetchall()
-
-        # # Populate customer dropdown form
-        # customer_selection = "SELECT customerID, customerName FROM Customers"
-        # cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-        # cursor.execute(customer_selection)
-        # customer_data = cursor.fetchall()
-
         db_connection.close()
-        #render Purchases page passing query data
+
         return render_template("bookpurchases.j2", data=data)
+
+@app.route('/add_book_purchase', methods =["POST", "GET"])
+def add_book_purchase():
+    if request.method == "POST":
+        if request.form.get("Add_Book_Purchase"):
+            #grab user form inputs
+            book = request.form["book"]
+            quantity = request.form["quantity"]
+
+        db_connection = db.connect_to_database()
+        query = "INSERT INTO BookPurchases (bookID, purchaseID, orderQty, unitPrice, lineTotal) VALUES (%s, (SELECT MAX(purchaseID) FROM Purchases), %s, (SELECT price FROM Books WHERE bookID = %s), (orderQty*unitPrice))"
+        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(query, (book, quantity, book))
+        db_connection.commit()
+        db_connection.close()
+
+        # redirect back to Purchases page
+        return redirect("/add_book_purchase")
+        
+    if request.method == "GET":
+        # Populate book dropdown form
+        db_connection = db.connect_to_database()
+
+        # Populate book dropdown form
+        book_selection = "SELECT bookID, title FROM Books"
+        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(book_selection)
+        book_data = cursor.fetchall()
+            
+        db_connection.close()
+
+        #render Purchases page passing query data
+        return render_template("add_book_purchase.j2", books=book_data)
 
 
 # Listener
