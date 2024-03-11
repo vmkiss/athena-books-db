@@ -197,13 +197,6 @@ def books():
             genre = request.form["genre"]
             price = request.form["price"]
             quantity = request.form["quantity"]
-
-        # account for null genre
-        # if genre == "":
-            #query = "INSERT INTO Books (title, author, publisher, price, quantity) VALUES (%s, %s, %s, %s, %s)"
-            #cursor = db_connection.cursor()
-            #cursor.execute(query, (title, author, publisher, price, quantity))
-            #db_connection.commit()
         
         # no null inputs
         #else:
