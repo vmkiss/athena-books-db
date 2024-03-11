@@ -453,7 +453,7 @@ def add_book_purchase():
             quantity = request.form["quantity"]
 
         db_connection = db.connect_to_database()
-        query = "INSERT INTO BookPurchases (bookID, purchaseID, invoiceDate, orderQty, unitPrice, lineTotal) VALUES (%s, (SELECT MAX(purchaseID) FROM Purchases), '2024-03-10', %s, (SELECT price FROM Books WHERE bookID = %s), (orderQty*unitPrice))"
+        query = "INSERT INTO BookPurchases (bookID, purchaseID, orderQty, unitPrice, lineTotal) VALUES (%s, (SELECT MAX(purchaseID) FROM Purchases), %s, (SELECT price FROM Books WHERE bookID = %s), (orderQty*unitPrice))"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(query, (book, quantity, book))
         db_connection.commit()
