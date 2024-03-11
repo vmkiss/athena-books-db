@@ -338,7 +338,7 @@ def purchases():
     if request.method == "GET":
         #Grab all purchases in Purchases - was getting error message when adding indents so I kept it all on one line,
         db_connection = db.connect_to_database()
-        query = "SELECT Purchases.purchaseID as PurchaseID, Purchases.customerID as Customer, Purchases.datePlaced as Date, Purchases.purchaseStatus as Status FROM Purchases LEFT JOIN Customers ON Customers.customerID = Purchases.customerID;"
+        query = "SELECT Purchases.purchaseID as PurchaseID, Customers.customerName as Customer, Purchases.datePlaced as Date, Purchases.purchaseStatus as Status FROM Purchases LEFT JOIN Customers ON Customers.customerID = Purchases.customerID;"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(query)
         data = cursor.fetchall()
