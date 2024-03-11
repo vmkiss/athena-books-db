@@ -197,13 +197,6 @@ def books():
             genre = request.form["genre"]
             price = request.form["price"]
             quantity = request.form["quantity"]
-
-        # account for null genre
-        # if genre == "":
-            #query = "INSERT INTO Books (title, author, publisher, price, quantity) VALUES (%s, %s, %s, %s, %s)"
-            #cursor = db_connection.cursor()
-            #cursor.execute(query, (title, author, publisher, price, quantity))
-            #db_connection.commit()
         
         # no null inputs
         #else:
@@ -319,8 +312,6 @@ def purchases():
         if request.form.get("Add_Purchase"):
             #grab user form inputs
             customer = request.form["customer"]
-            book = request.form["book"]
-            quantity = request.form["quantity"]
             date = request.form["date"]
             status = request.form["status"]
 
@@ -340,16 +331,8 @@ def purchases():
                 db_connection.commit()
                 db_connection.close()
 
-            # also add to BookPurchases table
-            db_connection = db.connect_to_database()
-            query = "INSERT INTO BookPurchases (bookID, purchaseID, invoiceDate, orderQty, unitPrice, lineTotal) VALUES (%s, (SELECT MAX(purchaseID) FROM Purchases), %s, %s, (SELECT price FROM Books WHERE bookID = %s), (orderQty*unitPrice))"
-            cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-            cursor.execute(query, (book, date, quantity, book))
-            db_connection.commit()
-            db_connection.close()
-
             #redirect back to Purchases page
-            return redirect("/purchases")
+            return redirect("/add_book_purchase")
 
     # Grab purchases data so it can be sent to template (READ)
     if request.method == "GET":
@@ -457,16 +440,53 @@ def bookpurchases():
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(query)
         data = cursor.fetchall()
-
-        # # Populate customer dropdown form
-        # customer_selection = "SELECT customerID, customerName FROM Customers"
-        # cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-        # cursor.execute(customer_selection)
-        # customer_data = cursor.fetchall()
-
         db_connection.close()
-        #render Purchases page passing query data
+
         return render_template("bookpurchases.j2", data=data)
+
+@app.route('/add_book_purchase', methods =["POST", "GET"])
+def add_book_purchase():
+    if request.method == "POST":
+        if request.form.get("Add_Book_Purchase"):
+            #grab user form inputs
+            book = request.form["book"]
+            quantity = request.form["quantity"]
+
+        db_connection = db.connect_to_database()
+        query = "INSERT INTO BookPurchases (bookID, purchaseID, invoiceDate, orderQty, unitPrice, lineTotal) VALUES (%s, (SELECT MAX(purchaseID) FROM Purchases), '2024-03-10', %s, (SELECT price FROM Books WHERE bookID = %s), (orderQty*unitPrice))"
+        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(query, (book, quantity, book))
+        db_connection.commit()
+        db_connection.close()
+
+        # redirect back to Purchases page
+        return redirect("/add_book_purchase")
+        
+    if request.method == "GET":
+        # Populate book dropdown form
+        db_connection = db.connect_to_database()
+
+        # Populate book dropdown form
+        book_selection = "SELECT bookID, title FROM Books"
+        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(book_selection)
+        book_data = cursor.fetchall()
+            
+        db_connection.close()
+
+        #render Purchases page passing query data
+        return render_template("add_book_purchase.j2", books=book_data)
+        
+    
+            
+
+
+        
+
+
+        
+
+  
 
 
 # Listener
