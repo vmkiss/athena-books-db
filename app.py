@@ -193,7 +193,7 @@ def books():
             # grab user form inputs
             title = request.form["title"]
             authorID = request.form["author"]
-            publisherID = request.form["publisher"]
+            #publisherID = request.form["publisher"]
             genre = request.form["genre"]
             price = request.form["price"]
             quantity = request.form["quantity"]
@@ -201,9 +201,9 @@ def books():
         # no null inputs
         #else:
         db_connection = db.connect_to_database()
-        query = "INSERT INTO Books (title, authorID, publisherID, genre, price, inventoryQty) VALUES (%s, %s, %s, %s, %s, %s)"
+        query = "INSERT INTO Books (title, authorID, publisherID, genre, price, inventoryQty) VALUES (%s, %s, (SELECT publisherID FROM Authors WHERE authorID=%s), %s, %s, %s)"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute(query, (title, authorID, publisherID, genre, price, quantity))
+        cursor.execute(query, (title, authorID, authorID, genre, price, quantity))
         db_connection.commit()
         db_connection.close()
 
