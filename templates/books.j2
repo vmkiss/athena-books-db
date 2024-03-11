@@ -121,19 +121,6 @@
                         <!-- End of this for loop -->
                         {% endfor %} 
                     </select></br>
-                <!-- <label for="publisher">Publisher:</label>
-				<select class="form-control" id="publisher" name="publisher" pattern="[0-4]{1}" publisher="" required> 
-                        <!-- Access our publisher tuple passed from app.py-->
-                        {% for publisher in publishers %}
-                                <!-- If the value iterated publisher matches the value of the publisher of book currently Editing, pre-select that option -->
-                                {% if publisher['publisherID'] == data[0].publisher %}
-                                    <option value="{{ publisher['publisherID'] }}" selected> {{publisher['publisherName']}}</option>
-                                {% else %}
-                                    <option value="{{ publisher['publisherID'] }}"> {{publisher['publisherName']}}</option> 
-                                {% endif %}
-                        <!-- End of this for loop -->
-                        {% endfor %} 
-                    </select></br> -->
                 <label for="genre">Genre:</label>
 				<select class="form-control" id="genre" name="genre" pattern="[A-Za-z]{1,}" placeholder="">
 					<option value=""></option>
