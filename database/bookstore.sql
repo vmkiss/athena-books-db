@@ -138,7 +138,7 @@ VALUES ((SELECT customerID FROM Customers WHERE customerName = "Daisy Jones"), '
 ;
 
 -- inserts sample data into BookPurchases table
-INSERT INTO BookPurchases (bookID, purchaseID, invoiceDate, orderQty, unitPrice, lineTotal)
+INSERT INTO BookPurchases (bookID, purchaseID, orderQty, unitPrice, lineTotal)
 VALUES ((SELECT bookID FROM Books WHERE title = 'Monstrous Regiment'), (SELECT purchaseID FROM Purchases WHERE customerID = (SELECT customerID from Customers WHERE customerName = 'Daisy Jones') AND datePlaced = '2024-01-05'), 1, (SELECT price FROM Books WHERE title = 'Monstrous Regiment' AND authorID = (SELECT authorID FROM Authors WHERE authorName = 'Terry Pratchett')), (orderQty * unitPrice)),
 ((SELECT bookID FROM Books WHERE title = 'To Kill a Mockingbird'), (SELECT purchaseID FROM Purchases WHERE customerID = (SELECT customerID from Customers WHERE customerName = 'Madeline Smith') AND datePlaced = '2024-02-01'), 1, (SELECT price FROM Books WHERE title = 'To Kill a Mockingbird' AND authorID = (SELECT authorID FROM Authors WHERE authorName = 'Harper Lee')), (orderQty * unitPrice)),
 ((SELECT bookID FROM Books WHERE title = 'Little Women'), (SELECT purchaseID FROM Purchases WHERE customerID = (SELECT customerID FROM Customers WHERE customerName = 'Archibald Eggleton') AND datePlaced = '2024-01-30'), 2, (SELECT price FROM Books WHERE title = 'Little Women' AND authorID = (SELECT authorID FROM Authors WHERE authorName = 'Louisa May Alcott')), (orderQty * unitPrice)),
