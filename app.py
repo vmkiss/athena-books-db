@@ -436,7 +436,7 @@ def bookpurchases():
     if request.method == "GET":
         #Grab all items in BookPurchases
         db_connection = db.connect_to_database()
-        query = "SELECT BookPurchases.BookPurchasesID, Books.bookID as BookID, Purchases.purchaseID as PurchaseID, BookPurchases.orderQty as Quantity, BookPurchases.unitPrice as Price, BookPurchases.lineTotal as Total FROM BookPurchases INNER JOIN Books ON Books.bookID = BookPurchases.bookID INNER JOIN Purchases ON BookPurchases.purchaseID = Purchases.purchaseID;"
+        query = "SELECT BookPurchases.BookPurchasesID, Books.bookID as BookID, Books.title as Book, Purchases.purchaseID as PurchaseID, BookPurchases.orderQty as Quantity, BookPurchases.unitPrice as Price, BookPurchases.lineTotal as Total FROM BookPurchases INNER JOIN Books ON Books.bookID = BookPurchases.bookID INNER JOIN Purchases ON BookPurchases.purchaseID = Purchases.purchaseID ORDER BY BookPurchasesID DESC;"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(query)
         data = cursor.fetchall()
