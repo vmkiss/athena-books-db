@@ -436,7 +436,7 @@ def bookpurchases():
     if request.method == "GET":
         #Grab all items in BookPurchases
         db_connection = db.connect_to_database()
-        query = "SELECT BookPurchases.BookPurchasesID, Books.bookID as BookID, Purchases.purchaseID as PurchaseID, BookPurchases.invoiceDate as Date, BookPurchases.orderQty as Quantity, BookPurchases.unitPrice as Price, BookPurchases.lineTotal as Total FROM BookPurchases INNER JOIN Books ON Books.bookID = BookPurchases.bookID INNER JOIN Purchases ON BookPurchases.purchaseID = Purchases.purchaseID;"
+        query = "SELECT BookPurchases.BookPurchasesID, Books.bookID as BookID, Purchases.purchaseID as PurchaseID, BookPurchases.orderQty as Quantity, BookPurchases.unitPrice as Price, BookPurchases.lineTotal as Total FROM BookPurchases INNER JOIN Books ON Books.bookID = BookPurchases.bookID INNER JOIN Purchases ON BookPurchases.purchaseID = Purchases.purchaseID;"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(query)
         data = cursor.fetchall()
@@ -476,17 +476,6 @@ def add_book_purchase():
 
         #render Purchases page passing query data
         return render_template("add_book_purchase.j2", books=book_data)
-        
-    
-            
-
-
-        
-
-
-        
-
-  
 
 
 # Listener
