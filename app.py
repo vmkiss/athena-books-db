@@ -14,9 +14,9 @@ import MySQLdb
 app = Flask(__name__)
 
 app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
-app.config['MYSQL_USER'] = 'cs340_kissv'
-app.config['MYSQL_PASSWORD'] = '2679' #last 4 of onid
-app.config['MYSQL_DB'] = 'cs340_kissv'
+app.config['MYSQL_USER'] = 'cs340_itochr'
+app.config['MYSQL_PASSWORD'] = '7106' #last 4 of onid
+app.config['MYSQL_DB'] = 'cs340_itochr'
 app.config['MYSQL_CURSORCLASS'] = "DictCursor"
 
 
@@ -410,7 +410,7 @@ def edit_purchase(PurchaseID):
                 cursor.execute(query, (date, status, id))
                 db_connection.commit()
                 db_connection.close()
-
+                
             else:
                 db_connection = db.connect_to_database()
                 query = "UPDATE Purchases SET Purchases.customerID=%s, Purchases.datePlaced=%s, Purchases.purchaseStatus=%s WHERE PurchaseID=%s" 
