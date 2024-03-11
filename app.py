@@ -349,7 +349,7 @@ def purchases():
             db_connection.close()
 
             #redirect back to Purchases page
-            return redirect("/purchases")
+            return redirect("/add_book_purchase")
 
     # Grab purchases data so it can be sent to template (READ)
     if request.method == "GET":
