@@ -14,9 +14,9 @@ import MySQLdb
 app = Flask(__name__)
 
 app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
-app.config['MYSQL_USER'] = 'cs340_itochr'
-app.config['MYSQL_PASSWORD'] = '7106' #last 4 of onid
-app.config['MYSQL_DB'] = 'cs340_itochr'
+app.config['MYSQL_USER'] = 'cs340_kissv'
+app.config['MYSQL_PASSWORD'] = '2679' #last 4 of onid
+app.config['MYSQL_DB'] = 'cs340_kissv'
 app.config['MYSQL_CURSORCLASS'] = "DictCursor"
 
 
@@ -430,7 +430,7 @@ def bookpurchases():
     if request.method == "GET":
         #Grab all items in BookPurchases
         db_connection = db.connect_to_database()
-        query = "SELECT BookPurchases.BookPurchasesID, Books.bookID as BookID, Books.title as Book, Purchases.purchaseID as PurchaseID, BookPurchases.orderQty as Quantity, BookPurchases.unitPrice as Price, BookPurchases.lineTotal as Total FROM BookPurchases INNER JOIN Books ON Books.bookID = BookPurchases.bookID INNER JOIN Purchases ON BookPurchases.purchaseID = Purchases.purchaseID ORDER BY BookPurchasesID DESC;"
+        query = "SELECT BookPurchases.BookPurchasesID, Books.bookID as BookID, Books.title as Book, Purchases.purchaseID as PurchaseID, BookPurchases.orderQty as Quantity, BookPurchases.unitPrice as Price, BookPurchases.lineTotal as Total FROM BookPurchases INNER JOIN Books ON Books.bookID = BookPurchases.bookID INNER JOIN Purchases ON BookPurchases.purchaseID = Purchases.purchaseID ORDER BY BookPurchasesID ASC;"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(query)
         data = cursor.fetchall()
@@ -439,6 +439,7 @@ def bookpurchases():
         return render_template("bookpurchases.j2", data=data)
 
 @app.route('/add_book_purchase', methods =["POST", "GET"])
+#ADD
 def add_book_purchase():
     if request.method == "POST":
         if request.form.get("Add_Book_Purchase"):
@@ -470,6 +471,39 @@ def add_book_purchase():
 
         #render Purchases page passing query data
         return render_template("add_book_purchase.j2", books=book_data)
+
+# UPDATE
+@app.route("/edit_bookpurchases/<int:BookPurchasesID>", methods=["POST", "GET"])
+def edit_bookpurchases(BookPurchasesID):
+    if request.method == "GET":
+    #mySQL query to grab info of Book Purchase with our passed ID
+        db_connection = db.connect_to_database()
+        query = "SELECT BookPurchases.BookPurchasesID, Books.bookID as BookID, Books.title as Book, Purchases.purchaseID as PurchaseID, BookPurchases.orderQty as Quantity, BookPurchases.unitPrice as Price, BookPurchases.lineTotal as Total FROM BookPurchases INNER JOIN Books ON Books.bookID = BookPurchases.bookID INNER JOIN Purchases ON BookPurchases.purchaseID = Purchases.purchaseID WHERE BookPurchasesID = %s;" % (BookPurchasesID)
+        cur = db_connection.cursor(MySQLdb.cursors.DictCursor)
+        cur.execute(query)
+        data = cur.fetchall()
+        db_connection.close()
+
+        # render Books page passing query data, publisher data, and author data to template
+        return render_template("edit_bookpurchases.j2", data=data)
+
+    if request.method == "POST":
+        #fire off if user clicks the 'submit' button on Edit Book
+        if request.form.get("editBookPurchase"):
+            #grab user form inputs
+            id = request.form["BookPurchasesID"]
+            quantity = request.form["quantity"]
+
+        db_connection = db.connect_to_database()
+        query = "UPDATE BookPurchases SET orderQty=%s, lineTotal=(orderQty*unitPrice) WHERE BookPurchasesID= %s"
+        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(query, (quantity, id))
+        db_connection.commit()
+        db_connection.close()
+
+        # redirect back to Books page
+        return redirect("/bookpurchases")
+
 
 
 # Listener
