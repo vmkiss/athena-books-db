@@ -4,66 +4,11 @@
 <head>
 	<title>Books</title>
 	<link href="style.css" rel="stylesheet" type="text/css" />
-	<script language="JavaScript">
-	function showform(dowhat) {
-		/*
-		 * four DIVS: browse, insert, update, delete
-		 * this function sets one visible the others not
-		 */
-		if(dowhat == 'insert') {
-			document.getElementById('browse').style.display = 'none';
-			document.getElementById('insert').style.display = 'block';
-			document.getElementById('edit').style.display = 'none';
-			document.getElementById('delete').style.display = 'none';
-		} else if(dowhat == 'update') {
-			document.getElementById('browse').style.display = 'none';
-			document.getElementById('insert').style.display = 'none';
-			document.getElementById('edit').style.display = 'block';
-			document.getElementById('delete').style.display = 'none';
-		} else if(dowhat == 'delete') {
-			document.getElementById('browse').style.display = 'none';
-			document.getElementById('insert').style.display = 'none';
-			document.getElementById('edit').style.display = 'none';
-			document.getElementById('delete').style.display = 'block';
-		} else if(dowhat == 'all') {
-			document.getElementById('browse').style.display = 'block';
-			document.getElementById('insert').style.display = 'block';
-			document.getElementById('edit').style.display = 'block';
-			document.getElementById('delete').style.display = 'block';
-		} else { //by default display browse
-			document.getElementById('browse').style.display = 'block';
-			document.getElementById('insert').style.display = 'none';
-			document.getElementById('edit').style.display = 'none';
-			document.getElementById('delete').style.display = 'none';
-		}
-	}
-
-	function newBook() {
-		showform('insert');
-	}
-
-	function updateBook(pid) {
-		showform('update');
-	}
-
-	function deleteBook(pid) {
-		showform('delete');
-	}
-
-	function browseBook() {
-		showform('browse');
-	}
-
-	function showAll() {
-		showform('all');
-	}
-	</script>
 </head>
 
-<bodyonload="browseBook()">
+<body>
 	<h1>Books</h1> [ <a href="/">Home</a> | <a href="customers">Customers</a> | <a href="authors">Authors</a> | <a href="books">Books</a> | <a href="publishers">Publishers</a> | <a href="purchases">Purchases</a> | <a href="bookpurchases">BookPurchases</a> ]
 	<div id="browse"></br>
-		<p><a href="#" onClick="newBook()">Add New</a> </p>
 		<table border="1" cellpadding="5">
             <!-- Access data tuple passed from app.py --> 
             {% if data %}
@@ -117,19 +62,6 @@
                                     <option value="{{ author['authorID'] }}" selected> {{author['authorName']}}</option>
                                 {% else %}
                                     <option value="{{ author['authorID'] }}"> {{author['authorName']}}</option> 
-                                {% endif %}
-                        <!-- End of this for loop -->
-                        {% endfor %} 
-                    </select></br>
-                <label for="publisher">Publisher:</label>
-				<select class="form-control" id="publisher" name="publisher" pattern="[0-4]{1}" publisher="" required> 
-                        <!-- Access our publisher tuple passed from app.py-->
-                        {% for publisher in publishers %}
-                                <!-- If the value iterated publisher matches the value of the publisher of book currently Editing, pre-select that option -->
-                                {% if publisher['publisherID'] == data[0].publisher %}
-                                    <option value="{{ publisher['publisherID'] }}" selected> {{publisher['publisherName']}}</option>
-                                {% else %}
-                                    <option value="{{ publisher['publisherID'] }}"> {{publisher['publisherName']}}</option> 
                                 {% endif %}
                         <!-- End of this for loop -->
                         {% endfor %} 

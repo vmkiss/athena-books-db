@@ -193,7 +193,7 @@ def books():
             # grab user form inputs
             title = request.form["title"]
             authorID = request.form["author"]
-            publisherID = request.form["publisher"]
+            #publisherID = request.form["publisher"]
             genre = request.form["genre"]
             price = request.form["price"]
             quantity = request.form["quantity"]
@@ -201,9 +201,9 @@ def books():
         # no null inputs
         #else:
         db_connection = db.connect_to_database()
-        query = "INSERT INTO Books (title, authorID, publisherID, genre, price, inventoryQty) VALUES (%s, %s, %s, %s, %s, %s)"
+        query = "INSERT INTO Books (title, authorID, publisherID, genre, price, inventoryQty) VALUES (%s, %s, (SELECT publisherID FROM Authors WHERE authorID=%s), %s, %s, %s)"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute(query, (title, authorID, publisherID, genre, price, quantity))
+        cursor.execute(query, (title, authorID, authorID, genre, price, quantity))
         db_connection.commit()
         db_connection.close()
 
@@ -214,16 +214,16 @@ def books():
     if request.method == "GET":
         # Grab all books in Books - was getting error message when adding indents so I kept it all on one line
         db_connection = db.connect_to_database()
-        query = "SELECT Books.bookID as BookID, Books.title AS Title, Authors.authorName AS Author, Publishers.publisherName as Publisher, Books.genre AS Genre, Books.price as Price, Books.inventoryQty as Quantity FROM Books INNER JOIN Authors ON Authors.authorID = Books.authorID INNER JOIN Publishers ON Publishers.publisherID = Books.publisherID ORDER BY Books.title;"
+        query = "SELECT Books.bookID as BookID, Books.title AS Title, Authors.authorName AS Author, Publishers.publisherName as Publisher, Books.genre AS Genre, Books.price as Price, Books.inventoryQty as Quantity FROM Books INNER JOIN Authors ON Authors.authorID = Books.authorID INNER JOIN Publishers ON Publishers.publisherID = Authors.publisherID ORDER BY Books.title;"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(query)
         data = cursor.fetchall()
             
         # Populate publisher dropdown form
-        publisher_selection = "SELECT publisherID, publisherName FROM Publishers"
-        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute(publisher_selection)
-        publisher_data = cursor.fetchall()
+        #publisher_selection = "SELECT publisherID, publisherName FROM Publishers"
+        #cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+        #cursor.execute(publisher_selection)
+        #publisher_data = cursor.fetchall()
 
         # Populate author dropdown form
         author_selection = "SELECT authorID, authorName FROM Authors"
@@ -234,7 +234,7 @@ def books():
         db_connection.close()
 
         # render Books page passing query data, publisher data, and author data to template
-        return render_template("books.j2", data=data, publishers=publisher_data, authors=author_data)
+        return render_template("books.j2", data=data, authors=author_data)
 
 
 #DELETE
@@ -263,12 +263,6 @@ def edit_book(BookID):
         cur.execute(query)
         data = cur.fetchall()
 
-        # Populate publisher dropdown form
-        publisher_selection = "SELECT publisherID, publisherName FROM Publishers"
-        cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute(publisher_selection)
-        publisher_data = cursor.fetchall()
-
         # Populate author dropdown form
         author_selection = "SELECT authorID, authorName FROM Authors"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
@@ -278,7 +272,7 @@ def edit_book(BookID):
         db_connection.close()
 
         # render Books page passing query data, publisher data, and author data to template
-        return render_template("edit_books.j2", data=data, publishers=publisher_data, authors=author_data)
+        return render_template("edit_books.j2", data=data, authors=author_data)
 
 
     if request.method == "POST":
@@ -288,15 +282,15 @@ def edit_book(BookID):
             id = request.form["BookID"]
             title = request.form["title"]
             author = request.form["author"]
-            publisher = request.form["publisher"]
+            #publisher = request.form["publisher"]
             genre = request.form["genre"]
             price = request.form["price"]
             quantity = request.form["quantity"]
 
         db_connection = db.connect_to_database()
-        query = "UPDATE Books SET Books.title = %s, Books.authorID = %s, Books.publisherID = %s, Books.genre = %s, Books.price = %s, Books.inventoryQty = %s WHERE BookID = %s"
+        query = "UPDATE Books SET Books.title = %s, Books.authorID = %s, Books.genre = %s, Books.price = %s, Books.inventoryQty = %s WHERE BookID = %s"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute(query, (title, author, publisher, genre, price, quantity, id))
+        cursor.execute(query, (title, author, genre, price, quantity, id))
         db_connection.commit()
         db_connection.close()
 
