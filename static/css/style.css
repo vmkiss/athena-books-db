@@ -131,9 +131,12 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
   form {
   }
   fieldset {
-    border-width: 2px;
+    border-width: 1.5px;
+    border-color:#232323;
+    background-color: #E7E5E5;
     display: inline-block;
     margin:0 auto;
+    padding: 10px 50px 10px 50px;
   }
     legend {
     }
@@ -141,12 +144,20 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
   button {}
   input {
     margin: 2.5px 0;
+    background-color:#F2F0F0;
+    border-radius: 5px;
   }
 
-  #insert {
-    background-color: red;
-    margin:0 auto;
+  input[type=text]:focus {
+    background-color:#CCE5EE;
+    outline: none;
   }
+
+  #browse {
+    margin-bottom: -30px;
+  }
+
+
 
 
 
