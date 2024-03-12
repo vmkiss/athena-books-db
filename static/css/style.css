@@ -132,6 +132,7 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
   td {
     border-color: #232323;
     border-width: 1.5px;
+    padding: 8px;
   }
     td:nth-child(1) {}
   colgroup {}
@@ -184,7 +185,7 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
 }
 
 .btn:hover{
-  box-shadow: .25px .5px;
+  box-shadow: .5px 1px;
 }
 
 
