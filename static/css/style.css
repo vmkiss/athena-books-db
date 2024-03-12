@@ -157,6 +157,15 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
     margin-bottom: -30px;
   }
 
+.btn{
+  border-style: solid;
+  border-color: #232323;
+  border-width: 1.5px;
+  padding: 2px 10px 2px 10px;
+  font-size: 15px;
+  
+}
+
 
 
 
