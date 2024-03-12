@@ -6,7 +6,7 @@
 
 <head>
 	<title>Edit Book Purchase</title>
-    <link href="static/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="../static/css/style.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -51,11 +51,10 @@
                     <input type="hidden" value="{{data[0].BookPurchasesID}}" class="form-control" id="BookPurchasesID" name="BookPurchasesID" required>
                     <label for="quantity">Inventory Quantity:</label>
                     <input type="text" value="{{data[0].quantity}}" class="form-control" id="quantity" name="quantity" pattern="[0-9]+">
-
-                </fieldset>
                 
                 <input type="submit" value="Edit Book Purchase" name="editBookPurchase" class="btn btn-primary" style="margin:.5rem;">
                 <a href='/bookpurchases'><input class="btn" type="button" value="Cancel"></a>
+                 </fieldset>
             </form>
 
 </html>
