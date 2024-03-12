@@ -24,6 +24,9 @@
 					
                         <!-- End of this for loop -->
                         {% endfor %} 
+						
+						<th>Actions</th>
+
                     </tr>
 
 				<tbody>
@@ -37,9 +40,10 @@
                             {% endfor %}
 
                             <!-- Create our edit/delete buttons -->
-							<td colspan="2"><a href="edit_book/{{item.BookID}}" class="btn btn-default">Edit</a>
-						    <a href="delete_book/{{item.BookID}}" class="btn btn-default">Delete</a>
-							</td>
+								<td colspan="2"><a href="edit_book/{{item.BookID}}" class="btn btn-default">Edit</a>
+						    	<a href="delete_book/{{item.BookID}}" class="btn btn-default">Delete</a>
+								</td>
+
 
 					    </tr> 
                         {% endfor %} 
