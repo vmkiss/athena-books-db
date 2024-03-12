@@ -51,7 +51,7 @@
                     <input type="hidden" value="{{data[0].BookID}}" class="form-control" id="BookID" name="BookID" required>
 
                     <label for="title">Title:</label>
-                    <input type="text" value="{{data[0].Title}}" class="form-control" id="title" name="title" pattern="{1,}" required>
+                    <input type="text" value="{{data[0].Title}}" class="form-control" id="title" name="title" pattern="{1,}" required><br>
 
                     <label for= "author">Author:</label>
                     <select class="form-control" id="author" name="author" pattern="[0-4]{1}" placeholder="" required> 
@@ -65,20 +65,21 @@
                                 {% endif %}
                         <!-- End of this for loop -->
                         {% endfor %} 
-                    </select>	
+                    </select><br>	
                     
                     <label for="genre">Genre:</label>
-                    <input type="text" value="{{data[0].Genre}}" class="form-control" id="genre" name="genre" pattern="{1,}"> 
+                    <input type="text" value="{{data[0].Genre}}" class="form-control" id="genre" name="genre" pattern="{1,}" required><br> 
  
                     <label for="price">Price:</label>
-                    <input type="text" value="{{data[0].Price}}" class="form-control" id="price" name="price" pattern="[0-9]*[.]?[0-9]+"> 
+                    <input type="text" value="{{data[0].Price}}" class="form-control" id="price" name="price" pattern="[0-9]*[.]?[0-9]+" required><br> 
 
                     <label for="quantity">Inventory Quantity:</label>
-                    <input type="text" value="{{data[0].Quantity}}" class="form-control" id="quantity" name="quantity" pattern="[0-9]+"> 
-                
-                </fieldset>
+                    <input type="text" value="{{data[0].Quantity}}" class="form-control" id="quantity" name="quantity" pattern="[0-9]+" required><br> 
+        
                 <input type="submit" value="Edit Book" name="EditBook" class="btn btn-primary" style="margin:.5rem;">
                 <a href='/books'><input class="btn" type="button" value="Cancel"></a>
+                    
+                </fieldset>
             </form>
 
 </html>
