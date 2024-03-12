@@ -23,13 +23,7 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css
   
   /*  ----- Viewport ----- elements inherited by all remaining elements ----- */
   body {       /* Can alternatively define in html {}. */
-    background-color:;
-    background-image:;
-    color:;
-    font-family:; /* Define with at least one font name and its related generic family name.*/
-    margin:;
-    padding:;
-    max-width:;
+    background-color: #ED2020;
   }
   
   /*  ----- Page layout blocks -----  */
