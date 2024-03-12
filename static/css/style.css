@@ -128,12 +128,28 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
   
   
   /*  ----- Form ----- */
-  form {}
-  fieldset {}
-    legend {}
+  form {
+  }
+  fieldset {
+    border-width: 2px;
+    display: inline-block;
+    margin:0 auto;
+  }
+    legend {
+    }
   label {}
   button {}
-  input {}
+  input {
+    margin: 2.5px 0;
+  }
+
+  #insert {
+    background-color: red;
+    margin:0 auto;
+  }
+
+
+
   select {}
     optgroup {}
     option {}
