@@ -22,7 +22,7 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
   body {       /* Can alternatively define in html {}. */
     background-color: #F2F0F0;
     font-family: "Poppins", sans-serif;
-    align-items: center;
+    text-align: center;
     margin:;
     padding:;
     max-width:;
@@ -93,7 +93,10 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
   ins {}
   
   /*  ----- Table ----- */
-  table {}
+  table {
+    margin-right: auto;
+    margin-left: auto;
+  }
   caption {}
   thead {}
   tbody {}
