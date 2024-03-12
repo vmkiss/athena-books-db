@@ -37,9 +37,10 @@
                             {% endfor %}
 
 							<!-- Create our edit/delete buttons -->
-							<td><a href="edit_purchase/{{item.PurchaseID}}" class="btn btn-default">Edit</a></td>
-						    <td><a href="delete_purchase/{{item.PurchaseID}}" class="btn btn-default">Delete</a></td>
-
+							<td colspan="2">
+							<a href="edit_purchase/{{item.PurchaseID}}" class="btn btn-default">Edit</a>
+						    <a href="delete_purchase/{{item.PurchaseID}}" class="btn btn-default">Delete</a>
+							</td>
 
 					    </tr> 
                         {% endfor %} 

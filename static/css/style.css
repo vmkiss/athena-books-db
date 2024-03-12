@@ -96,6 +96,7 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
   table {
     margin-right: auto;
     margin-left: auto;
+    border-collapse: collapse;
   }
   caption {}
   thead {}
