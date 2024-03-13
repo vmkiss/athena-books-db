@@ -73,14 +73,14 @@
                         {% endfor %} 
                     </select></br>
                 <label for="genre">Genre:</label>
-				<select class="form-control" id="genre" name="genre" pattern="[A-Za-z]{1,}" placeholder="">
-					<option value=""></option>
+				<select class="form-control" id="genre" name="genre" pattern="[A-Za-z]{1,}" placeholder="" required>
                     <option value="Fantasy">Fantasy</option>
 					<option value="Romance">Romance</option>
 					<option value="Sci-Fi">Sci-Fi</option>
                     <option value="Thriller">Thriller</option>
                     <option value="Literary">Literary</option>
                     <option value="Humor">Humor</option>
+					<option value="Other">Other</option>
                 </select><br>
 				<label for="price">Price:</label>
 				<input type="text" class="form-control" id="price" name="price" pattern="^\d*\.\d{2}$" placeholder=""><br>
