@@ -24,9 +24,6 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
     font-family: "Poppins", sans-serif;
     color: #232323;
     text-align: center;
-    margin:;
-    padding:;
-    max-width:;
   }
   
   /*  ----- Page layout blocks -----  */
@@ -60,20 +57,33 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
   }
   
   /*  ----- Navigation ----- Override text links for navigation only.  */
-  nav {}
+  nav {
+  }
   nav a {}
   nav a:hover {}
   
   /*  -----  Typography  ----- */
-  p {}
+  p {
+  }
   br {}
   ol, ul, dl {}
-  li {}
+  nav li {
+    display: inline;
+    margin-right: 20px;
+    padding: 10px;
+    background-color:#CCE5EE;
+    border-radius: 5px;
+  }
+  nav li:hover {
+    box-shadow: 1px 2px;
+  }
+
   dt {}
   dd {}
   
   h1, h2, h3, h4, h5, h6 {} 
-  h1 {}
+  h1 {
+  }
   h2 {}
   h3 {}
   h4 {}
@@ -176,6 +186,10 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
 
   #edit {
     margin-top: 20px;
+  }
+
+  #main {
+    margin-top: -40px;
   }
 
 .btn{
