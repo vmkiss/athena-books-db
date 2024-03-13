@@ -5,7 +5,7 @@
 
 <head>
 	<title>Purchases</title>
-	<link href="style.css" rel="stylesheet" type="text/css" />
+	<link href="static/css/style.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -24,6 +24,8 @@
 					
                         <!-- End of this for loop -->
                         {% endfor %} 
+
+						<th>Actions</th>
                     </tr>
 
 				<tbody>
@@ -37,9 +39,10 @@
                             {% endfor %}
 
 							<!-- Create our edit/delete buttons -->
-							<td><a href="edit_purchase/{{item.PurchaseID}}" class="btn btn-default">Edit</a></td>
-						    <td><a href="delete_purchase/{{item.PurchaseID}}" class="btn btn-default">Delete</a></td>
-
+							<td colspan="2">
+							<a href="edit_purchase/{{item.PurchaseID}}" class="btn btn-default">Edit</a>
+						    <a href="delete_purchase/{{item.PurchaseID}}" class="btn btn-default">Delete</a>
+							</td>
 
 					    </tr> 
                         {% endfor %} 
@@ -77,11 +80,11 @@
 					<option value="Shipped">Shipped</option>
 					<option value="Complete">Complete</option>
                 </select><br>
-            </fieldset>
 
             <!-- Create 'Add Purchase' and 'Cancel' buttons -->
 			<input type="submit" value="Add Books to Purchase" name="Add_Purchase" class="btn btn-primary" style="margin:.5rem;">
-			<a href='/purchases'><input class="btn" type="button" value="cancel"></a>
+			<a href='/purchases'><input class="btn" type="button" value="Cancel"></a>
+			 </fieldset>
         </form>
 	</div><!--insert-->
 </body>

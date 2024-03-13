@@ -3,21 +3,32 @@
 # https://github.com/osu-cs340-ecampus/flask-starter-app -->
 <!-- # Date retrieved: 02/27/2024-->
 <head>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="customers">Manage Customers</a></li>
+            <li><a href="authors">Manage Authors</a></li>
+            <li><a href="books">Manage Books</a></li>
+            <li><a href="publishers">Manage Publishers</a></li>
+            <li><a href="purchases">Manage Purchases</a></li>
+            <li><a href="bookpurchases">Manage Book Purchases</a></li>
+        </ul>
+    </nav>
     <title>Athena Books</title>
-    <h1>Athena Books</h1> [ <a href="/">Home</a> | <a href="customers">Customers</a> | <a href="authors">Authors</a> | <a href="books">Books</a> | <a href="publishers">Publishers</a> | <a href="purchases">Purchases</a> | <a href="bookpurchases">BookPurchases</a> ]
+    <link href="static/css/style.css" rel="stylesheet" type="text/css" />
+     <h1>Athena Books</h1>
 </head></br>
 <body>
-    <p>This is the database backend for Athena Books.</p>
-    <p>By Veronika Kiss and Christine Ito </p><br>
-    
-    <p>This is the database backend for the buying/selling operations of Athena Books, an
-independently owned e-commerce bookstore that sells approximately 100,000 books per year,
-generating an annual revenue of $2.2 million. The bookstore has one location and ships
-approximately 50,000 orders annually to over 35,000 new and repeat customers across the
-United States. The average price of a book is $22 and the average order is $44. This database
-will track customers’ contact and mailing information, along with the items they have ordered. It
-also tracks the bookstore’s current inventory and price per item, along with authors and
-publishers of the available books</p>
+    <div id="main">
+        <p>This is the database backend for the buying/selling operations of Athena Books, an
+        independently owned e-commerce bookstore that sells approximately 100,000 books per year,
+        generating an annual revenue of $2.2 million. The bookstore has one location and ships
+        approximately 50,000 orders annually to over 35,000 new and repeat customers across the
+        United States. The average price of a book is $22 and the average order is $44. This database
+        will track customers’ contact and mailing information, along with the items they have ordered. It
+        also tracks the bookstore’s current inventory and price per item, along with authors and
+        publishers of the available books</p>
+    </div>
 
 <figure>
     <img src="/static/ERD.PNG" alt="ERD">
@@ -30,4 +41,5 @@ publishers of the available books</p>
 </figure>
     
 </body>
+<footer>&copy; Christine Ito & Veronika Kiss 2024</footer>
 </html>
