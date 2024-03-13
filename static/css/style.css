@@ -58,6 +58,7 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
   
   /*  ----- Navigation ----- Override text links for navigation only.  */
   nav {
+    margin-top: 10px;
   }
   nav a {}
   nav a:hover {}
