@@ -211,7 +211,11 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
 
 
 
-  select {}
+  select {
+    padding: 2.5px;
+    margin: 2.5px;
+    font-size: 15px;
+  }
     optgroup {}
     option {}
   textarea {}
