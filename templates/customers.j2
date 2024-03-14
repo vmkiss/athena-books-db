@@ -24,6 +24,7 @@
         <h1>Athena Books</h1>
     </header>
 	<div id="browse"></br>
+        <caption><h3>View Customers</h3></caption>
 		<table border="1" cellpadding="5">
             <!-- Access data tuple passed from app.py --> 
             {% if data %}
@@ -65,7 +66,7 @@
 	<div id="insert">
 		<!-- form to INSERT new data into Customers-->
 		<form id="insertCustomer" action="/customers" method="post">
-			<legend><strong>Add Customer</strong></legend>
+			<legend><h3>Add Customer</h3></legend>
 			<fieldset>
                 <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
 				<label for="name">Name:</label>

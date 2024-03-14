@@ -22,7 +22,9 @@
         </nav>
         <h1>Athena Books</h1>
     </header>
+
 	<div id="browse"></br>
+        <caption><h3>View Authors<h3><caption>
 		<table border="1" cellpadding="5">
             <!-- Access data tuple passed from app.py --> 
             {% if data %}
@@ -58,7 +60,7 @@
 	<div id="insert">
 		<!-- form to INSERT new data into Books-->
 		<form id="insertAuthor" action="/authors" method="post">
-			<legend><strong>Add Author</strong></legend>
+			<legend><h3>Add Author</h3></legend>
 			<fieldset>
                 <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
 				<label for="name">Name:</label>
