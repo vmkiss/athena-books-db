@@ -89,9 +89,12 @@ SELECT customerID, customerName FROM Customers
 --Delete Purchase
 DELETE FROM Purchases WHERE PurchaseID = :purchaseIDInput;
 
+--Also delete any rows with specified PurchaseID from BookPurchases intersection table
+DELETE FROM BookPurchases WHERE PurchaseID = :purchaseIDInput;
+
 --Edit Purchase details
 
---Diplay details of current Purchase
+--Diplay details of selected Purchase
 SELECT Purchases.purchaseID AS PurchaseID, Customers.customerName AS Customer, Purchases.datePlaced AS Date, Purchases.purchaseStatus AS Status 
 FROM Purchases 
 LEFT JOIN Customers ON Customers.customerID = Purchases.customerID WHERE PurchaseID = purchaseIDInput;
@@ -104,39 +107,33 @@ UPDATE Purchases SET customerID=NULL, Purchases.datePlaced=:datePlacedInput, Pur
 
 --Edit Purchase with Customer
 UPDATE Purchases SET Purchases.customerID=customerIDInput, Purchases.datePlaced=:datePlacedInput, Purchases.purchaseStatus=:purchaseStatusInput WHERE PurchaseID=:purchaseIDInput;
-
-
-
-
---Remove ability to update purchaseID?  
-UPDATE Purchases
-SET Purchases.purchaseID = :purchaseIDInput, Purchases.datePlaced = :datePlacedInput, Purchases.purchaseStatus = purchaseStatusInput;
-    
-DELETE FROM Purchases WHERE purchaseID = :purchaseIDInput;
-
     
 -- BookPurchases (intersection) table CRUD operations
-SELECT BookPurchases.bookPurchasesID, Books.title as Book, Purchases.purchaseID as PurchaseID, 
-BookPurchases.invoiceDate, BookPurchases.orderQty, BookPurchases.unitPrice, BookPurchases.lineTotal
-	FROM BookPurchases
-    INNER JOIN Books ON Books.bookID = BookPurchases.bookID
-    INNER JOIN Purchases ON BookPurchases.purchaseID = Purchases.purchaseID;
 
---INSERT INTO BookPurchases (bookPurchasesID, invoiceDate, orderQty, unitPrice, lineTotal)
---VALUES (:bookPurchaseIDInput, :invoiceDateInput; :orderQtyInput, :unitPriceInput, :lineTotalInput);
+--View BookPurchases
+SELECT BookPurchases.BookPurchasesID, Books.bookID as BookID, Books.title as Book, Purchases.purchaseID as PurchaseID, BookPurchases.orderQty as Quantity, BookPurchases.unitPrice as Price, BookPurchases.lineTotal as Total 
+FROM BookPurchases 
+INNER JOIN Books ON Books.bookID = BookPurchases.bookID 
+INNER JOIN Purchases ON BookPurchases.purchaseID = Purchases.purchaseID 
+ORDER BY BookPurchasesID ASC;
 
-<!-- using user input from Purchases form-->
-INSERT INTO BookPurchases (bookID, purchaseID, invoiceDate, orderQty, unitPrice, lineTotal) 
-VALUES ((SELECT bookID FROM Books WHERE Books.title = :bookTitleInput), 
-(SELECT purchaseID FROM Purchases WHERE Purchases.customerID = (SELECT customerID FROM Customers WHERE Customers.customerName = :userInputName) AND Purchases.datePlaced = :invoiceDateInput), 
-:invoiceDateInput, :orderQtyInput, (SELECT price FROM Books WHERE Books.title = :bookTitleInput), (orderQty * unitPrice));
+--Insert new BookPurchase
+INSERT INTO BookPurchases (bookID, purchaseID, orderQty, unitPrice, lineTotal) 
+VALUES (%s, (SELECT MAX(purchaseID) FROM Purchases), %s, 
+(SELECT price FROM Books WHERE bookID = :bookIDInput), (orderQty*unitPrice));
 
+--Populate Book dropdown form
+SELECT bookID, title FROM Books;
 
---Remove ability to update bookPurchasesID? Do we really want the ability to directly input unitPrice and lineTotal
-UPDATE BookPurchases
-SET BookPurchases.bookPurchasesID = :bookPurchaseInputID, BookPurchases.invoiceDate = :invoiceDateInput,
-BookPurchases.orderQty = :orderQtyInput, BookPurchases.unitPrice = :unitPriceInput, BookPurchases.lineTotal = :lineTotalInput;
+--Edit BookPurchase details
 
-DELETE FROM BookPurchases WHERE Book_purchaseID = :bookPurchaseIDInput;
+--Diplay details of selected BookPurchase
+SELECT BookPurchases.BookPurchasesID, Books.bookID as BookID, Books.title as Book, Purchases.purchaseID as PurchaseID, BookPurchases.orderQty as Quantity, BookPurchases.unitPrice as Price, BookPurchases.lineTotal as Total 
+FROM BookPurchases 
+INNER JOIN Books ON Books.bookID = BookPurchases.bookID 
+INNER JOIN Purchases ON BookPurchases.purchaseID = Purchases.purchaseID
+ WHERE BookPurchasesID = :bookPurchaseIDInput;
+
+UPDATE BookPurchases SET orderQty=%s, lineTotal=(orderQty*unitPrice) WHERE BookPurchasesID= :bookPurchaseIDInput;
 
 
