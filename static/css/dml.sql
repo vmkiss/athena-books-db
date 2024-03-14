@@ -51,27 +51,61 @@ SELECT authorID, authorName FROM Authors;
 DELETE FROM Books WHERE bookID = :bookIDInput;
 
 --Edit Book details
+
+--Diplay current info of book to be edited
+SELECT Books.bookID as BookID, Publishers.publisherName as Publisher, Authors.authorName AS Author, Books.title AS Title, Books.genre AS Genre, Books.price as Price, Books.inventoryQty as Quantity 
+FROM Books 
+INNER JOIN Authors ON Authors.authorID = Books.authorID 
+INNER JOIN Publishers ON Publishers.publisherID = Authors.publisherID WHERE BookID = :bookIDInput;
+
+--Populate Author dropdown form
+SELECT authorID, authorName FROM Authors;
+
 UPDATE Books 
-SET Books.bookID = :bookIDInput, Books.title = :titleInput, Books.authorID = (SELECT authorID FROM Authors WHERE :authorInput = Authors.authorName),
-	Books.publisherID = (SELECT publisherID FROM Publishers WHERE :publisherInput = Publishers.publisherName),
-    Books.genre = :genreInput, Books.price = :priceInput, Books.inventoryQty = :inventoryQtyInput;
+SET Books.title = :titleInput, Books.authorID = :authorInput, Books.genre = :genreInput, Books.price = priceInput, Books.inventoryQty = inventoryQtyInput
+WHERE BookID = :bookIDInput;
     
-
-
-
-
-
-
-
 -- Purchases table CRUD operations
-SELECT Purchases.purchaseID, Customers.customerName as Customer, Purchases.datePlaced, Purchases.purchaseStatus
-	FROM Customers
-    INNER JOIN Purchases ON Customers.customerID = Purchases.customerID;
 
-INSERT INTO Purchases (datePlaced, customerID, purchaseStatus)
-VALUES (:datePlacedInput, (SELECT customerID from Customers WHERE customerName = :inputName), :purchaseStatusInput);
+--Insert Purchase without Customer
+INSERT INTO Purchases (customerID, datePlaced, purchaseStatus) 
+VALUES (NULL, :datePlacedInput, :purchaseStatusInput);
 
---Move BookPurchases INSERT query here?
+--Insert Purchase with Customer
+INSERT INTO Purchases (customerID, datePlaced, purchaseStatus) 
+VALUES (:customerIDInput, :datePlacedInput, purchaseStatusInput);
+
+--View purchases
+SELECT Purchases.purchaseID AS PurchaseID, Customers.customerName AS Customer, Purchases.datePlaced AS Date, Purchases.purchaseStatus AS STATUS
+	FROM Purchases
+    LEFT JOIN Customers ON Customers.customerID = Purchases.customerID;
+
+--Populate Book dropdown form
+SELECT bookID, title FROM Books;
+
+--Populate Customer dropdown form
+SELECT customerID, customerName FROM Customers
+
+--Delete Purchase
+DELETE FROM Purchases WHERE PurchaseID = :purchaseIDInput;
+
+--Edit Purchase details
+
+--Diplay details of current Purchase
+SELECT Purchases.purchaseID AS PurchaseID, Customers.customerName AS Customer, Purchases.datePlaced AS Date, Purchases.purchaseStatus AS Status 
+FROM Purchases 
+LEFT JOIN Customers ON Customers.customerID = Purchases.customerID WHERE PurchaseID = purchaseIDInput;
+
+--Populate Customer dropdown form
+SELECT customerID, customerName FROM Customers;
+
+--Edit Purchase without Customer
+UPDATE Purchases SET customerID=NULL, Purchases.datePlaced=:datePlacedInput, Purchases.purchaseStatus=purchaseStatusInput WHERE PurchaseID=:purchaseIDInput;
+
+--Edit Purchase with Customer
+UPDATE Purchases SET Purchases.customerID=customerIDInput, Purchases.datePlaced=:datePlacedInput, Purchases.purchaseStatus=:purchaseStatusInput WHERE PurchaseID=:purchaseIDInput;
+
+
 
 
 --Remove ability to update purchaseID?  
