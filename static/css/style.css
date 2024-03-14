@@ -224,6 +224,13 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
   margin-top: 10px;
 }
 
+#insert-bookpurchase {
+  margin-top: -20px;
+}
+#add-bookpurchase {
+  margin-top: -10px;
+}
+
   select {
     padding: 2.5px;
     margin: 2.5px;
