@@ -29,7 +29,12 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
   
   /*  ----- Page layout blocks -----  */
   header {
-    margin-bottom: 50px;
+    margin-bottom: 40px;
+  }
+  #header-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   main {
   } 
