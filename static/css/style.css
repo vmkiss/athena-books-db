@@ -29,6 +29,7 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
   
   /*  ----- Page layout blocks -----  */
   header {
+    margin-top: 10px;
     margin-bottom: 40px;
   }
   #header-img {
@@ -36,7 +37,10 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
     align-items: center;
     justify-content: center;
   }
-  main {
+  #main {
+    margin-left: 20px;
+    margin-right: 20px;  
+    text-align: justify;
   } 
   section {}
   article {}
