@@ -51,16 +51,12 @@ FOREIGN KEY (publisherID) REFERENCES Publishers(publisherID)
 DROP TABLE IF EXISTS Books;
 CREATE TABLE `Books` (
 bookID INT(11) NOT NULL AUTO_INCREMENT,
-publisherID INT(11) NOT NULL, 
 authorID INT(11) NOT NULL, 
 title VARCHAR(255) NOT NULL, 
 genre VARCHAR(255) NOT NULL,
 price DECIMAL (19, 2) NOT NULL, 
 inventoryQty INT(3) NOT NULL,
 PRIMARY KEY (bookID),
-FOREIGN KEY (publisherID) REFERENCES Publishers(publisherID)
-	ON UPDATE CASCADE
-	ON DELETE CASCADE,
 FOREIGN KEY (authorID) REFERENCES Authors(authorID)
 	ON UPDATE CASCADE
 	ON DELETE CASCADE
@@ -120,13 +116,11 @@ VALUES ('Harper Lee', (SELECT publisherID from Publishers WHERE publisherName = 
 ;
 
 -- inserts sample data into Books table
-INSERT INTO Books (publisherID, authorID, title, genre, price, inventoryQty)
-VALUES ((SELECT publisherID FROM Publishers WHERE publisherName = 'HarperCollins'),
-(SELECT authorID FROM Authors WHERE authorName = 'Harper Lee'), 'To Kill a Mockingbird', 'literary', 16.99, 105),
-((SELECT publisherID FROM Publishers WHERE publisherName = 'Simon & Schuster'),
-(SELECT authorID FROM Authors WHERE authorName = 'P.G. Wodehouse'), 'Right Ho, Jeeves', 'humor', 19.99, 14),
-((SELECT publisherID from Publishers WHERE publisherName = 'Penguin Random House'), (SELECT authorID FROM Authors WHERE authorName = 'Terry Pratchett'), 'Monstrous Regiment', 'fantasy', 15.98, 25),
-((SELECT publisherID from Publishers WHERE publisherName = 'Penguin Random House'), (SELECT authorID FROM Authors WHERE authorName = 'Louisa May Alcott'), 'Little Women', 'literary', 17.99, 36)
+INSERT INTO Books (authorID, title, genre, price, inventoryQty)
+VALUES ((SELECT authorID FROM Authors WHERE authorName = 'Harper Lee'), 'To Kill a Mockingbird', 'literary', 16.99, 105),
+((SELECT authorID FROM Authors WHERE authorName = 'P.G. Wodehouse'), 'Right Ho, Jeeves', 'humor', 19.99, 14),
+((SELECT authorID FROM Authors WHERE authorName = 'Terry Pratchett'), 'Monstrous Regiment', 'fantasy', 15.98, 25),
+((SELECT authorID FROM Authors WHERE authorName = 'Louisa May Alcott'), 'Little Women', 'literary', 17.99, 36)
 ;
 
 -- inserts sample data into Purchases table
