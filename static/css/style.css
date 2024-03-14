@@ -90,7 +90,8 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
   h1 {
   }
   h2 {}
-  h3 {}
+  h3 {
+      }
   h4 {}
   h5 {}
   h6 {}
@@ -122,14 +123,16 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
   
   /*  ----- Table ----- */
   table {
+    margin-top: -10px;
     margin-right: auto;
     margin-left: auto;
     border-collapse: collapse;
     border-color: #232323;
     border-width: 1.5px;
-
   }
-  caption {}
+ 
+  caption {
+  }
   thead {
     background-color: #CCE5EE;
   }
@@ -163,7 +166,7 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
     border-color:#232323;
     background-color: #E7E5E5;
     display: inline-block;
-    margin:0 auto;
+    margin-top: -10px;
     padding: 10px 50px 10px 50px;
   }
     legend {
@@ -210,6 +213,10 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
 
 .btn:hover{
   box-shadow: .5px 1px;
+}
+
+#edit-table {
+  margin-top: 10px;
 }
 
   select {
