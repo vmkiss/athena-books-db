@@ -43,7 +43,7 @@
         <div id="edit">
             <!-- form to edit data in Customers-->
             <form id="editCustomer" action="/edit_customer/{{data[0].CustomerID}}" method="POST">
-                <legend><strong>Edit Customer</strong></legend>
+                <legend><h3>Edit Customer</h3></legend>
                 <fieldset>
                     <!-- Create hidden form input to store the passed 'id' of the book we are editing so we can access it easily in our 'POST' method in our app.py -->
                     <input type="hidden" value="{{data[0].CustomerID}}" class="form-control" id="CustomerID" name="CustomerID" required>
