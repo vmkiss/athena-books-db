@@ -233,12 +233,6 @@ def books():
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(query)
         data = cursor.fetchall()
-            
-        # Populate publisher dropdown form
-        #publisher_selection = "SELECT publisherID, publisherName FROM Publishers"
-        #cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-        #cursor.execute(publisher_selection)
-        #publisher_data = cursor.fetchall()
 
         # Populate author dropdown form
         author_selection = "SELECT authorID, authorName FROM Authors"
@@ -277,7 +271,6 @@ def delete_books(BookID):
 def edit_book(BookID):
     if request.method == "GET":
         #mySQL query to grab info of book with our passed ID
-        #query = "SELECT * FROM Books WHERE BookID = %s" % (BookID)
         db_connection = db.connect_to_database()
         query = "SELECT Books.bookID as BookID, Publishers.publisherName as Publisher, Authors.authorName AS Author, Books.title AS Title, Books.genre AS Genre, Books.price as Price, Books.inventoryQty as Quantity FROM Books INNER JOIN Authors ON Authors.authorID = Books.authorID INNER JOIN Publishers ON Publishers.publisherID = Books.publisherID WHERE BookID = %s" % (BookID)
         cur = db_connection.cursor(MySQLdb.cursors.DictCursor)
