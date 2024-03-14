@@ -216,9 +216,9 @@ def books():
         # no null inputs
         #else:
         db_connection = db.connect_to_database()
-        query = "INSERT INTO Books (title, authorID, publisherID, genre, price, inventoryQty) VALUES (%s, %s, (SELECT publisherID FROM Authors WHERE authorID=%s), %s, %s, %s)"
+        query = "INSERT INTO Books (title, authorID, genre, price, inventoryQty) VALUES (%s, %s, %s, %s, %s)"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute(query, (title, authorID, authorID, genre, price, quantity))
+        cursor.execute(query, (title, authorID, genre, price, quantity))
         db_connection.commit()
         db_connection.close()
 
