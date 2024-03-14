@@ -24,11 +24,15 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
     font-family: "Poppins", sans-serif;
     color: #232323;
     text-align: center;
+    margin: 0;
   }
   
   /*  ----- Page layout blocks -----  */
-  header {}
-  main {}
+  header {
+    margin-bottom: 50px;
+  }
+  main {
+  } 
   section {}
   article {}
     #topic1 {}
@@ -58,9 +62,9 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
   
   /*  ----- Navigation ----- Override text links for navigation only.  */
   nav {
-    margin-top: 10px;
   }
-  nav a {}
+  nav a {
+  }
   nav a:hover {}
   
   /*  -----  Typography  ----- */
@@ -206,10 +210,6 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
 .btn:hover{
   box-shadow: .5px 1px;
 }
-
-
-
-
 
   select {
     padding: 2.5px;
