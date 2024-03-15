@@ -465,6 +465,7 @@ def bookpurchases():
         data = cursor.fetchall()
         db_connection.close()
 
+        # Render BookPurchases page using query data
         return render_template("bookpurchases.j2", data=data)
 
 # ADD
@@ -486,7 +487,7 @@ def add_book_purchase():
         db_connection.commit()
         db_connection.close()
 
-        # redirect back to Purchases page
+        # redirect back to Add BookPurchase page
         return redirect("/add_book_purchase")
         
     if request.method == "GET":
@@ -511,7 +512,7 @@ def add_book_purchase():
 @app.route("/edit_bookpurchases/<int:BookPurchasesID>", methods=["POST", "GET"])
 def edit_bookpurchases(BookPurchasesID):
     if request.method == "GET":
-    #mySQL query to grab info of Book Purchase with our passed ID
+    # get data from bookpurchase selected by user
         db_connection = db.connect_to_database()
         query = "SELECT BookPurchases.BookPurchasesID, Books.bookID as BookID, Books.title as Book, Purchases.purchaseID as PurchaseID, BookPurchases.orderQty as Quantity, BookPurchases.unitPrice as Price, BookPurchases.lineTotal as Total FROM BookPurchases INNER JOIN Books ON Books.bookID = BookPurchases.bookID INNER JOIN Purchases ON BookPurchases.purchaseID = Purchases.purchaseID WHERE BookPurchasesID = %s;" % (BookPurchasesID)
         cur = db_connection.cursor(MySQLdb.cursors.DictCursor)
@@ -523,12 +524,13 @@ def edit_bookpurchases(BookPurchasesID):
         return render_template("edit_bookpurchases.j2", data=data)
 
     if request.method == "POST":
-        #fire off if user clicks the 'submit' button on Edit Book
+        # fire off if user clicks the 'submit' button on Edit BookPurchase
         if request.form.get("editBookPurchase"):
             #grab user form inputs
             id = request.form["BookPurchasesID"]
             quantity = request.form["quantity"]
 
+        # update selected BookPurchase with values from user
         db_connection = db.connect_to_database()
         query = "UPDATE BookPurchases SET orderQty=%s, lineTotal=(orderQty*unitPrice) WHERE BookPurchasesID= %s"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
@@ -536,7 +538,7 @@ def edit_bookpurchases(BookPurchasesID):
         db_connection.commit()
         db_connection.close()
 
-        # redirect back to Books page
+        # redirect back to BookPurchases page
         return redirect("/bookpurchases")
 
 
