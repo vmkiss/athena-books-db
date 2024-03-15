@@ -8,7 +8,6 @@ from flask import request
 import os
 import database.db_connector as db
 import MySQLdb
-#db_connection = db.connect_to_database()
 
 # Configuration
 
