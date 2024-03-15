@@ -31,6 +31,7 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
   header {
     margin-top: 10px;
     margin-bottom: 40px;
+    width: 80em;
   }
   #header-img {
     display: flex;
