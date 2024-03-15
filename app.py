@@ -56,9 +56,9 @@ def publishers():
         # redirect back to Publishers page
         return redirect("/publishers")
     
-    # Grab publishers data so it can be sent to template (READ)
+    # Grab publishers data so it can be sent to template
     if request.method == "GET":
-        # Grab all books in Books - was getting error message when adding indents so I kept it all on one line
+        # Get all data from publishers
         db_connection = db.connect_to_database()
         query = "SELECT publisherID AS PublisherID, publisherName AS Name, publisherAddress AS Address, publisherCity AS City, publisherState AS State, publisherZip AS ZipCode FROM Publishers;"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
@@ -66,7 +66,7 @@ def publishers():
         data = cursor.fetchall()
         db_connection.close()
 
-        # render Books page passing query data, publisher data, and author data to template
+        # render Publishers page using query data
         return render_template("publishers.j2", data=data)
 
 #---------------------------------------------AUTHORS---------------------------------------------------------------------------------------
@@ -95,7 +95,7 @@ def authors():
     
     # Grab authors data so it can be sent to template (READ)
     if request.method == "GET":
-        # Grab all authors in Authors
+        # Get all data from Authors
         db_connection = db.connect_to_database()
         query = "SELECT Authors.authorID AS AuthorID, Authors.authorName AS Name, Publishers.publisherName AS Publisher FROM Authors INNER JOIN Publishers ON Publishers.publisherID = Authors.publisherID;"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
@@ -109,7 +109,7 @@ def authors():
         publisher_data = cursor.fetchall()
         db_connection.close()
 
-        # render Authors page passing query data and publisher data to template
+        # render Authors page using query data and publisher data
         return render_template("authors.j2", data=data, publishers=publisher_data)
     
 #----------------------------------------------CUSTOMERS---------------------------------------------------------------------------------
@@ -138,12 +138,12 @@ def customers():
         db_connection.commit()
         db_connection.close()
 
-        # redirect back to Publishers page
+        # redirect back to Customers page
         return redirect("/customers")
     
     # Grab customers data so it can be sent to template (READ)
     if request.method == "GET":
-        # Grab all books in Books - was getting error message when adding indents so I kept it all on one line
+        # Get all data from Customers
         db_connection = db.connect_to_database()
         query = "SELECT customerID AS CustomerID, customerName AS Name, customerPhone as Phone, customerEmail as Email, customerAddress AS Address, customerCity AS City, customerState AS State, customerZip AS ZipCode FROM Customers;"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
@@ -151,7 +151,7 @@ def customers():
         data = cursor.fetchall()
         db_connection.close()
 
-        # render Books page passing query data, publisher data, and author data to template
+        # render Customers page using query data
         return render_template("customers.j2", data=data)
     
 # UPDATE Customers
@@ -160,6 +160,7 @@ def customers():
 # Date retrieved: 03/04/2024
 @app.route("/edit_customer/<int:CustomerID>", methods=["POST", "GET"])
 def edit_customer(CustomerID):
+    # Get data from from customer selected by user
     if request.method == "GET":
         db_connection = db.connect_to_database()
         query = "SELECT customerID AS CustomerID, customerName AS Name, customerPhone as Phone, customerEmail as Email, customerAddress AS Address, customerCity AS City, customerState AS State, customerZip AS ZipCode FROM Customers WHERE CustomerID = %s" % (CustomerID)
@@ -168,13 +169,13 @@ def edit_customer(CustomerID):
         data = cursor.fetchall()
         db_connection.close()
 
-        # render Books page passing query data, publisher data, and author data to template
+        # render Edit Customers page with query data
         return render_template("edit_customers.j2", data=data)
 
     if request.method == "POST":
-        #fire off if user clicks the 'submit' button on Edit Book
+        # fire off if user clicks the 'submit' button on Edit Customer
         if request.form.get("EditCustomer"):
-            #grab user form inputs
+            # grab user form inputs
             id = request.form["CustomerID"]
             name = request.form["name"]
             phone = request.form["phone"]
@@ -184,6 +185,7 @@ def edit_customer(CustomerID):
             state = request.form["state"]
             zip = request.form["zip"]
 
+        # update customer with values provided by user
         db_connection = db.connect_to_database()
         query = "UPDATE Customers SET customerName = %s, customerPhone = %s, customerEmail = %s, customerAddress = %s, customerCity = %s, customerState = %s, customerZip = %s WHERE customerID = %s"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
@@ -208,13 +210,10 @@ def books():
             # grab user form inputs
             title = request.form["title"]
             authorID = request.form["author"]
-            #publisherID = request.form["publisher"]
             genre = request.form["genre"]
             price = request.form["price"]
             quantity = request.form["quantity"]
         
-        # no null inputs
-        #else:
         db_connection = db.connect_to_database()
         query = "INSERT INTO Books (title, authorID, genre, price, inventoryQty) VALUES (%s, %s, %s, %s, %s)"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
@@ -227,7 +226,7 @@ def books():
     
     # Grab books data so it can be sent to template (READ)
     if request.method == "GET":
-        # Grab all books in Books - was getting error message when adding indents so I kept it all on one line
+        # Get all data from Books
         db_connection = db.connect_to_database()
         query = "SELECT Books.bookID as BookID, Books.title AS Title, Authors.authorName AS Author, Publishers.publisherName as Publisher, Books.genre AS Genre, Books.price as Price, Books.inventoryQty as Quantity FROM Books INNER JOIN Authors ON Authors.authorID = Books.authorID INNER JOIN Publishers ON Publishers.publisherID = Authors.publisherID ORDER BY Books.title;"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
@@ -242,7 +241,7 @@ def books():
 
         db_connection.close()
 
-        # render Books page passing query data, publisher data, and author data to template
+        # render Books page using query data and author data
         return render_template("books.j2", data=data, authors=author_data)
 
 
@@ -252,6 +251,7 @@ def books():
 # Date retrieved: 03/04/2024
 @app.route("/delete_book/<int:BookID>")
 def delete_books(BookID):
+    # delete book selected by user
     db_connection = db.connect_to_database()
     query = "DELETE FROM Books WHERE BookID = '%s';" 
     cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
@@ -270,7 +270,7 @@ def delete_books(BookID):
 @app.route("/edit_book/<int:BookID>", methods=["POST", "GET"])
 def edit_book(BookID):
     if request.method == "GET":
-        #mySQL query to grab info of book with our passed ID
+        # Get data from book selected by user
         db_connection = db.connect_to_database()
         query = "SELECT Books.bookID as BookID, Publishers.publisherName as Publisher, Authors.authorName AS Author, Books.title AS Title, Books.genre AS Genre, Books.price as Price, Books.inventoryQty as Quantity FROM Books INNER JOIN Authors ON Authors.authorID = Books.authorID INNER JOIN Publishers ON Publishers.publisherID = Authors.publisherID WHERE BookID = %s" % (BookID)
         cur = db_connection.cursor(MySQLdb.cursors.DictCursor)
@@ -296,11 +296,11 @@ def edit_book(BookID):
             id = request.form["BookID"]
             title = request.form["title"]
             author = request.form["author"]
-            #publisher = request.form["publisher"]
             genre = request.form["genre"]
             price = request.form["price"]
             quantity = request.form["quantity"]
 
+        # update book with values provided by user
         db_connection = db.connect_to_database()
         query = "UPDATE Books SET Books.title = %s, Books.authorID = %s, Books.genre = %s, Books.price = %s, Books.inventoryQty = %s WHERE BookID = %s"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
@@ -318,14 +318,15 @@ def edit_book(BookID):
 # Date retrieved: 03/01/2024
 @app.route('/purchases', methods=["POST", "GET"])
 def purchases():
-    #Insert new purchase (CREATE)
+    # Insert new purchase (CREATE)
     if request.method == "POST":
         if request.form.get("Add_Purchase"):
-            #grab user form inputs
+            # grab user form inputs
             customer = request.form["customer"]
             date = request.form["date"]
             status = request.form["status"]
 
+            # insert purchase without customer
             if customer == "N/A" or customer == "0":
                 db_connection = db.connect_to_database()
                 query = "INSERT INTO Purchases (customerID, datePlaced, purchaseStatus) VALUES (NULL, %s, %s)" 
@@ -334,6 +335,7 @@ def purchases():
                 db_connection.commit()
                 db_connection.close() 
 
+            # insert purchase with customer
             else:
                 db_connection = db.connect_to_database()
                 query = "INSERT INTO Purchases (customerID, datePlaced, purchaseStatus) VALUES (%s, %s, %s)"
@@ -347,7 +349,7 @@ def purchases():
 
     # Grab purchases data so it can be sent to template (READ)
     if request.method == "GET":
-        #Grab all purchases in Purchases - was getting error message when adding indents so I kept it all on one line,
+        # Get all data from Purchases
         db_connection = db.connect_to_database()
         query = "SELECT Purchases.purchaseID as PurchaseID, Customers.customerName as Customer, Purchases.datePlaced as Date, Purchases.purchaseStatus as Status FROM Purchases LEFT JOIN Customers ON Customers.customerID = Purchases.customerID;"
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
@@ -367,7 +369,7 @@ def purchases():
         customer_data = cursor.fetchall()
 
         db_connection.close()
-        #render Purchases page passing query data
+        #render Purchases page using wuery data, customer data, and book data
         return render_template("purchases.j2", data=data, customers=customer_data, books=book_data)
 
 #DELETE from Purchases
@@ -376,6 +378,7 @@ def purchases():
 # Date retrieved: 03/01/2024
 @app.route("/delete_purchase/<int:PurchaseID>")
 def delete_purchases(PurchaseID):
+    # delete purchase selected by user
     db_connection = db.connect_to_database()
     query = "DELETE FROM Purchases WHERE PurchaseID = '%s';" 
     cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
@@ -383,7 +386,7 @@ def delete_purchases(PurchaseID):
     db_connection.commit()
    # db_connection.close()
 
-#also DELETE from BookPurchases 
+# also DELETE from BookPurchases 
     query2 = "DELETE FROM BookPurchases WHERE PurchaseID = '%s';" 
     cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute(query2, (PurchaseID,))
@@ -399,8 +402,7 @@ def delete_purchases(PurchaseID):
 @app.route("/edit_purchase/<int:PurchaseID>", methods=["POST", "GET"])
 def edit_purchase(PurchaseID):
     if request.method == "GET":
-        #mySQL query to grab info of book with our passed ID
-        
+        # Get data from purchase selected by user        
         db_connection = db.connect_to_database()
         query = "SELECT Purchases.purchaseID as PurchaseID, Customers.customerName as Customer, Purchases.datePlaced as Date, Purchases.purchaseStatus as Status FROM Purchases LEFT JOIN Customers ON Customers.customerID = Purchases.customerID WHERE PurchaseID = %s" % (PurchaseID)
         cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
@@ -414,18 +416,19 @@ def edit_purchase(PurchaseID):
         customer_data = cursor.fetchall()
 
         db_connection.close()
-        #render Purchases page passing query data
+        #render Purchases page using query data and customer data
         return render_template("edit_purchases.j2", data=data, customers=customer_data)
 
 
     if request.method == "POST":
         if request.form.get("editPurchase"):
-            #grab user form inputs
+            # grab user form inputs
             id = request.form["PurchaseID"]
             customer = request.form["customer"]
             date = request.form["date"]
             status = request.form["status"]
         
+            # Update selected purchase with values provided by user - NO CUSTOMER
             if customer == "N/A" or customer == "0":
                 db_connection = db.connect_to_database()
                 query = "UPDATE Purchases SET customerID=NULL, Purchases.datePlaced=%s, Purchases.purchaseStatus=%s WHERE PurchaseID=%s" 
@@ -433,7 +436,7 @@ def edit_purchase(PurchaseID):
                 cursor.execute(query, (date, status, id))
                 db_connection.commit()
                 db_connection.close()
-                
+             # Update selected purchase with values by user - CUSTOMER EXISTS   
             else:
                 db_connection = db.connect_to_database()
                 query = "UPDATE Purchases SET Purchases.customerID=%s, Purchases.datePlaced=%s, Purchases.purchaseStatus=%s WHERE PurchaseID=%s" 
