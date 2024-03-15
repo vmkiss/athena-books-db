@@ -94,10 +94,10 @@ FOREIGN KEY (purchaseID) REFERENCES Purchases(purchaseID)
 
 -- inserts sample data into Customers table
 INSERT INTO Customers (customerName, customerPhone, customerEmail, customerAddress, customerCity, customerState, customerZip)
-VALUES ('Daisy Jones', '1234567890', 'djones@gmail.com', '12345 SE 12th Ave', 'Portland', 'OR', '97221'), 
-('Madeline Smith', '6501239876', 'maddie123@gmail.com', '1972 Iliff Ave', 'Denver', 'CO', '80110'),
-('Archibald Eggleton', '5033104395', 'asmith@gmail.com', '473 Seneca Drive', 'Portland', 'OR', '97205'),
-('Ophelia Bloom', '3609702377', 'bloomo@hotmail.com', '2376 Pratt Avenue', 'Olympia', 'WA', '98501')
+VALUES ('Daisy Jones', '123-456-7890', 'djones@gmail.com', '12345 SE 12th Ave', 'Portland', 'OR', '97221'), 
+('Madeline Smith', '650-123-9876', 'maddie123@gmail.com', '1972 Iliff Ave', 'Denver', 'CO', '80110'),
+('Archibald Eggleton', '503-310-4395', 'asmith@gmail.com', '473 Seneca Drive', 'Portland', 'OR', '97205'),
+('Ophelia Bloom', '360-970-2377', 'bloomo@hotmail.com', '2376 Pratt Avenue', 'Olympia', 'WA', '98501')
 ;
 
 -- inserts sample data into Publishers table
