@@ -30,7 +30,8 @@ def root():
 
 #------------------------------------------PUBLISHERS-----------------------------------------------------
 # CRUD operations for Publishers entity
-# Code adapted from OSU 340 flask-starter-app
+# Code adapted from OSU 340 flask-starter-app (people route)
+# Queries and variable values are our original work
 # https://github.com/osu-cs340-ecampus/flask-starter-app
 # Date retrieved: 03/04/2024
 @app.route('/publishers', methods=["POST", "GET"])
@@ -70,7 +71,8 @@ def publishers():
 
 #---------------------------------------------AUTHORS---------------------------------------------------------------------------------------
 # CRUD operations for Authors entity
-# Code adapted from OSU 340 flask-starter-app
+# Code adapted from OSU 340 flask-starter-app (people route)
+# Queries and variable values are our original work
 # https://github.com/osu-cs340-ecampus/flask-starter-app
 # Date retrieved: 03/04/2024
 @app.route('/authors', methods=["POST", "GET"])
@@ -113,7 +115,8 @@ def authors():
     
 #----------------------------------------------CUSTOMERS---------------------------------------------------------------------------------
 # CRUD operations for Customers entity
-# Code adapted from OSU 340 flask-starter-app
+# Code adapted from OSU 340 flask-starter-app (people route)
+# Queries and variable values are our original work
 # https://github.com/osu-cs340-ecampus/flask-starter-app
 # Date retrieved: 03/04/2024
 @app.route('/customers', methods=["POST", "GET"])
@@ -154,7 +157,8 @@ def customers():
         return render_template("customers.j2", data=data)
     
 # UPDATE Customers
-# Code adapted from OSU 340 flask-starter-app
+# Code adapted from OSU 340 flask-starter-app (edit people route)
+# Queries and variable values are our original work
 # https://github.com/osu-cs340-ecampus/flask-starter-app
 # Date retrieved: 03/04/2024
 @app.route("/edit_customer/<int:CustomerID>", methods=["POST", "GET"])
@@ -198,7 +202,8 @@ def edit_customer(CustomerID):
 
 #-------------------------------------------------------BOOKS---------------------------------------------------------------
 # CRUD operations for Books entity
-# Code adapted from OSU 340 flask-starter-app
+# Code adapted from OSU 340 flask-starter-app (people route)
+# Queries and variable values are our original work
 # https://github.com/osu-cs340-ecampus/flask-starter-app
 # Date retrieved: 02/27/2024
 @app.route('/books', methods=["POST", "GET"])
@@ -246,7 +251,8 @@ def books():
 
 #DELETE
 # Code adapted from OSU 340 flask-starter-app
-# https://github.com/osu-cs340-ecampus/flask-starter-app
+# https://github.com/osu-cs340-ecampus/flask-starter-app (delete people route)
+# Queries and variable values are our original work
 # Date retrieved: 03/04/2024
 @app.route("/delete_book/<int:BookID>")
 def delete_books(BookID):
@@ -264,7 +270,8 @@ def delete_books(BookID):
 
 # UPDATE
 # Code adapted from OSU 340 flask-starter-app
-# https://github.com/osu-cs340-ecampus/flask-starter-app
+# https://github.com/osu-cs340-ecampus/flask-starter-app (edit people route)
+# Queries and variable values are our original work
 # Date retrieved: 02/27/2024
 @app.route("/edit_book/<int:BookID>", methods=["POST", "GET"])
 def edit_book(BookID):
@@ -313,7 +320,8 @@ def edit_book(BookID):
 
 #--------------------------------------------------------------PURCHASES-------------------------------------------------
 # Code adapted from OSU 340 flask-starter-app
-# https://github.com/osu-cs340-ecampus/flask-starter-app
+# https://github.com/osu-cs340-ecampus/flask-starter-app (people route)
+# Queries and variable values are our original work
 # Date retrieved: 03/01/2024
 @app.route('/purchases', methods=["POST", "GET"])
 def purchases():
@@ -372,7 +380,8 @@ def purchases():
         return render_template("purchases.j2", data=data, customers=customer_data, books=book_data)
 
 #DELETE from Purchases
-# Code adapted from OSU 340 flask-starter-app
+# Code adapted from OSU 340 flask-starter-app (delete people route)
+# Queries and variable values are our original work
 # https://github.com/osu-cs340-ecampus/flask-starter-app
 # Date retrieved: 03/01/2024
 @app.route("/delete_purchase/<int:PurchaseID>")
@@ -396,7 +405,8 @@ def delete_purchases(PurchaseID):
 
 # UPDATE
 # Code adapted from OSU 340 flask-starter-app
-# https://github.com/osu-cs340-ecampus/flask-starter-app
+# https://github.com/osu-cs340-ecampus/flask-starter-app (edit people route)
+# Queries and variable values are our original work
 # Date retrieved: 03/01/2024
 @app.route("/edit_purchase/<int:PurchaseID>", methods=["POST", "GET"])
 def edit_purchase(PurchaseID):
@@ -450,7 +460,8 @@ def edit_purchase(PurchaseID):
 
 #---------------------------------------------BOOKPURCHASES------------------------------------------------------------------------
 # Code adapted from OSU 340 flask-starter-app
-# https://github.com/osu-cs340-ecampus/flask-starter-app
+# https://github.com/osu-cs340-ecampus/flask-starter-app (people route)
+# Queries and variable values are our original work
 # Date retrieved: 03/04/2024
 @app.route('/bookpurchases', methods=["POST", "GET"])
 def bookpurchases():
@@ -469,7 +480,8 @@ def bookpurchases():
 
 # ADD
 # Code adapted from OSU 340 flask-starter-app
-# https://github.com/osu-cs340-ecampus/flask-starter-app
+# https://github.com/osu-cs340-ecampus/flask-starter-app (people route)
+# Queries and variable values are our original work
 # Date retrieved: 03/04/2024
 @app.route('/add_book_purchase', methods =["POST", "GET"])
 def add_book_purchase():
@@ -506,7 +518,8 @@ def add_book_purchase():
 
 # UPDATE
 # Code adapted from OSU 340 flask-starter-app
-# https://github.com/osu-cs340-ecampus/flask-starter-app
+# https://github.com/osu-cs340-ecampus/flask-starter-app (edit people route)
+# Queries and variable values are our original work
 # Date retrieved: 03/11/2024
 @app.route("/edit_bookpurchases/<int:BookPurchasesID>", methods=["POST", "GET"])
 def edit_bookpurchases(BookPurchasesID):
