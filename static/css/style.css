@@ -38,6 +38,7 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: -10px;
   }
   #main {
     margin-left: 20px;
