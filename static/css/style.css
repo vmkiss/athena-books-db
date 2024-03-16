@@ -76,15 +76,8 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
   nav {
     margin-left: -20px;
   }
-  nav a {
-  }
-  nav a:hover {}
   
   /*  -----  Typography  ----- */
-  p {
-  }
-  br {}
-  ol, ul, dl {}
   nav li {
     display: inline-block;
     margin-right: 20px;
@@ -95,44 +88,6 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
   nav li:hover {
     box-shadow: 1px 2px;
   }
-
-  dt {}
-  dd {}
-  
-  h1, h2, h3, h4, h5, h6 {} 
-  h1 {
-  }
-  h2 {}
-  h3 {
-      }
-  h4 {}
-  h5 {}
-  h6 {}
-  
-  abbr {}
-  acronym {}
-  address {}
-  blockquote {}
-    q {}
-    cite {}
-  em {}
-  hr {}
-  mark {}
-  s {}
-  span {}
-  strong {}
-  sub {}
-  sup {}
-  time {}
-  
-  /*  ----- Coding or instructional typography ----- */
-  pre {}
-  code {}
-  kbd {}
-  samp {}
-  var {}
-  del {} 
-  ins {}
   
   /*  ----- Table ----- */
   table {
@@ -144,8 +99,6 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
     border-width: 1.5px;
   }
  
-  caption {
-  }
   thead {
     background-color: #CCE5EE;
   }
@@ -165,15 +118,8 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
     border-width: 1.5px;
     padding: 8px;
   }
-    td:nth-child(1) {}
-  colgroup {}
-  data {}
-  datalist {}
-  
-  
+   
   /*  ----- Form ----- */
-  form {
-  }
   fieldset {
     border-width: 1.5px;
     border-color:#232323;
@@ -182,10 +128,7 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
     margin-top: -10px;
     padding: 10px 50px 10px 50px;
   }
-    legend {
-    }
-  label {}
-  button {}
+ 
   input {
     margin: 2.5px 0;
     background-color:#F2F0F0;
@@ -245,50 +188,6 @@ Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
     margin: 2.5px;
     font-size: 15px;
   }
-    optgroup {}
-    option {}
-  textarea {}
-  output {}
-  meter {}
-  progress {}
-  
-  
-  /* ----- Media ----- */
-  figure {}
-    figcaption {}
-    figure img {}
-  svg {}
-  picture {}
-    source {}
-  iframe {}
-  video {}
-  audio {}
-  embed {}
-  object {}
-  
-  /*  ----- Classes for alignment, positioning, widths, grids, embellishments, and animation -----  */
-  .gallery {}
-  
-  .floatright {}
-  .floatleft {}
-  .center-middle {}
-  
-  .ten {}
-  .twenty {}
-  .thirty {}
-  .forty {}
-  .fifty {}
-  .sixty {}
-  .seventy {}
-  .eighty {}
-  
-  .radius {}
-  .circle {}
-  .boxshadow {}
-  .tshadow {} 
-  .gradient {}
-  .shape {}
-  
   @keyframes App-logo {}
   
   /*   ===== TABLET  media query overrides mobile styles ===== */
