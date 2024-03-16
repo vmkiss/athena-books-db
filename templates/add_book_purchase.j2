@@ -1,5 +1,6 @@
 <!-- # The code in this file has been adapted from OSU 340 flask-starter-app people.html UI design -->
 <!-- # https://github.com/osu-cs340-ecampus/flask-starter-app-->
+<!--Attribute and variable values are our original work-->
 <!-- # Date retrieved: 03/01/2024-->
 
 <head>
@@ -22,13 +23,12 @@
                         {% for book in books %}
                                 <!-- If the value iterated book matches the value of the purchase currently Editing, pre-select that option -->
                                 <option value="{{ book['bookID'] }}"> {{book['title']}}</option> 
-                        <!-- End of this for loop -->
                         {% endfor %} 
                 </select></br>
 				<label for="quantity">Quantity:</label>
 				<input type="text" class="form-control" id="quantity" name="quantity" placeholder="" required><br>
 
-            <!-- Create 'Add Book to Purchase' and 'Cancel' buttons -->
+            <!-- Create 'Add Book to Purchase' and 'Return to Purchases' buttons -->
 			<input type="submit" value="Add Book to Purchase" name="Add_Book_Purchase" class="btn btn-primary" style="margin:.5rem;">
             <a href='/purchases'><input class="btn" type="button" value="Return to Purchases"></a>
 			 </fieldset>
