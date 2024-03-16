@@ -1,5 +1,6 @@
-# # Code adapted from Flask Starter App db_credentials.py
+# # Code copied from Flask Starter App db_credentials.py
 # https://github.com/osu-cs340-ecampus/flask-starter-app
+# Date retrieved: 02/27/2024
 
 # For Local Development
 host = 'classmysql.engr.oregonstate.edu'

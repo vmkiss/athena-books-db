@@ -1,5 +1,6 @@
-# Code adapted from Flask Starter App dbconnector.py
+# Code copied from Flask Starter App dbconnector.py
 # https://github.com/osu-cs340-ecampus/flask-starter-app
+# Date Retrieved: 02/27/2024
 
 import MySQLdb
 import os
