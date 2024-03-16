@@ -1,10 +1,9 @@
 -- Group 25: Christine Ito, Veronika Kiss
--- CS 340 Step 2 Draft
-
 
 -- Citation: Code to set foreign key checks and disable commits 
--- Copied from CS 340 Canvas Assignment Project Step 2 Draft (https://canvas.oregonstate.edu/courses/1946034/assignments/9456214)
--- Date: 2/6/2024
+-- Copied from CS 340 Canvas Assignment Project Step 2 Draft 
+--URL: https://canvas.oregonstate.edu/courses/1946034/assignments/9456214
+-- Date: 02/6/2024
 SET FOREIGN_KEY_CHECKS=0;
 SET AUTOCOMMIT = 0;
 
