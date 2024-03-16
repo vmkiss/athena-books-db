@@ -1,9 +1,9 @@
 /* Citation for CSS structure:
-Date: 3/12/24
 Copied from "App.css" in CS 290 Module 4: "Exploration: File Structure"
 File structure copied - attribute values are original
 Author: Pam VanLonden
-Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css */
+Source URL: https://replit.com/@PamVanLonden/a-Global-Stylesheet#App.css 
+Date: 3/12/24*/
 
 /*  ===== MOBILE styles (reside at the top and are inherited by all devices) ===== */
 /*  ===== See tablet, desktop, and print @media queries at the bottom. */
